@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Personal Fitness Tracker</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
@@ -18,10 +17,47 @@
         <div class="navbar-brand">
             <h1 class="title navbar-item">Personal fitness tracker</h1>
         </div>
+        <div class="navbar-start navbar-item">
+            <!--developer dropdown-->
+            <div class="nav-item dropdown">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Users</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div> 
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <div class="dropdown-item">
+                            <p>Chris</p>
+                        </div>
+                        <div class="dropdown-item">
+                            <p>Jordan</p>
+                        </div>
+                        <div class="dropdown-item">
+                            <p>Anna</p>
+                        </div>
+                        <div class="dropdown-item">
+                            <p>Claire</p>
+                        </div>
+                        <div class="dropdown-item">
+                            <p>Jasmine</p>
+                        </div>
+                        
+                    </div> 
+                </div>    
+                                                           
+            </div>
+        </div>
 
         <div class="navbar-menu">
             <div class="navbar-end">
-                <p class="navbar-item"><i class="fas fa-user"></i>Login</p>
+                <div class="navbar-item">
+                    <button class="button"><i class="fas fa-user"></i>Login</button>
+                </div>
+                
             </div>
         </div>
     </nav>
@@ -51,6 +87,7 @@
   crossorigin="anonymous"></script>
 
 <!--linking our javascript.js file to our application-->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script src="javascript.js"></script>
 <script src="scripts/front.js"></script>
 
