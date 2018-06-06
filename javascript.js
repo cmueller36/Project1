@@ -7,16 +7,25 @@ var tokenAnna = "";
 var tokenJasmine = "";
 
 //User dropdown selection
-var userSelected = "";
-$(body).on("click",function(){
-    userSelected = "";
-})
+// var userSelected = "";
+// $("button").on("click",function(){
+//     userSelected = "";
+// })
 
 
 //Human API for getting activity summary
-$(body).on("click",function(){
+$("button").on("click",function(){
    //Activity Summary URL
-   summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token="+userSelected;
+   summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token="+tokenChris;
+
+   $.ajax({
+       url: summaryURL,
+       method:"GET"
+   }).then(function(response){
+       //this grabs the first index in the object array and gets the calories for it
+       var summaryCalories = response[0].calories;
+       console.log(summaryCalories);
+   })
 })
 
 var config = {
