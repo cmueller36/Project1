@@ -28,4 +28,13 @@ var config = {
   };
   firebase.initializeApp(config);
 
-  var database = firebase.database();
+var database = firebase.database();
+
+//variables storing information relevant to Recipe API
+var recipeSearch;
+var recipeAppId = "c8284a5e";
+var recipeApiKey = "f9089a432857da4b4db6c2f729879c06";
+var numberOfRecipes = "&from=0&to=20";
+var calories = "&calories="; //add data from Human API per activity
+var health = "&health="; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
+var queryURL = "https://api.edamam.com/search?q=";
