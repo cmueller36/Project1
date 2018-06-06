@@ -6,16 +6,25 @@ var tokenAnna = "";
 var tokenJasmine = "";
 
 //User dropdown selection
-var userSelected = "";
-$(body).on("click",function(){
-    userSelected = "";
-})
+// var userSelected = "";
+// $("button").on("click",function(){
+//     userSelected = "";
+// })
 
 
 //Human API for getting activity summary
-$(body).on("click",function(){
+$("button").on("click",function(){
    //Activity Summary URL
-   summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token="+userSelected;
+   summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token="+tokenChris;
+
+   $.ajax({
+       url: summaryURL,
+       method:"GET"
+   }).then(function(response){
+       //this grabs the first index in the object array and gets the calories for it
+       var summaryCalories = response[0].calories;
+       console.log(summaryCalories);
+   })
 })
 
 var config = {
@@ -28,4 +37,20 @@ var config = {
   };
   firebase.initializeApp(config);
 
-  var database = firebase.database();
+var database = firebase.database();
+
+//variables storing information relevant to Recipe API
+var recipeSearch = "chicken";
+var recipeAppId = "&app_id=c8284a5e";
+var recipeApiKey = "&app_key=f9089a432857da4b4db6c2f729879c06";
+var numberOfRecipes = "&from=0&to=20";
+var calories = "&calories=500-800"; //add data from Human API per activity
+var health = "&health=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
+var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey;
+
+$.ajax({
+    url: queryURL,
+    method: "GET"
+}).then(function(response){
+    console.log(response)
+})
