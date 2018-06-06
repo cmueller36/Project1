@@ -38,4 +38,3 @@ var numberOfRecipes = "&from=0&to=20";
 var calories = "&calories="; //add data from Human API per activity
 var health = "&health="; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
 var queryURL = "https://api.edamam.com/search?q=";
-

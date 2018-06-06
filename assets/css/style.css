@@ -1,0 +1,19 @@
+html, body {
+    min-height: 100%;
+}
+
+.grid-sizer {
+    width: 25%;
+}
+
+.grid-item--width2{
+    width: 37%;
+}
+
+.grid-item--width3{
+    width: 50%;
+}
+
+.grid-item--width-full{
+    width: 100%;
+}
