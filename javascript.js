@@ -6,10 +6,11 @@ var tokenAnna = "";
 var tokenJasmine = "";
 
 //User dropdown selection
-// var userSelected = "";
-// $("button").on("click",function(){
-//     userSelected = "";
-// })
+var userSelected = "";
+$(".dropdown-item").on("change",function(){
+    userSelected = $(this).val()
+    console.log(userSelected);
+})
 
 
 //Human API for getting activity summary
@@ -27,6 +28,8 @@ $("button").on("click",function(){
    })
 })
 
+
+//firebase data
 var config = {
     apiKey: "AIzaSyDoB53ra_Ww0RrOLHrUUADmGIMGMuKKZz8",
     authDomain: "project1-91897.firebaseapp.com",
