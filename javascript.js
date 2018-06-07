@@ -12,7 +12,6 @@ var userSelected = "";
 var activitiesSummary = [];
 
 
-
 //User dropdown selection
 $(".dropdown-item").on("change",function(){
     userSelected = $(this).val();
@@ -56,16 +55,17 @@ var database = firebase.database();
 
 //variables storing information relevant to Recipe API
 var recipeSearch = "chicken";
-var recipeAppId = "&app_id=c8284a5e";
-var recipeApiKey = "&app_key=f9089a432857da4b4db6c2f729879c06";
+var recipeAppId = "&app_id=84dfbeab";
+var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
 var numberOfRecipes = "&from=0&to=20";
-var calories = "&calories=500-800"; //add data from Human API per activity
-var health = "&health=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
-var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey;
+var caloriesQuery = "&calories=500-800"; //add data from Human API per activity
+var health = "&healthLabel=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
+var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery + health;
 
 $.ajax({
     url: queryURL,
     method: "GET"
 }).then(function(response){
     console.log(response)
+    console.log(activitiesSummary[0].calories)
 })
