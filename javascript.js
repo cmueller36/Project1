@@ -28,7 +28,7 @@ $(".dropdown-item").on("change",function(){
         userToken = tokenJordan;
     }
 
-    var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token="+userToken;
+    var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
 
    $.ajax({
        url: summaryURL,
@@ -58,19 +58,15 @@ var recipeSearch = "chicken";
 var recipeAppId = "&app_id=84dfbeab";
 var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
 var numberOfRecipes = "&from=0&to=20";
-var caloriesQuery = "&calories=500-800"; //add data from Human API per activity
+var caloriesQuery = "&calories="; //add data from Human API per activity
 var health = "&healthLabel=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
-var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery + health;
+var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery + activitiesSummary[0].calories + health;
 
 $.ajax({
     url: queryURL,
     method: "GET"
 }).then(function(response){
     console.log(response)
-<<<<<<< HEAD
-    console.log(activitiesSummary[0].calories)
-})
-=======
+    console.log()
 })
 
->>>>>>> 10b7ba4573671b1284cb120e0d1487ccea639692
