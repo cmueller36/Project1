@@ -37,5 +37,18 @@ html, body {
 }
 
 .icon{
-    background-color: #666;
+    margin-right: 20px;
+}
+
+.table-cell--height1{
+    height: 100px;
+    overflow-y: auto;
+}
+
+.corners-rounded {
+    border-radius: 4px;
+}
+
+.calendar-column {
+    margin: 5px;
 }
