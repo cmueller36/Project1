@@ -20,6 +20,15 @@ $('.dropdown').on('click', function () {
     }
 });
 
+//Activate and deactivate modals
+$(document).on('click', '.grid-item', function () {
+    $('#modal').addClass('is-active');
+});
+
+$('#modal-close').on('click', function() {
+    $('#modal').removeClass('is-active');
+ }); 
+
 function createPanelHead (icon, title){
     //argument icon is a string containing icon html
     //title is a string containing the title text
