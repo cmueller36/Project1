@@ -2,32 +2,44 @@
 var tokenChris = "8ca56d8bd42e31e70a1104a9dc5fd89f26f20474";
 var tokenJordan = "t-mZj_5LAmXZaYzqpSvhUKl1wiE=AjjK-jpf1669011c1fd767db3eb85fc5614bbd0c85920f860da5b9378340236b9340c142fea80e7b6a20a845512bc0f1ee373b17dbab5b58ecb0155d8728540ee948c7869497e85866ff6f84a07cd5f9ff035d0be5896899c793fbc35c26597b118876b24adece043e984a055577c80eead4622b";
 var tokenClaire ="";
-var tokenAnna = "";
+var tokenAnna = "mQ6i3wRrcNmdeWY4rGZ39yudyl4=xoS25AIu3bf05deb827095f3853e1550209cee1eba255059eba694b8aeabb3353406a825da5cf02a29b84cd5a684a9c755504f0f6904096f545d7227eb7d4549283aadacb2461132276de770d247c9d2fd067eb8850b04f6212c2f899db1c4a3604325d9fa5d1e7697fc9fa864c9e90f6ea87584";
 var tokenJasmine = "";
 
-//User dropdown selection
+var userToken = "";
 var userSelected = "";
+
+
+var activitiesSummary = [];
+
+
+
+//User dropdown selection
 $(".dropdown-item").on("change",function(){
-    userSelected = $(this).val()
-    console.log(userSelected);
-})
+    userSelected = $(this).val();
 
+    if ( userSelected === "Chris"){
+        userToken = tokenChris;
+    }
+    
+    if ( userSelected === "Anna"){
+        userToken = tokenAnna;
+    }
+    
+    if ( userSelected === "Jordan"){
+        userToken = tokenJordan;
+    }
 
-//Human API for getting activity summary
-$("button").on("click",function(){
-   //Activity Summary URL
-   summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token="+tokenChris;
+    var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token="+userToken;
 
    $.ajax({
        url: summaryURL,
        method:"GET"
    }).then(function(response){
        //this grabs the first index in the object array and gets the calories for it
-       var summaryCalories = response[0].calories;
-       console.log(summaryCalories);
+       activitiesSummary = response;
+       console.log(activitiesSummary);
    })
 })
-
 
 //firebase data
 var config = {
