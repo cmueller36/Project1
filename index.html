@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Personal Fitness Tracker</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/af.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
@@ -29,7 +30,7 @@
         <div class="navbar-menu">
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <button class="button"><i class="fas fa-user"></i>Login</button>
+                    <button class="button"><span class="icon is-small"><i class="fas fa-user"></i></span> Login</button>
                 </div>
                 
             </div>
@@ -38,8 +39,8 @@
 
     
     <div class="columns">
-        <div id="dash" class="column is-three-quarters has-background-grey-lighter">
-            <div class="grid">
+        <div class="column is-three-quarters has-background-grey-lighter">
+            <div id="dash" class="grid">
                 <div class="grid-sizer"></div>
             <!--display results dynamically using masonry here-->
             </div>
@@ -67,5 +68,8 @@
 <!--linking our javascript.js and front.js files to our application-->
 <script src="javascript.js"></script>
 <script src="scripts/front.js"></script>
+<!--developer file-->
+<!-- <script src="scripts/front-dev.js"></script> -->
+
 
 </html>
