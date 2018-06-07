@@ -36,7 +36,7 @@ $(".dropdown-item").on("change",function(){
    }).then(function(response){
        //this grabs the first index in the object array and gets the calories for it
        activitiesSummary = response;
-       console.log(activitiesSummary);
+
    })
 })
 
@@ -67,5 +67,10 @@ $.ajax({
     method: "GET"
 }).then(function(response){
     console.log(response)
+<<<<<<< HEAD
     console.log(activitiesSummary[0].calories)
 })
+=======
+})
+
+>>>>>>> 10b7ba4573671b1284cb120e0d1487ccea639692
