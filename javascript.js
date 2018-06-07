@@ -6,10 +6,11 @@ var tokenAnna = "";
 var tokenJasmine = "";
 
 //User dropdown selection
-// var userSelected = "";
-// $("button").on("click",function(){
-//     userSelected = "";
-// })
+var userSelected = "";
+$(".dropdown-item").on("change",function(){
+    userSelected = $(this).val()
+    console.log(userSelected);
+})
 
 
 //Human API for getting activity summary
