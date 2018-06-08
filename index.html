@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,13 @@
     <title>Personal Fitness Tracker</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
+
 <body>
     <nav id="nav" class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -29,9 +32,12 @@
         <div class="navbar-menu">
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <button class="button"><span class="icon is-small"><i class="fas fa-user"></i></span> Login</button>
+                    <button class="button">
+                        <span class="icon is-small">
+                            <i class="fas fa-user"></i>
+                        </span> Login</button>
                 </div>
-                
+
             </div>
         </div>
     </nav>
@@ -39,7 +45,7 @@
     <div class="has-background-grey-lighter">
         <div id="dash" class="grid">
             <div class="grid-sizer"></div>
-        <!--display results dynamically using masonry here-->
+            <!--display results dynamically using masonry here-->
         </div>
     </div>
 
@@ -47,12 +53,13 @@
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box">
-                <p>Hello World</p>
+                <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9"
+                    frameborder="0" allowFullScreen="true"></iframe>
             </div>
         </div>
         <button id="modal-close" class="modal-close is-large" aria-label="close"></button>
     </div>
-    
+
 
 </body>
 
@@ -60,10 +67,8 @@
 <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
 
 <!--linking jQuery library-->
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
 
 
 <!--linking masonry file to our application-->
