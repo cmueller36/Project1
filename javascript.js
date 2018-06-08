@@ -8,6 +8,16 @@ var tokenJasmine = "";
 var userToken = "";
 var userSelected = "";
 
+//iframes for Power BI Dashboards
+var iframeChris = "https://app.powerbi.com/view?r=eyJrIjoiYTIzZTA3MTMtZWU3ZS00NzE2LTgxN2YtMTAyODEwZDM5YTY2IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframeJordan = "https://app.powerbi.com/view?r=eyJrIjoiNDJlZTIwOTItYjM1Ni00NDFmLWJmMzUtNWEwNTgzZDVmMWJiIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframeClaire = "https://app.powerbi.com/view?r=eyJrIjoiY2MxNTE5MjctODA4OS00MDhlLTg4YTItNmFlNDlkNTJhYzNlIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframeAnna = "https://app.powerbi.com/view?r=eyJrIjoiMmFmMzc3YzYtM2RhNS00MDAyLWExNTEtMWU3YzRhNWY5YzIwIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframeJasmine = "https://app.powerbi.com/view?r=eyJrIjoiZDhjZTNiNTUtNzliNi00ZjIyLTgzMDEtMDFjM2Y4ZjQ2MGI3IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+
+var useriframe = "";
+
+
 
 var activitiesSummary = [];
 
@@ -18,14 +28,27 @@ $(".dropdown-item").on("change",function(){
 
     if ( userSelected === "Chris"){
         userToken = tokenChris;
+        useriframe = iframeChris;
     }
     
     if ( userSelected === "Anna"){
         userToken = tokenAnna;
+        useriframe = iframeAnna;
     }
     
     if ( userSelected === "Jordan"){
         userToken = tokenJordan;
+        useriframe = iframeJordan;
+    }
+
+    if ( userSelected === "Claire"){
+        userToken = tokenClaire;
+        useriframe = iframeClaire;
+    }
+
+    if ( userSelected === "Jasmine"){
+        userToken = tokenJasmine;
+        useriframe = iframeJasmine;
     }
 
     var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
@@ -39,6 +62,8 @@ $(".dropdown-item").on("change",function(){
        console.log(activitiesSummary);
     
    })
+
+   $("#powerbiIframe").attr("src",useriframe);
 })
 
 //firebase data
