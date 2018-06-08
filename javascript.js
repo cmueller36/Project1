@@ -75,5 +75,14 @@ $("#run").on("click", function(event) {
         console.log(response)
     })
 
-})
+});
 
+var weatherAPI = "?apikey=YmtcFPorPCo5IQDz9HzhufW3JeeVaA2f";
+var weatherURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/329823" + weatherAPI;
+
+$.ajax({
+    url: weatherURL,
+    method: "GET"
+}).then(function(response){
+    console.log(response)
+})
