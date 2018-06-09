@@ -14,31 +14,72 @@ var $grid = $('.grid').masonry({
 //dropdown function 
 $('.dropdown').on('click', function () {
     if($(this).hasClass('is-active')){
+
         $(this).removeClass('is-active');
+
     }else{
+
         $(this).addClass('is-active');
+
     }
 });
 
-//Activate and deactivate modals
+//Activates Modal and appends content 
 $(document).on('click', '.grid-item', function () {
+
     $('#modal').addClass('is-active');
-    
-    
+
     var panelName = this.getAttribute('id');
+
+    //if statement that appends modal content depending on the panel clicked on
     switch (panelName) {
         case "calendar":
             //calendar specific code here
-            createModal(panelName);
+            createModal(panelName, function () {
+                /*
+                    The user should be able to add a workout to their calendar
+                    The workout should be appended to the appropriate calendar day
+                    When the workout is checked off it should move to the completed section of the calendar
+
+                    each input element should contained in a control container
+                    all controls should be contained within the field container
+                    each field can contain a label, a control, and a help text
+                */
+               var container = $('<div>').addClass('level-item has-background-grey-lighter');
+               var field = $('<div>').addClass('field');
+               var activity = $('<div>').addClass('control');
+               var activitiesLabel = $('<label>')
+                    .addClass('label')
+                    .text('Add Activity: ');
+               var input = $('<input>').addClass('input').attr('type', 'text');
+               var submit = $('<div>').addClass('control');
+               var submitBtn = $('<div>')
+                    .addClass('button is-primary')
+                    .attr('id', 'add-activity')
+                    .text('Add'); 
+               activity
+                    .append(activitiesLabel)
+                    .append(input);
+
+                submit.append(submitBtn);
+                
+                container
+                    .append(activity)
+                    .append(submit);
+
+                return container;
+            });
             break;
     }
 });
 
+//Deactivates Modal
 $('#modal-close').on('click', function() {
     $('#modal').removeClass('is-active');
     $('#modalDiv').empty();
- }); 
+}); 
 
+ //Creates a header element with an icon and a title
 function createPanelHead (icon, title){
     //argument icon is a string containing icon html
     //title is a string containing the title text
@@ -70,6 +111,20 @@ function createPanelHead (icon, title){
     return header;
 }
 
+//Returns an iframe element to be inserted into the modal
+function generateIframe (url) {
+    var iframe = $('<iframe>')
+    .addClass('iframe-size corners-rounded has-background-grey-lighter')
+    .attr('id', 'userData')
+    .attr('width', '800')
+    .attr('height', '600')
+    .attr('src', url)
+    .attr('frameborder', '0')
+    .attr('allowFullscreen', 'true');
+    return iframe;
+}
+
+//Creates the contents of the modal
 function createModal (panel, callback) {
     console.log('this element is ', panel);
     
@@ -80,11 +135,8 @@ function createModal (panel, callback) {
     
     var level1 = $('<div>').addClass('level');
     var itemA = $('<div>').addClass('level-item');
-    var iframe = $('<iframe>')
-        .addClass('iframe-size corners-rounded has-background-grey-lighter')
-        .attr('id', 'userData');
-    
-    
+    var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
+            
     
     itemA.append(iframe);
     level1.append(itemA);
@@ -106,8 +158,7 @@ function createModal (panel, callback) {
         .append(title2)
         .append(level2);
 }
-//Calendar
-
+//Calendar Panel
 function addCalendar () {
     //create the .box panel element
     var elem = document.createElement('div');
@@ -175,7 +226,7 @@ function addCalendar () {
 
 
 
-//append to the dashboard
+//appends Panels to the dashboard
 var toAppend = [];
 toAppend.push(addCalendar());
 $grid.append(toAppend).masonry('appended', toAppend);

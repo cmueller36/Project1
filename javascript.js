@@ -22,6 +22,11 @@ var useriframe = "";
 var activitiesSummary = [];
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> ad306f15fbe6b4140c0c46fa27dd8a93f8e0916d
 //User dropdown selection
 $(".dropdown-item").on("change",function(){
     userSelected = $(this).val();
@@ -76,6 +81,11 @@ $(".dropdown-item").on("change",function(){
 
 
 
+<<<<<<< HEAD
+=======
+    console.log(activitiesSummary);
+   $("#powerbiIframe").attr("src",useriframe);
+>>>>>>> ad306f15fbe6b4140c0c46fa27dd8a93f8e0916d
 
 //firebase data
 var config = {

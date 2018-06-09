@@ -71,6 +71,13 @@ html, body {
     width: 90%;
 }
 
+input {
+    width: 100%;
+}
+
+.control{
+    width: 50%;
+}
 /*scrollbars*/
 
 ::-webkit-scrollbar {
