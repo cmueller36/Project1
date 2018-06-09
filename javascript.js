@@ -22,11 +22,8 @@ var useriframe = "";
 var activitiesSummary = [];
 
 
-<<<<<<< modal
 
 
-=======
->>>>>>> master
 //User dropdown selection
 $(".dropdown-item").on("change",function(){
     userSelected = $(this).val();
@@ -64,7 +61,6 @@ $(".dropdown-item").on("change",function(){
    }).then(function(response){
        //this grabs the first index in the object array and gets the calories for it
        activitiesSummary = response;
-<<<<<<< modal
        console.log(response);
 
        activitiesSummary.forEach(function (value) {
@@ -82,14 +78,8 @@ $(".dropdown-item").on("change",function(){
 
 
 
-=======
-       console.log(activitiesSummary);
-    
-   })
-
+    console.log(activitiesSummary);
    $("#powerbiIframe").attr("src",useriframe);
-})
->>>>>>> master
 
 //firebase data
 var config = {
