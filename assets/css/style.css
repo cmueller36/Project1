@@ -52,3 +52,48 @@ html, body {
 .calendar-column {
     margin: 5px;
 }
+
+.margin-small {
+    margin: 3px;
+}
+
+.modal-content--width {
+    width: 80%;
+}
+
+.modal-content--height {
+    height: 600px;
+    overflow-y: auto;
+}
+
+.iframe-size {
+    height: 450px;
+    width: 90%;
+}
+
+/*scrollbars*/
+
+::-webkit-scrollbar {
+    width: 5px;
+    
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 4px;
+    
+    
+}
+::-webkit-scrollbar-track {
+    border-radius: 4px;
+    
+}
+
+::-webkit-scrollbar-track-piece {
+
+    display: none;
+}

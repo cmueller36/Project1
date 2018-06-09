@@ -23,10 +23,20 @@ $('.dropdown').on('click', function () {
 //Activate and deactivate modals
 $(document).on('click', '.grid-item', function () {
     $('#modal').addClass('is-active');
+    
+    
+    var panelName = this.getAttribute('id');
+    switch (panelName) {
+        case "calendar":
+            //calendar specific code here
+            createModal(panelName);
+            break;
+    }
 });
 
 $('#modal-close').on('click', function() {
     $('#modal').removeClass('is-active');
+    $('#modalDiv').empty();
  }); 
 
 function createPanelHead (icon, title){
@@ -60,6 +70,42 @@ function createPanelHead (icon, title){
     return header;
 }
 
+function createModal (panel, callback) {
+    console.log('this element is ', panel);
+    
+    var head = createPanelHead('<i class="far fa-calendar-alt fa-3x"></i>', 'Calendar');
+    var title1 = $('<h3>')
+        .addClass('title is-5')
+        .text("My Data Summary");
+    
+    var level1 = $('<div>').addClass('level');
+    var itemA = $('<div>').addClass('level-item');
+    var iframe = $('<iframe>')
+        .addClass('iframe-size corners-rounded has-background-grey-lighter')
+        .attr('id', 'userData');
+    
+    
+    
+    itemA.append(iframe);
+    level1.append(itemA);
+
+    if(arguments[1]){
+        var title2 = $('<h3>')
+            .addClass('title is-5')
+            .text('Add Data');
+        var level2 = $('<div>').addClass('level');
+        level2.append(callback);
+    }else{
+        console.log('nothing to append');
+    }
+
+    $('#modalDiv')
+        .append(head)
+        .append(title1)
+        .append(level1)
+        .append(title2)
+        .append(level2);
+}
 //Calendar
 
 function addCalendar () {
@@ -68,6 +114,8 @@ function addCalendar () {
         elem.classList.add('grid-item');
         elem.classList.add('grid-item--width5');
         elem.classList.add('box');
+        elem.setAttribute('id', 'calendar');
+        
 
     //create the head of the panel
     var head = createPanelHead('<i class="far fa-calendar-alt fa-3x"></i>', 'Calendar');
@@ -91,12 +139,22 @@ function addCalendar () {
         var thead = document.createElement('thead');
         var tbody = document.createElement('tbody');
         var row1 = document.createElement('tr');
+            row1.setAttribute('data-day', i);
             //innerHTML needs to be canged to reflect the day and date
             row1.innerHTML = `<th><span>Date</span> <span>Day</span></th>`;
         var row2 = document.createElement('tr');
-            row2.innerHTML = '<td class="table-cell--height1"></td>';
+            row2.setAttribute('data-day', i);
+        var goals = document.createElement('td');
+            goals.classList.add('table-cell--height1')
+            goals.setAttribute('id', 'goal' + i);
         var row3 = document.createElement('tr');
-            row3.innerHTML = '<td class="table-cell--height1"></td>';
+            row3.setAttribute('data-day', i);
+        var completed = document.createElement('td');
+            completed.setAttribute('id', 'completed' + i);
+            completed.classList.add('table-cell--height1');
+            
+        row2.append(goals);
+        row3.append(completed);
         
         //append elements put humpty dumpty together again
         thead.append(row1);
@@ -114,6 +172,8 @@ function addCalendar () {
     elem.append(body);
     return elem;
 }
+
+
 
 //append to the dashboard
 var toAppend = [];
