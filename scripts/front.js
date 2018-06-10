@@ -47,6 +47,8 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
     switch (panelName) {
         case "Daily":
             createModal('Daily Report', dailyModal());
+            var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
+            $('#itemA').append(iframe);
             
             //Daily modal dropdown listener
             $('#unitsDrop').find('.dropdown-item').on('click', function () {
@@ -101,6 +103,9 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 $(this).parent().parent().remove();
             });
             break;
+        case "Weather":
+
+        break;
     }
 });
 
@@ -164,11 +169,9 @@ function createModal (panel, callback) {
         .text("My Data Summary");
     
     var level1 = $('<div>').addClass('level');
-    var itemA = $('<div>').addClass('level-item');
-    var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
+    var itemA = $('<div>').addClass('level-item').attr('id', 'itemA');
             
     
-    itemA.append(iframe);
     level1.append(itemA);
 
     if(arguments[1]){
@@ -396,10 +399,27 @@ function dailyModal () {
     return container;
 }
 
+function addWeather () {
+    var elem = document.createElement('div');
+        elem.classList.add('grid-item');
+        elem.classList.add('grid-item--width1');
+        elem.classList.add('box');
+        elem.setAttribute('id', 'daily');
+
+    var head = createPanelHead('<i class="far fa-sun fa-3x"></i>', 'Weather', true);
+    
+    elem.append(head);
+    return elem;
+}
+
+function weatherModal () {
+    
+}
+
 
 //appends Panels to the dashboard
 var toAppend = [];
-toAppend.push(addDaily());
+toAppend.push(addDaily(), addWeather());
 $grid.append(toAppend).masonry('appended', toAppend);
 
 /*
