@@ -16,6 +16,7 @@ function getNow () {
     var now = moment().format('MMMM, D, Do, dddd, YYYY');
     var arr = now.split(',');
     var temp = {
+
         moment: moment(),
         month: arr[0],
         day: arr[1],
@@ -47,6 +48,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
     //if statement that appends modal content depending on the panel clicked on
     switch (panelName) {
         case "Daily":
+
             createModal('Daily Report', dailyModal(), '<i class="far fa-calendar fa-3x"></i>');
             var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
             $('#itemA').append(iframe);
@@ -93,8 +95,6 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                     .append(activity)
                     .append(duration)
                     .append(close);
-
-                console.log(newItem);
 
                 $('#itemsList').append(newItem);
             });
@@ -165,6 +165,7 @@ function createModal (panel, callback, icon) {
     console.log('this element is ', panel);
     
     var head = createPanelHead(icon, panel, false);
+
     var title1 = $('<h3>')
         .addClass('title is-5')
         .text("My Data Summary");
@@ -315,7 +316,6 @@ function addDaily () {
         goals.append(item);
     });
     
-
     return elem;
 }
 
@@ -492,22 +492,14 @@ function weatherModal () {
         .append(level0)
         
     return elem;
-
-    
-    
-    //temp.append(document.createTextNode('86' + String.fromCharCode(176) + 'F'));
-
-
-
-
-
-  
 }
 
 
 //appends Panels to the dashboard
 var toAppend = [];
+
 toAppend.push(addDaily(), addWeather());
+
 $grid.append(toAppend).masonry('appended', toAppend);
 
 /*
