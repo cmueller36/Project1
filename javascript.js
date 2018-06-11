@@ -78,8 +78,8 @@ $(".dropdown-item").on("change",function(){
 
 
 
-    console.log(activitiesSummary);
-   $("#powerbiIframe").attr("src",useriframe);
+console.log(activitiesSummary);
+$("#powerbiIframe").attr("src",useriframe);
 
 //firebase data
 var config = {
