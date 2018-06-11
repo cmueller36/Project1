@@ -143,79 +143,79 @@ $.ajax({
             case 3:
             case 4:
             case 5:
-                day.icon = '<img src="assets/css/weather-icons/sun.svg" alt="sunny">'
+                day.icon = '<img src="assets/weather-icons/sun.svg" alt="sunny">'
                 break;
             case 6:
-                day.icon = '<img src="assets/css/weather-icons/cloudy.svg"" alt="partly-cloudy">'
+                day.icon = '<img src="assets/weather-icons/cloudy.svg"" alt="partly-cloudy">'
                 break;
             case 7:
             case 8:
-                day.icon = '<img src="assets/css/weather-icons/cloudy-1.svg" alt="cloudy">';
+                day.icon = '<img src="assets/weather-icons/cloudy-1.svg" alt="cloudy">';
                 break;
             case 11:
-                day.icon = '<img src="assets/css/weather-icons/fog-1.svg" alt="fog">';
+                day.icon = '<img src="assets/weather-icons/fog-1.svg" alt="fog">';
                 break;
             case 12:
             case 13:
-                day.icon = '<img src="assets/css/weather-icons/rain-1.svg" alt="showers">';
+                day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="showers">';
                 break; 
             case 14:
-                day.icon = '<img src="assets/css/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
+                day.icon = '<img src="assets/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
                 break;
             case 15:
             case 16:
             case 17:
             case 41:
             case 42:
-                day.icon = '<img src="assets/css/weather-icons/thunder.svg" alt="thunder">';
+                day.icon = '<img src="assets/weather-icons/thunder.svg" alt="thunder">';
                 break;
             case 18:
-                day.icon = '<img src="assets/css/weather-icons/rain.svg" alt="rain">';
+                day.icon = '<img src="assets/weather-icons/rain.svg" alt="rain">';
                 break;
             case 19:
             case 20:
             case 21:
             case 43:
             case 44:
-                day.icon = '<img src="assets/css/weather-icons/snowflake.svg" alt="flurries">';
+                day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="flurries">';
                 break;
             case 22:
             case 23:
-                day.icon = '<img src="assets/css/weather-icons/snow.svg" alt="snow">';
+                day.icon = '<img src="assets/weather-icons/snow.svg" alt="snow">';
                 break;
             case 24:
-                day.icon = '<img src="assets/css/weather-icons/snowflake.svg" alt="ice">';
+                day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="ice">';
                 break;
             case 25:
             case 26:
             case 29:
-                day.icon = '<img src="assets/css/weather-icons/rain-1.svg" alt="fog">';
+                day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="fog">';
                 break;
             case 30:
-                day.icon = '<img src="assets/css/weather-icons/hot.svg" alt="hot">';
+                day.icon = '<img src="assets/weather-icons/hot.svg" alt="hot">';
                 break;
             case 31:
-                day.icon = '<img src="assets/css/weather-icons/thermometer.svg" alt="cold-thermometer">';
+                day.icon = '<img src="assets/weather-icons/thermometer.svg" alt="cold-thermometer">';
                 break;
             case 32:
-                day.icon = '<img src="assets/css/weather-icons/wind.svg" alt="windy">';
+                day.icon = '<img src="assets/weather-icons/wind.svg" alt="windy">';
                 break;
             case 33:
             case 34:
-                day.icon = '<img src="assets/css/weather-icons/full-moon-and-stars.svg" alt="moon">';
+                day.icon = '<img src="assets/weather-icons/full-moon-and-stars.svg" alt="moon">';
                 break;
             case 35:
             case 36:
             case 37:
             case 38:
-                day.icon = '<img src="assets/css/weather-icons/cloudy-2.svg" alt="moon-clouds">';
+                day.icon = '<img src="assets/weather-icons/cloudy-2.svg" alt="moon-clouds">';
                 break;
             case 39:
             case 40:
-                day.icon = '<img src="assets/css/weather-icons/rain-2.svg" alt="raindrops">';
+                day.icon = '<img src="assets/weather-icons/rain-2.svg" alt="raindrops">';
                 break;
             default: 
-                day.icon = '<img src="assets/css/weather-icons/rainbow.svg" alt="rainbow"><p>Icon exception</p>';
+                day.icon = '<img src="assets/weather-icons/rainbow.svg" alt="rainbow"><p>Icon exception</p>';
                 break;
         }
     }
