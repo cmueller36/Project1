@@ -78,6 +78,22 @@ html, body {
 .fa-times:hover{
     cursor: pointer;
 }
+
+.icon-weather{
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+}
+
+.card-weather {
+    width: 175px;
+    padding: 10px;
+    margin: 5px;
+    height: 250px;
+}
+.card-title-weather {
+    height: 50px;
+}
 /*scrollbars*/
 
 ::-webkit-scrollbar {

@@ -16,6 +16,7 @@ function getNow () {
     var now = moment().format('MMMM, D, Do, dddd, YYYY');
     var arr = now.split(',');
     var temp = {
+        moment: moment(),
         month: arr[0],
         day: arr[1],
         dayOrdered: arr[2],
@@ -46,7 +47,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
     //if statement that appends modal content depending on the panel clicked on
     switch (panelName) {
         case "Daily":
-            createModal('Daily Report', dailyModal());
+            createModal('Daily Report', dailyModal(), '<i class="far fa-calendar fa-3x"></i>');
             var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
             $('#itemA').append(iframe);
             
@@ -104,7 +105,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
             });
             break;
         case "Weather":
-
+            createModal('Weather', weatherModal(), '<i class="far fa-sun fa-3x"></i>');
         break;
     }
 });
@@ -160,10 +161,10 @@ function createPanelHead (icon, title, expand){
 }
 
 //Creates the contents of the modal
-function createModal (panel, callback) {
+function createModal (panel, callback, icon) {
     console.log('this element is ', panel);
     
-    var head = createPanelHead('<i class="far fa-calendar-alt fa-3x"></i>', panel, false);
+    var head = createPanelHead(icon, panel, false);
     var title1 = $('<h3>')
         .addClass('title is-5')
         .text("My Data Summary");
@@ -407,13 +408,100 @@ function addWeather () {
         elem.setAttribute('id', 'daily');
 
     var head = createPanelHead('<i class="far fa-sun fa-3x"></i>', 'Weather', true);
+
+    var level1 = document.createElement('div');
+        level1.classList.add('level');
+
+    var level2 = document.createElement('div');
+        level2.classList.add('level');
     
+
+    var iconDiv = document.createElement('div');
+        iconDiv.classList.add('level-item');
+
+    var icon = document.createElement('div');
+        icon.classList.add('image');
+        icon.classList.add('is-96x96');
+        icon.setAttribute('id', 'weather-icon');
+    
+    var forecast = document.createElement('p');
+        forecast.classList.add('level-right');
+        forecast.setAttribute('id', 'forecast');
+
+    var tempDiv = document.createElement('div');
+        tempDiv.classList.add('level-left');
+
+    var temp = document.createElement('h3');
+        temp.classList.add('subtitle');
+        temp.classList.add('is-4')
+        temp.setAttribute('id', 'temp');
+
+
+    tempDiv.append(temp);
+    iconDiv.append(icon);
+    
+    level1.append(iconDiv);
+    level2.append(tempDiv);
+    level2.append(forecast);
+    
+
     elem.append(head);
+    elem.append(level1);
+    elem.append(level2);
+  
+
     return elem;
 }
 
 function weatherModal () {
+    var elem = $('<div>');
+    var level0 = $('<div>').addClass('level');
+    for(var i=0; i<5; i++){
+        var date = moment().add(i, 'days').format('dddd, MMMM Do');
+
+        var level1 = $('<div>').addClass('level');
+        var level2 = $('<div>').addClass('level')
+
+        var item = $('<div>').addClass('card-weather corners-rounded has-background-grey-lighter');
+        var head = $('<h3>').addClass('subtitle is-5 card-title-weather');
+            head.text(date);
+        var iconDiv = $('<div>').addClass('level-item');
+        var icon = $('<div>').html(weatherData[i].icon)
+            icon.addClass('image is-96x96');
+        var temp = $('<h3>').addClass('item-left subtitle is-5').css('width', '50px');
+            temp.text(weatherData[i].temp + String.fromCharCode(176) + 'F');
+        var forecastDiv = $('<div>').addClass('level').css('width', '125px').css('height', '50px');
+        var forecast = $('<p>').addClass('item-right has-text-centered');
+            forecast.text(weatherData[i].forecast);
+        forecastDiv.append(forecast);
+        iconDiv.append(icon);
+        level1.append(iconDiv);
+        level2
+            .append(temp)
+            .append(forecastDiv);
+
+        item
+            .append(head)
+            .append(level1)
+            .append(level2);
+
+        level0.append(item);
+    }
+
+    elem
+        .append(level0)
+        
+    return elem;
+
     
+    
+    //temp.append(document.createTextNode('86' + String.fromCharCode(176) + 'F'));
+
+
+
+
+
+  
 }
 
 
