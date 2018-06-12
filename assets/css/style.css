@@ -3,6 +3,10 @@ html, body {
     min-width: 100%;
 }
 
+#firebaseui-auth-container{
+    margin-top: 300px;
+}
+
 #dash{
     margin: 10px;
 }
