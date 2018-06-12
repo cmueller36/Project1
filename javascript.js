@@ -224,3 +224,47 @@ $.ajax({
     $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
     $('#forecast').text(weatherData[0].forecast);
 });
+
+$('#add-activity').on('click', function () {
+    $('#activityForm').find('.help').remove();
+
+    var newItem = $('<tr>');
+
+    var activity = $('<td>').text($('#newActivity').val().trim());
+
+    var duration = $('<td>');
+
+    var close = $('<td>').append('<i class="fas fa-times"></i>');
+
+    var units = $('#unitsDrop').attr('data-selected');
+
+    if (units === '0') {
+        duration.text($('#newDuration').val().trim() + ' Reps');
+    }else if(units === '1') {
+        duration.text($('#newDuration').val().trim() + ' Mins');
+    }else{
+        return $('#activityForm').append('<p class="help is-danger">Please select a unit</p>');
+    }
+
+    newItem
+        .append(activity)
+        .append(duration)
+        .append(close);
+
+    $('#itemsList').append(newItem);
+
+    var activityObject = {
+        activity: activity,
+        reps: duration
+    };
+});
+
+database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+       
+    var activity = childSnapshot.val().activity;
+    var duration = childSnapshot.val().duration;
+
+    console.log(activity);
+    console.log(duration);
+
+})
