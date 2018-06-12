@@ -1,7 +1,3 @@
-//Jquery refrence to static elements
-var $dash = $('#dash');
-var $aside = $('#aside');
-var $nav = $('#nav');
 
 //initialize masonry
 var $grid = $('.grid').masonry({
@@ -48,10 +44,23 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
     //if statement that appends modal content depending on the panel clicked on
     switch (panelName) {
         case "Daily":
-
-            createModal('Daily Report', dailyModal(), '<i class="far fa-calendar fa-3x"></i>');
+            var head = createPanelHead('<img class="image is-64x64" src="assets/panel-icons/schedule.svg" alt="schedule-icon">', 'Daily Report', false);
+            var level1 = $('<div>').addClass('level');
+            var level2 = $('<div>').addClass('level');
             var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
-            $('#itemA').append(iframe);
+            var itemA = $('<div>').addClass('level-item');
+            var itemB = $('<div>').addClass('level-item');
+
+            itemA.append(iframe);
+            itemB.append(dailyModal());
+
+            level1.append(itemA);
+            level2.append(itemB)
+
+            $('#modalDiv')
+                .append(head)
+                .append(level1)
+                .append(level2);
             
             //Daily modal dropdown listener
             $('#unitsDrop').find('.dropdown-item').on('click', function () {
@@ -105,8 +114,61 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
             });
             break;
         case "Weather":
-            createModal('Weather', weatherModal(), '<i class="far fa-sun fa-3x"></i>');
-        break;
+            var head = createPanelHead('<img class="image is-64x64" src="assets/weather-icons/sun.svg" alt="weather">', 'Weather', false);
+
+            var body = weatherModal();
+
+            $('#modalDiv')
+                .append(head)
+                .append(body);
+            
+            break;
+        case "pedometer":
+            var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Pedometer', false);
+            var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
+            var title1 = $('<h3>').addClass('title is-4').text('Week View');
+            var title2 = $('<h3>').addClass('title is-4').text('Trends');
+            //get dates for this week
+            //call to user database, get pedometer steps for the week
+            
+            
+            function getDates (day) {
+                //returns an array of all the dates in the current week
+               var dateArr = [];
+               if(day !== 0){
+                   date = moment().add(day-1, 'days').format('MMMM Do');
+                   dateArr.push(date);
+                   day--;
+                   return getDates(day);
+               }else if(dateArr.length !== 7) {
+                   var remaining = 7 - dateArr.length;
+                   var remainingArr = [];
+                    for (var i=0; i < remaining; i++) {
+                        date = moment().add(i + 1, 'days').format('MMMM Do');
+                        remainingArr.push(date);
+                    }
+                    dateArr = dateArr.concat(remainingArr);
+               }else if(day === 0) {
+                   for (var i=0; i<7; i++) {
+                    date = moment().add(i, 'days').format('MMMM Do');
+                    dateArr.push(date);
+                   }
+               }
+               return dateArr;
+            }
+            var level = $('<div>').addClass('level');
+                
+                iframe.addClass('level-item');
+                level.append(iframe);
+            
+            $('#modalDiv')
+                .append(head)
+                .append(title1)
+                .append(pedometerModal(getDates(moment().format('d'))))
+                .append(title2)
+                .append(level);
+            break;
+
     }
 });
 
@@ -115,11 +177,6 @@ $('#modal-close').on('click', function() {
     $('#modal').removeClass('is-active');
     $('#modalDiv').empty();
 }); 
-
-
-
-
-
 
  //Creates a header element with an icon and a title
 function createPanelHead (icon, title, expand){
@@ -165,13 +222,6 @@ function createModal (panel, callback, icon) {
     console.log('this element is ', panel);
     
     var head = createPanelHead(icon, panel, false);
-
-    var title1 = $('<h3>')
-        .addClass('title is-5')
-        .text("My Data Summary");
-    
-    var level1 = $('<div>').addClass('level');
-    var itemA = $('<div>').addClass('level-item').attr('id', 'itemA');
             
     
     level1.append(itemA);
@@ -179,7 +229,6 @@ function createModal (panel, callback, icon) {
     if(arguments[1]){
         var title2 = $('<h3>')
             .addClass('title is-5')
-            .text('Add Data');
         var level2 = $('<div>').addClass('level')
         var container = $('<div>').addClass('level-item').css('width', '800px');
         container.append(callback);
@@ -263,7 +312,8 @@ function addDaily () {
         elem.classList.add('box');
         elem.setAttribute('id', 'daily');
 
-    var head = createPanelHead('<i class="far fa-calendar fa-3x"></i>', 'Daily Report', true);
+    var head = createPanelHead('<img class="image is-64x64" src="assets/panel-icons/schedule.svg" alt="schedule-icon">', 'Daily Report', true);
+    
     var body = document.createElement('div');
     
     var day = document.createElement('div');
@@ -271,16 +321,22 @@ function addDaily () {
         day.classList.add('calendar-column');
         day.classList.add('corners-rounded');
         day.classList.add('has-background-grey-lighter');
+    
     var table = document.createElement('table');
         table.classList.add('table');
         table.classList.add('is-fullwidth');
         table.classList.add('corners-rounded');
+    
     var thead = document.createElement('thead');
+    
     var tbody = document.createElement('tbody');
+    
     var row1 = document.createElement('tr');
         //innerHTML needs to be canged to reflect the day and date
         row1.innerHTML = `<th><span>${now.month} ${now.dayOrdered}</span>, <span>${now.dow}</span></th>`;
+    
     var row2 = document.createElement('tr');       
+    
     var goals = document.createElement('td');
         goals.classList.add('table-cell--height2')   ;
         goals.setAttribute('id', 'goals');    
@@ -293,8 +349,10 @@ function addDaily () {
 
     table.append(thead);
     table.append(tbody);
+
     day.append(table);
     body.append(day);
+
     //append day element to body
     elem.append(head);
     elem.append(body);
@@ -319,9 +377,10 @@ function addDaily () {
     return elem;
 }
 
+//creates daily report modal
 function dailyModal () {
     //display the users inputted elements and allow the user to delete any elements
-    var container = $('<div>').css('width', '70%');
+    var container = $('<div>');
     //INSERT table that displays today's inputted elements
     //the user should be able to click a delete button to delete a tr
     //new items should be appended to the table element
@@ -400,6 +459,7 @@ function dailyModal () {
     return container;
 }
 
+//creates daily weather card
 function addWeather () {
     var elem = document.createElement('div');
         elem.classList.add('grid-item');
@@ -407,7 +467,7 @@ function addWeather () {
         elem.classList.add('box');
         elem.setAttribute('id', 'daily');
 
-    var head = createPanelHead('<i class="far fa-sun fa-3x"></i>', 'Weather', true);
+    var head = createPanelHead('<img class="image is-48x48" src="assets/weather-icons/sun.svg" alt="sunny-icon">', 'Weather', true);
 
     var level1 = document.createElement('div');
         level1.classList.add('level');
@@ -453,29 +513,41 @@ function addWeather () {
     return elem;
 }
 
+//creates 5 day forecast modal
 function weatherModal () {
     var elem = $('<div>');
+
     var level0 = $('<div>').addClass('level');
+
     for(var i=0; i<5; i++){
+
         var date = moment().add(i, 'days').format('dddd, MMMM Do');
 
         var level1 = $('<div>').addClass('level');
-        var level2 = $('<div>').addClass('level')
+
+        var level2 = $('<div>').addClass('level');
 
         var item = $('<div>').addClass('card-weather corners-rounded has-background-grey-lighter');
+
         var head = $('<h3>').addClass('subtitle is-5 card-title-weather');
             head.text(date);
         var iconDiv = $('<div>').addClass('level-item');
+
         var icon = $('<div>').html(weatherData[i].icon)
             icon.addClass('image is-96x96');
+
         var temp = $('<h3>').addClass('item-left subtitle is-5').css('width', '50px');
             temp.text(weatherData[i].temp + String.fromCharCode(176) + 'F');
+
         var forecastDiv = $('<div>').addClass('level').css('width', '125px').css('height', '50px');
+
         var forecast = $('<p>').addClass('item-right has-text-centered');
             forecast.text(weatherData[i].forecast);
+
         forecastDiv.append(forecast);
         iconDiv.append(icon);
         level1.append(iconDiv);
+        
         level2
             .append(temp)
             .append(forecastDiv);
@@ -494,11 +566,74 @@ function weatherModal () {
     return elem;
 }
 
+//DEV FUNCTION DELETE FOR PRODUCTION 
+function dummyCard () {
+    var elem = document.createElement('div');
+        elem.classList.add('grid-item');
+        elem.classList.add('grid-item--width1');
+        elem.classList.add('box');
+        elem.setAttribute('id', 'dummy');
+
+    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
+
+    elem.append(head);
+
+    return elem;
+}
+
+function pedometerModal (dateArr) {
+    var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var now = getNow();
+    var level = $('<div>').addClass('level');
+    for (var i=0; i<7; i++){
+
+        var item = $('<div>')
+            .addClass('level-item corners-rounded has-background-grey-lighter')
+            .css('margin', '5px')
+            .css('padding', '10px');
+
+        
+        var table = $('<table>').addClass('table is-fullwidth corners-rounded');
+        var thead = $('<thead>');
+        var tbody = $('<tbody>')
+        var row1 = $('<tr>');
+        var row2 = $('<tr>');
+        var th = $('<th>');
+        var td1 = $('<td>')
+            .addClass('has-text-centered');
+        var td2 = $('<td>').append('<p>steps</p>');
+
+        var date = $('<p>').append(week[i] + ',<br>' + dateArr[i]);
+        th.append(date);
+        
+        var steps = $('<h3>').addClass('subtitle is-3')
+            .html('10,245');
+        td1
+            .append(steps)
+            .append('<p>steps</p>');
+
+        row1.append(th);
+        row2.append(td1);
+
+        thead.append(row1);
+        tbody.append(row2);
+        
+        table
+            .append(thead)
+            .append(tbody);
+        
+        item.append(table);
+
+        level.append(item);
+    }
+
+    return level;
+}
 
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather());
+toAppend.push(addDaily(), addWeather(), dummyCard());
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
