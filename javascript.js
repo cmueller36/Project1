@@ -78,18 +78,114 @@ $(".dropdown-item").on("change",function(){
 
 
 
-//firebase data
+// Initialize Firebase
 var config = {
-    apiKey: "AIzaSyDoB53ra_Ww0RrOLHrUUADmGIMGMuKKZz8",
-    authDomain: "project1-91897.firebaseapp.com",
-    databaseURL: "https://project1-91897.firebaseio.com",
-    projectId: "project1-91897",
-    storageBucket: "project1-91897.appspot.com",
-    messagingSenderId: "593996265632"
-  };
-  firebase.initializeApp(config);
+    apiKey: "AIzaSyBBmBBRUZAr5nK4iW39KtxrjXiUPWyW1eQ",
+    authDomain: "project1-testdev.firebaseapp.com",
+    databaseURL: "https://project1-testdev.firebaseio.com",
+    projectId: "project1-testdev",
+    storageBucket: "project1-testdev.appspot.com",
+    messagingSenderId: "128017361927"
+};
+firebase.initializeApp(config);
 
 var database = firebase.database();
+
+
+// Initialize the FirebaseUI Widget using Firebase.  
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+// FirebaseUI config.
+var uiConfig = {
+    signInSuccessUrl: "./index.html",
+    signInOptions: [
+        // Leave the lines as is for the providers you want to offer your users.
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    ],
+};
+
+// The start method will wait until the DOM is loaded.
+ui.start('#firebaseui-auth-container', uiConfig);
+
+// if (ui.isPendingRedirect()) {
+//     ui.start('#firebaseui-auth-container', uiConfig);
+// };
+
+// Track the UID of the current user.  
+var currentUid = "";
+firebase.auth().onAuthStateChanged(function (user) {
+
+    // onAuthStateChanged listener triggers every time the user ID token changes.  
+    // This could happen when a new user signs in or signs out.  
+    // It could also happen when the current user ID token expires and is refreshed.  
+    if (user && user.uid != currentUid) {
+        // Update the UI when a new user signs in.  
+        // Otherwise ignore if this is a token refresh.  
+        // Update the current user UID.  
+        currentUid = user.uid;
+        console.log(currentUid);
+
+        var ref = database.ref();
+
+        ref.child(currentUid).orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
+            console.log(snapshot.val());
+            console.log(currentUid);
+            snapshot.forEach(function (data) {
+                $("#tablebody").append($("<tr><td>"
+                    + data.val().Calories + "</td><td>"
+                    + data.val().Notes
+                    + "</td></tr>"))
+            });
+        });
+
+    } else {
+        // Sign out operation. Reset the current user UID.  
+        currentUid = null;
+        console.log("no user signed in");
+    }
+});
+
+
+$("#logout").on("click", function (event) {
+    event.preventDefault();
+    firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+    }).catch(function (error) {
+        // An error happened.
+    });
+
+    $('.table tbody').remove();
+
+});
+
+
+
+
+
+
+var user = "";
+var calories = "";
+var notes = "";
+var temp = "";
+
+$("#submit").on("click", function (event) {
+
+
+    event.preventDefault();
+
+    user = $("#userName").val().trim();
+    calories = $("#userCalories").val().trim();
+    notes = $("#userNotes").val().trim();
+
+    temp = {
+        User: currentUid,
+        Calories: calories,
+        Notes: notes
+    }
+
+
+    database.ref(currentUid).push(temp);
+})
 
 //variables storing information relevant to Recipe API
 
@@ -118,106 +214,111 @@ var weatherAPI = "?apikey=YmtcFPorPCo5IQDz9HzhufW3JeeVaA2f";
 var weatherURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/329823" + weatherAPI;
 var weatherData = [];
 
-$.ajax({
-    url: weatherURL,
-    method: "GET"
-}).then(function(res){
-    console.log(res);
-    for(var i=0; i< res.DailyForecasts.length; i++) {
-        var data = res.DailyForecasts[i];
-        var day = {
-            icon: undefined,
-            forecast: data.Day.IconPhrase,
-            temp: data.Temperature.Maximum.Value
-        }
-        weatherData.push(day);
 
-        //get correct icon for weather forecast
-
-        switch(data.Day.Icon) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                day.icon = '<img src="assets/weather-icons/sun.svg" alt="sunny">'
-                break;
-            case 6:
-                day.icon = '<img src="assets/weather-icons/cloudy.svg"" alt="partly-cloudy">'
-                break;
-            case 7:
-            case 8:
-                day.icon = '<img src="assets/weather-icons/cloudy-1.svg" alt="cloudy">';
-                break;
-            case 11:
-                day.icon = '<img src="assets/weather-icons/fog-1.svg" alt="fog">';
-                break;
-            case 12:
-            case 13:
-                day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="showers">';
-                break; 
-            case 14:
-                day.icon = '<img src="assets/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
-                break;
-            case 15:
-            case 16:
-            case 17:
-            case 41:
-            case 42:
-                day.icon = '<img src="assets/weather-icons/thunder.svg" alt="thunder">';
-                break;
-            case 18:
-                day.icon = '<img src="assets/weather-icons/rain.svg" alt="rain">';
-                break;
-            case 19:
-            case 20:
-            case 21:
-            case 43:
-            case 44:
-                day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="flurries">';
-                break;
-            case 22:
-            case 23:
-                day.icon = '<img src="assets/weather-icons/snow.svg" alt="snow">';
-                break;
-            case 24:
-                day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="ice">';
-                break;
-            case 25:
-            case 26:
-            case 29:
-                day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="fog">';
-                break;
-            case 30:
-                day.icon = '<img src="assets/weather-icons/hot.svg" alt="hot">';
-                break;
-            case 31:
-                day.icon = '<img src="assets/weather-icons/thermometer.svg" alt="cold-thermometer">';
-                break;
-            case 32:
-                day.icon = '<img src="assets/weather-icons/wind.svg" alt="windy">';
-                break;
-            case 33:
-            case 34:
-                day.icon = '<img src="assets/weather-icons/full-moon-and-stars.svg" alt="moon">';
-                break;
-            case 35:
-            case 36:
-            case 37:
-            case 38:
-                day.icon = '<img src="assets/weather-icons/cloudy-2.svg" alt="moon-clouds">';
-                break;
-            case 39:
-            case 40:
-                day.icon = '<img src="assets/weather-icons/rain-2.svg" alt="raindrops">';
-                break;
-            default: 
-                day.icon = '<img src="assets/weather-icons/rainbow.svg" alt="rainbow"><p>Icon exception</p>';
-                break;
+function weather(){
+    $.ajax({
+        url: weatherURL,
+        method: "GET"
+    }).then(function(res){
+        console.log(res);
+        for(var i=0; i< res.DailyForecasts.length; i++) {
+            var data = res.DailyForecasts[i];
+            var day = {
+                icon: undefined,
+                forecast: data.Day.IconPhrase,
+                temp: data.Temperature.Maximum.Value
+            }
+            weatherData.push(day);
+    
+            //get correct icon for weather forecast
+    
+            switch(data.Day.Icon) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    day.icon = '<img src="assets/weather-icons/sun.svg" alt="sunny">'
+                    break;
+                case 6:
+                    day.icon = '<img src="assets/weather-icons/cloudy.svg"" alt="partly-cloudy">'
+                    break;
+                case 7:
+                case 8:
+                    day.icon = '<img src="assets/weather-icons/cloudy-1.svg" alt="cloudy">';
+                    break;
+                case 11:
+                    day.icon = '<img src="assets/weather-icons/fog-1.svg" alt="fog">';
+                    break;
+                case 12:
+                case 13:
+                    day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="showers">';
+                    break; 
+                case 14:
+                    day.icon = '<img src="assets/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
+                    break;
+                case 15:
+                case 16:
+                case 17:
+                case 41:
+                case 42:
+                    day.icon = '<img src="assets/weather-icons/thunder.svg" alt="thunder">';
+                    break;
+                case 18:
+                    day.icon = '<img src="assets/weather-icons/rain.svg" alt="rain">';
+                    break;
+                case 19:
+                case 20:
+                case 21:
+                case 43:
+                case 44:
+                    day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="flurries">';
+                    break;
+                case 22:
+                case 23:
+                    day.icon = '<img src="assets/weather-icons/snow.svg" alt="snow">';
+                    break;
+                case 24:
+                    day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="ice">';
+                    break;
+                case 25:
+                case 26:
+                case 29:
+                    day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="fog">';
+                    break;
+                case 30:
+                    day.icon = '<img src="assets/weather-icons/hot.svg" alt="hot">';
+                    break;
+                case 31:
+                    day.icon = '<img src="assets/weather-icons/thermometer.svg" alt="cold-thermometer">';
+                    break;
+                case 32:
+                    day.icon = '<img src="assets/weather-icons/wind.svg" alt="windy">';
+                    break;
+                case 33:
+                case 34:
+                    day.icon = '<img src="assets/weather-icons/full-moon-and-stars.svg" alt="moon">';
+                    break;
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                    day.icon = '<img src="assets/weather-icons/cloudy-2.svg" alt="moon-clouds">';
+                    break;
+                case 39:
+                case 40:
+                    day.icon = '<img src="assets/weather-icons/rain-2.svg" alt="raindrops">';
+                    break;
+                default: 
+                    day.icon = '<img src="assets/weather-icons/rainbow.svg" alt="rainbow"><p>Icon exception</p>';
+                    break;
+            }
         }
-    }
-    console.log(weatherData);
-    $('#weather-icon').html(weatherData[0].icon);
-    $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
-    $('#forecast').text(weatherData[0].forecast);
-});
+        console.log(weatherData);
+        $('#weather-icon').html(weatherData[0].icon);
+        $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
+        $('#forecast').text(weatherData[0].forecast);
+    });
+};
+
+weather();
