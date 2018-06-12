@@ -98,8 +98,15 @@ html, body {
 }
 .card-title-weather {
     height: 50px;
-
 }
+
+.meals-div-results {
+    max-height: 300px;
+    max-width: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 /*scrollbars*/
 
 ::-webkit-scrollbar {
