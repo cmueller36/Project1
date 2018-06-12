@@ -45,6 +45,10 @@ html, body {
     overflow-y: auto;
 }
 
+.table-cell--height2{
+    height: 300px;
+}
+
 .corners-rounded {
     border-radius: 4px;
 }
@@ -71,12 +75,26 @@ html, body {
     width: 90%;
 }
 
-input {
-    width: 100%;
+.fa-times:hover{
+    cursor: pointer;
+
 }
 
-.control{
-    width: 50%;
+.icon-weather{
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+}
+
+.card-weather {
+    width: 175px;
+    padding: 10px;
+    margin: 5px;
+    height: 250px;
+}
+.card-title-weather {
+    height: 50px;
+
 }
 /*scrollbars*/
 
