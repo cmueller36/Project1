@@ -772,12 +772,12 @@ function mealsModal () {
     appendMeals (favArr, ancestorFav);
     appendMeals(sugArr, ancestorSug);
 
-    var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Keto', 'Paleo', 'Kosher', 'Halal'];
+    var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Paleo', 'Kosher'];
 
     var btnGroup = $('<div>').addClass('buttons');
     
     filters.forEach(function(filter) {
-        var button = $('<button>').addClass('button is-primary is-outlined');
+        var button = $('<button>').addClass('button is-primary is-outlined dietQuery');
             button.attr('data-selected', 'false');
             button.text(filter);
             btnGroup.append(button);

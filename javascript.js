@@ -152,16 +152,18 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 //variables storing information relevant to Recipe API
 
-$("#run").on("click", function (event) {
-
+$(document).on("click", ".dietQuery", function(event) {
     event.preventDefault();
 
-    var recipeSearch = "chicken";
+    var dietQuery = $(this).text();
+
+    console.log(dietQuery);
+
+    var recipeSearch = dietQuery;
     var recipeAppId = "&app_id=84dfbeab";
     var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
     var numberOfRecipes = "&from=0&to=20";
-    var caloriesQuery = "&calories=" + activitiesSummary[0].calories; //add data from Human API per activity
-    var health = "&healthLabel=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
+    var caloriesQuery = "&calories=" + "500"; //add data from Human API per activity
     var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery;
 
     $.ajax({
@@ -170,8 +172,30 @@ $("#run").on("click", function (event) {
     }).then(function (response) {
         console.log(response)
     })
+    
+})
 
-});
+// $("#run").on("click", function (event) {
+
+//     event.preventDefault();
+
+//     var recipeSearch = "chicken";
+//     var recipeAppId = "&app_id=84dfbeab";
+//     var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
+//     var numberOfRecipes = "&from=0&to=20";
+//     var caloriesQuery = "&calories=" + activitiesSummary[0].calories; //add data from Human API per activity
+//     var diet = dietQuery;
+//     var health = "&healthLabel=" + diet; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
+//     var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery + health;
+
+//     $.ajax({
+//         url: queryURL,
+//         method: "GET"
+//     }).then(function (response) {
+//         console.log(response)
+//     })
+
+// });
 
 
 
@@ -281,146 +305,12 @@ $.ajax({
                     break;
             }
         }
-<<<<<<< HEAD
-        weatherData.push(day);
-
-        //get correct icon for weather forecast
-
-        switch(data.Day.Icon) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                day.icon = '<img src="assets/weather-icons/sun.svg" alt="sunny">'
-                break;
-            case 6:
-                day.icon = '<img src="assets/weather-icons/cloudy.svg"" alt="partly-cloudy">'
-                break;
-            case 7:
-            case 8:
-                day.icon = '<img src="assets/weather-icons/cloudy-1.svg" alt="cloudy">';
-                break;
-            case 11:
-                day.icon = '<img src="assets/weather-icons/fog-1.svg" alt="fog">';
-                break;
-            case 12:
-            case 13:
-                day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="showers">';
-                break; 
-            case 14:
-                day.icon = '<img src="assets/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
-                break;
-            case 15:
-            case 16:
-            case 17:
-            case 41:
-            case 42:
-                day.icon = '<img src="assets/weather-icons/thunder.svg" alt="thunder">';
-                break;
-            case 18:
-                day.icon = '<img src="assets/weather-icons/rain.svg" alt="rain">';
-                break;
-            case 19:
-            case 20:
-            case 21:
-            case 43:
-            case 44:
-                day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="flurries">';
-                break;
-            case 22:
-            case 23:
-                day.icon = '<img src="assets/weather-icons/snow.svg" alt="snow">';
-                break;
-            case 24:
-                day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="ice">';
-                break;
-            case 25:
-            case 26:
-            case 29:
-                day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="fog">';
-                break;
-            case 30:
-                day.icon = '<img src="assets/weather-icons/hot.svg" alt="hot">';
-                break;
-            case 31:
-                day.icon = '<img src="assets/weather-icons/thermometer.svg" alt="cold-thermometer">';
-                break;
-            case 32:
-                day.icon = '<img src="assets/weather-icons/wind.svg" alt="windy">';
-                break;
-            case 33:
-            case 34:
-                day.icon = '<img src="assets/weather-icons/full-moon-and-stars.svg" alt="moon">';
-                break;
-            case 35:
-            case 36:
-            case 37:
-            case 38:
-                day.icon = '<img src="assets/weather-icons/cloudy-2.svg" alt="moon-clouds">';
-                break;
-            case 39:
-            case 40:
-                day.icon = '<img src="assets/weather-icons/rain-2.svg" alt="raindrops">';
-                break;
-            default: 
-                day.icon = '<img src="assets/weather-icons/rainbow.svg" alt="rainbow"><p>Icon exception</p>';
-                break;
-        }
-    }
-    console.log(weatherData);
-    $('#weather-icon').html(weatherData[0].icon);
-    $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
-    $('#forecast').text(weatherData[0].forecast);
-});
-
-$('#add-activity').on('click', function () {
-    $('#activityForm').find('.help').remove();
-
-    var newItem = $('<tr>');
-
-    var activity = $('<td>').text($('#newActivity').val().trim());
-
-    var duration = $('<td>');
-
-    var close = $('<td>').append('<i class="fas fa-times"></i>');
-
-    var units = $('#unitsDrop').attr('data-selected');
-
-    if (units === '0') {
-        duration.text($('#newDuration').val().trim() + ' Reps');
-    }else if(units === '1') {
-        duration.text($('#newDuration').val().trim() + ' Mins');
-    }else{
-        return $('#activityForm').append('<p class="help is-danger">Please select a unit</p>');
-    }
-
-    newItem
-        .append(activity)
-        .append(duration)
-        .append(close);
-
-    $('#itemsList').append(newItem);
-
-    var activityObject = {
-        activity: activity,
-        reps: duration
-    };
-});
-
-database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-       
-    var activity = childSnapshot.val().activity;
-    var duration = childSnapshot.val().duration;
-
-    console.log(activity);
-    console.log(duration);
-
-})
-=======
         console.log(weatherData);
         $('#weather-icon').html(weatherData[0].icon);
         $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
         $('#forecast').text(weatherData[0].forecast);
-    });
->>>>>>> a1607ca6acf46c079b90437c6d025c8a631e02ff
+});
+
+
+database.ref().on();
+
