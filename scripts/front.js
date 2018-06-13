@@ -110,7 +110,9 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
 
                 //collect items for Firebase
                 var fbActivity = $("#newActivity").val().trim();
+                var fbDuration = $("#newDuration").val().trim();
                 console.log(fbActivity);
+                console.log(fbDuration);
 
                 //store items in temp in JSON
                 temp = {
@@ -120,7 +122,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 }
         
                 //send items to firebase
-                database.ref(currentUid).push(temp);
+                database.ref(currentUid+"/activty").push(temp);
             });
 
             $(document).on('click', '.fa-times', function () {

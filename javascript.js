@@ -157,9 +157,6 @@ $("#logout").on("click", function (event) {
 
 });
 
-//storage of To-Do Activities
-
-
 
 //variables storing information relevant to Recipe API
 $("#run").on("click", function (event) {
