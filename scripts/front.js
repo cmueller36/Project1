@@ -630,6 +630,7 @@ function pedometerModal (dateArr) {
 
     return level;
 }
+
 function addMeals() {
     var elem = document.createElement("div");
         elem.classList.add('grid-item');
@@ -637,11 +638,10 @@ function addMeals() {
         elem.classList.add('box');
       
     
-    var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="sunny-icon">', 'Meals');
+    var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="sunny-icon">', 'Meals', true);
     
     
     var body = document.createElement('div');
-        body.classList.add('columns');
     
     var search = document.createElement('div');
         search.classList.add('meal-input');
@@ -656,7 +656,7 @@ function addMeals() {
  
 
     var submitBtn = document.createElement('button');
-    submitBtn.classList.add('is-level-right');
+        submitBtn.classList.add('is-level-right');
     var submitTxt = document.createTextNode("Search Meals")
         submitBtn.classList.add('input');
         submitBtn.classList.add('grid-item--width1');
@@ -666,40 +666,86 @@ function addMeals() {
 
     search.appendChild(submitBtn);
      
-    var mealsResults = ["Result1, Result2, Result3"];
-    for (var j= 0; j <3; j++) {
+    var mealsResults = [
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+    ];
+    for (var j= 0; j < mealsResults.length; j++) {
+
+        if(j%4 === 0) {
+            var level = document.createElement('div');
+                level.classList.add('level');
+            body.append(level);
+        }else {
+
+        }
+        
         var favMeals = document.createElement('div');
-            favMeals.classList.add('column');
-            favMeals.classList.add('meal-column');
+            favMeals.classList.add('level-item');
             favMeals.classList.add('corners-rounded');
             favMeals.classList.add('has-background-grey-lighter');
+            favMeals.classList.add('padding--1');
+
         var table = document.createElement('table');
             table.classList.add('table');
             table.classList.add('is-fullwidth');
             table.classList.add('corners-rounded');
+
         var thead = document.createElement('thead');
+
         var tbody = document.createElement('tbody');
+        
         var row1 = document.createElement('tr');
-            row1.setAttribute('meal-results', j);
+        var row2 = document.createElement('tr');
             
-            row1.innerHTML = `<th><span>Meal</span> <span>Results</span></th>`;
+        var th = document.createElement('th');
+        var resultTitle = document.createTextNode(mealsResults[j].name);
+            th.appendChild(resultTitle);
+
+        var td = document.createElement('td');
+        var p2 = document.createElement('p');
+        var resultText = document.createTextNode(mealsResults[j].text);
+            p2.appendChild(resultText);
+            td.appendChild(p2);
+
+        row1.append(th);
+        row2.append(td);
 
         thead.append(row1);
+        tbody.append(row2);
         table.append(thead);
         table.append(tbody);
         favMeals.append(table);
         
 
-        body.append(favMeals);  
+        level.append(favMeals);  
         
     }
     
-            elem.append(head);
-            elem.append(search)
-            elem.append(body);
-            elem.append(submitBtn);
+    elem.append(head);
+    elem.append(search)
+    elem.append(body);
+    elem.append(submitBtn);
             
-            return elem;
+    return elem;
 
 }
 

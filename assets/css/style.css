@@ -138,6 +138,10 @@ html, body {
 
 }
 
+.padding--1{
+    padding: 10px;
+}
+
 .submitBtn {
     border: hsl(0, 0%, 86%) solid 10px;
     border-radius: 4px;
