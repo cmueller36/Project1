@@ -579,7 +579,7 @@ function dummyCard () {
         elem.classList.add('box');
         elem.setAttribute('id', 'dummy');
 
-    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'calories', true);
+    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
 
     elem.append(head);
 
