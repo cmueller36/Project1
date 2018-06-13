@@ -128,23 +128,16 @@ html, body {
 }
 
 .meal-input {
-    padding: 10px;
-    width: 500px;
-    border: hsl(0, 0%, 86%) solid 8px;
-    border-radius: 4px;
-    margin: 10px;
-    margin-left: -11px;
-    margin-bottom: 20px;
-
+    width: 50%;
 }
 
-.padding--1{
-    padding: 10px;
-}
 
+.meal-results {
+    padding: 10px;
+    margin: 5px;
+    width: 25%;
+}
 .submitBtn {
     border: hsl(0, 0%, 86%) solid 10px;
     border-radius: 4px;
-   
-
 }
