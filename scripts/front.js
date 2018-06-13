@@ -93,10 +93,12 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
 
                 var units = $('#unitsDrop').attr('data-selected');
 
+                var fbUnits = "";
+
                 if (units === '0') {
-                    duration.text($('#newDuration').val().trim() + ' Reps');
+                    fbUnits = duration.text($('#newDuration').val().trim() + ' Reps');
                 }else if(units === '1') {
-                    duration.text($('#newDuration').val().trim() + ' Mins');
+                    fbUnits = duration.text($('#newDuration').val().trim() + ' Mins');
                 }else{
                     return $('#activityForm').append('<p class="help is-danger">Please select a unit</p>');
                 }
@@ -111,18 +113,20 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 //collect items for Firebase
                 var fbActivity = $("#newActivity").val().trim();
                 var fbDuration = $("#newDuration").val().trim();
+
                 console.log(fbActivity);
                 console.log(fbDuration);
+                console.log(fbUnits);
 
                 //store items in temp in JSON
-                temp = {
-                    User: currentUid,
-                    Activity: activity.data(),
-                    Duration: duration.data(),
-                }
+                // temp = {
+                //     User: currentUid,
+                //     Activity: fbActivity,
+                //     Duration: fbDuration
+                // }
         
-                //send items to firebase
-                database.ref(currentUid+"/activty").push(temp);
+                // //send items to firebase
+                // database.ref(currentUid+"/activty").push(temp);
             });
 
             $(document).on('click', '.fa-times', function () {
@@ -833,7 +837,7 @@ function mealsModal () {
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather(), dummyCard(), addCalorieCard());
+toAppend.push(addDaily(), addWeather(), dummyCard());
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
