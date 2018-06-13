@@ -126,3 +126,21 @@ html, body {
 
     display: none;
 }
+
+.meal-input {
+    padding: 10px;
+    width: 500px;
+    border: hsl(0, 0%, 86%) solid 8px;
+    border-radius: 4px;
+    margin: 10px;
+    margin-left: -11px;
+    margin-bottom: 20px;
+
+}
+
+.submitBtn {
+    border: hsl(0, 0%, 86%) solid 10px;
+    border-radius: 4px;
+   
+
+}

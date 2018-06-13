@@ -581,6 +581,7 @@ function dummyCard () {
     return elem;
 }
 
+
 function pedometerModal (dateArr) {
     var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var now = getNow();
@@ -629,11 +630,84 @@ function pedometerModal (dateArr) {
 
     return level;
 }
+function addMeals() {
+    var elem = document.createElement("div");
+        elem.classList.add('grid-item');
+        elem.classList.add('grid-item--width5');
+        elem.classList.add('box');
+      
+    
+    var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="sunny-icon">', 'Meals');
+    
+    
+    var body = document.createElement('div');
+        body.classList.add('columns');
+    
+    var search = document.createElement('div');
+        search.classList.add('meal-input');
+        search.classList.add('grid-item--width4');
+        search.classList.add('control');
+        search.classList.add('is-level-left');
+        search.classList.add('border-has-background-grey-lighter');
+
+    var searchRecipes = document.createTextNode("Search Recipes");
+
+        search.appendChild(searchRecipes);
+ 
+
+    var submitBtn = document.createElement('button');
+    submitBtn.classList.add('is-level-right');
+    var submitTxt = document.createTextNode("Search Meals")
+        submitBtn.classList.add('input');
+        submitBtn.classList.add('grid-item--width1');
+        submitBtn
+ 
+    submitBtn.appendChild(submitTxt);
+
+    search.appendChild(submitBtn);
+     
+    var mealsResults = ["Result1, Result2, Result3"];
+    for (var j= 0; j <3; j++) {
+        var favMeals = document.createElement('div');
+            favMeals.classList.add('column');
+            favMeals.classList.add('meal-column');
+            favMeals.classList.add('corners-rounded');
+            favMeals.classList.add('has-background-grey-lighter');
+        var table = document.createElement('table');
+            table.classList.add('table');
+            table.classList.add('is-fullwidth');
+            table.classList.add('corners-rounded');
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+        var row1 = document.createElement('tr');
+            row1.setAttribute('meal-results', j);
+            
+            row1.innerHTML = `<th><span>Meal</span> <span>Results</span></th>`;
+
+        thead.append(row1);
+        table.append(thead);
+        table.append(tbody);
+        favMeals.append(table);
+        
+
+        body.append(favMeals);  
+        
+    }
+    
+            elem.append(head);
+            elem.append(search)
+            elem.append(body);
+            elem.append(submitBtn);
+            
+            return elem;
+
+}
+
 
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather(), dummyCard());
+toAppend.push(addDaily(), addWeather(), addMeals(), dummyCard()); 
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
