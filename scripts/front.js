@@ -96,9 +96,11 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 var fbUnits = "";
 
                 if (units === '0') {
-                    fbUnits = duration.text($('#newDuration').val().trim() + ' Reps');
+                    duration.text($('#newDuration').val().trim() + ' Reps');
+                    fbUnits = "Reps";
                 }else if(units === '1') {
-                    fbUnits = duration.text($('#newDuration').val().trim() + ' Mins');
+                    duration.text($('#newDuration').val().trim() + ' Mins');
+                    fbUnits = "Mins";
                 }else{
                     return $('#activityForm').append('<p class="help is-danger">Please select a unit</p>');
                 }
@@ -119,14 +121,14 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 console.log(fbUnits);
 
                 //store items in temp in JSON
-                // temp = {
-                //     User: currentUid,
-                //     Activity: fbActivity,
-                //     Duration: fbDuration
-                // }
+                temp = {
+                    User: currentUid,
+                    Activity: fbActivity,
+                    Duration: fbDuration+" "+fbUnits
+                }
         
-                // //send items to firebase
-                // database.ref(currentUid+"/activty").push(temp);
+                //send items to firebase
+                database.ref(currentUid+"/activty").push(temp);
             });
 
             $(document).on('click', '.fa-times', function () {
@@ -995,11 +997,7 @@ function mealsModal () {
 //appends Panels to the dashboard
 var toAppend = [];
 
-<<<<<<< HEAD
-toAppend.push(addDaily(), addWeather(), dummyCard());
-=======
 toAppend.push(addDaily(), addWeather(), dummyCard(), addMeals()); 
->>>>>>> 2e0f15ffa7c680aba5a91c164881c9894fe4f70d
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
