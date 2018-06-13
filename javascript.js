@@ -17,70 +17,16 @@ var iframeJasmine = "https://app.powerbi.com/view?r=eyJrIjoiZDhjZTNiNTUtNzliNi00
 
 var useriframe = "";
 
+//user ids from firebase
+var uidChris = "lJLzL33avkdSXjBz9pNKnAe0Dug2";
+var uidClaire = "stRYWlF1dJYish2vDnfNZEGVt7W2";
+var uidJordan = "VTn0jLWUetgMwJmUce0Cf3mWtuY2";
+var uidAnna = "dWKyQd8BGof1eOfrFXRJdrJuFY92";
+var uidJasmine = "AarJudUzomQymI5HS72yehqoBAX2";
+
 
 
 var activitiesSummary = [];
-
-
-
-
-//User dropdown selection
-$(".dropdown-item").on("change", function () {
-    userSelected = $(this).val();
-
-    if (userSelected === "Chris") {
-        userToken = tokenChris;
-        useriframe = iframeChris;
-    }
-
-    if (userSelected === "Anna") {
-        userToken = tokenAnna;
-        useriframe = iframeAnna;
-    }
-
-    if (userSelected === "Jordan") {
-        userToken = tokenJordan;
-        useriframe = iframeJordan;
-    }
-
-    if (userSelected === "Claire") {
-        userToken = tokenClaire;
-        useriframe = iframeClaire;
-    }
-
-    if (userSelected === "Jasmine") {
-        userToken = tokenJasmine;
-        useriframe = iframeJasmine;
-    }
-
-    var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
-
-    $.ajax({
-        url: summaryURL,
-        method: "GET"
-    }).then(function (response) {
-        //this grabs the first index in the object array and gets the calories for it
-        activitiesSummary = response;
-        console.log(response);
-
-        activitiesSummary.forEach(function (value) {
-            console.log('this: ', value);
-            var entry = document.createElement('div');
-            entry.classList.add('has-background-grey-lighter');
-            entry.classList.add('corners-rounded');
-            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
-            $('#completed0').append(entry);
-        });
-    });
-
-    console.log(activitiesSummary);
-    $("#powerbiIframe").attr("src", useriframe);
-});
-
-
-
-
-
 
 
 // Initialize Firebase
@@ -112,12 +58,9 @@ var uiConfig = {
 // The start method will wait until the DOM is loaded.
 ui.start('#firebaseui-auth-container', uiConfig);
 
-// if (ui.isPendingRedirect()) {
-//     ui.start('#firebaseui-auth-container', uiConfig);
-// };
-
 // Track the UID of the current user.  
 var currentUid = "";
+//Login
 firebase.auth().onAuthStateChanged(function (user) {
 
     // onAuthStateChanged listener triggers every time the user ID token changes.  
@@ -148,10 +91,77 @@ firebase.auth().onAuthStateChanged(function (user) {
         currentUid = null;
         console.log("no user signed in");
     }
+
+    //once the user is authenticated
+
+    if (currentUid === uidChris) {
+        userToken = tokenChris;
+        useriframe = iframeChris;
+    }
+
+    if (currentUid === uidAnna) {
+        userToken = tokenAnna;
+        useriframe = iframeAnna;
+    }
+
+    if (currentUid === uidJordan) {
+        userToken = tokenJordan;
+        useriframe = iframeJordan;
+    }
+
+    if (currentUid === uidClaire) {
+        userToken = tokenClaire;
+        useriframe = iframeClaire;
+    }
+
+    if (currentUid === uidJasmine) {
+        userToken = tokenJasmine;
+        useriframe = iframeJasmine;
+    }
+
+    var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
+
+    $.ajax({
+        url: summaryURL,
+        method: "GET"
+    }).then(function (response) {
+        //this grabs the first index in the object array and gets the calories for it
+        activitiesSummary = response;
+        console.log(response);
+
+        activitiesSummary.forEach(function (value) {
+            //console.log('this: ', value);
+            var entry = document.createElement('div');
+            entry.classList.add('has-background-grey-lighter');
+            entry.classList.add('corners-rounded');
+            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
+            $('#completed0').append(entry);
+        });
+    });
+
+    console.log(useriframe);
+    $("#powerbiIframe").attr("src", useriframe);
 });
 
-//variables storing information relevant to Recipe API
+//logout of firebase
+$("#logout").on("click", function (event) {
+    firebase.initializeApp(config);
+    console.log("logout");
+    event.preventDefault();
+    firebase.auth().signOut().then(function () {
+        console.log("Sign-out successful");
+    }).catch(function (error) {
+        console.log(error);
+        console.log("An error happened");
+    });
 
+});
+
+//storage of To-Do Activities
+
+
+
+//variables storing information relevant to Recipe API
 $("#run").on("click", function (event) {
 
     event.preventDefault();
@@ -176,11 +186,10 @@ $("#run").on("click", function (event) {
 
 
 
-
+//weather data
 var weatherAPI = "?apikey=YmtcFPorPCo5IQDz9HzhufW3JeeVaA2f";
 var weatherURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/329823" + weatherAPI;
 var weatherData = [];
-
 
 $.ajax({
     url: weatherURL,

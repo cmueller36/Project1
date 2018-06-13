@@ -80,6 +80,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
 
             //Grab data append and update database
             $('#add-activity').on('click', function () {
+                event.preventDefault();
                 $('#activityForm').find('.help').remove();
 
                 var newItem = $('<tr>');
@@ -106,6 +107,20 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                     .append(close);
 
                 $('#itemsList').append(newItem);
+
+                //collect items for Firebase
+                var fbActivity = $("#newActivity").val().trim();
+                console.log(fbActivity);
+
+                //store items in temp in JSON
+                temp = {
+                    User: currentUid,
+                    Activity: activity.data(),
+                    Duration: duration.data(),
+                }
+        
+                //send items to firebase
+                database.ref(currentUid).push(temp);
             });
 
             $(document).on('click', '.fa-times', function () {
