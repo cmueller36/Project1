@@ -168,7 +168,13 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 .append(title2)
                 .append(level);
             break;
-
+        case 'Meals':
+            var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Meals', false);
+            
+            $('#modalDiv')
+                .append(head)
+                .append(mealsModal());
+            break;    
     }
 });
 
@@ -573,7 +579,7 @@ function dummyCard () {
         elem.classList.add('box');
         elem.setAttribute('id', 'dummy');
 
-    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
+    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Meals', true);
 
     elem.append(head);
 
@@ -629,6 +635,7 @@ function pedometerModal (dateArr) {
 
     return level;
 }
+
 
 function addMeals() {
     var elem = document.createElement("div");
@@ -785,7 +792,183 @@ function addMeals() {
     elem.append(body);
             
     return elem;
+}
 
+function mealsModal () {
+    //list of favorited recipiecs 
+    //list of random suggested recipies for calorie meal goal
+    //list of button filters like gluten-free, vegetarian...ect.
+    //button filters are user settings that are stored and activated from the user database
+    //3 levels
+    var container = $('<div>');
+    var title1 = $('<h3>').addClass('title is-4').text('Favorites');
+    var title2 = $('<h3>').addClass('title is-4').text('Suggested');
+    var title3 = $('<h3>').addClass('title is-4').text('Filter');
+
+    var level1 = $('<div>').addClass('corners-rounded has-background-grey-light')
+        .css('margin-bottom', '50px').css('padding', '10px');
+    var level2 = $('<div>').addClass('corners-rounded has-background-grey-light')
+        .css('margin-bottom', '50px').css('padding', '10px');
+    var level3 = $('<div>').addClass('level')
+        .css('margin-bottom', '50px').css('padding', '10px');;
+    
+    //favorites
+    var ancestorFav = $('<div>').addClass('tile is-ancestor is-vertical');
+    var ancestorSug = $('<div>').addClass('tile is-ancestor is-vertical');
+    
+    var favArr = [
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+        {
+            name: "noodles", 
+            description: 'boil some water to start making these fantastically bland noodles',
+            url: 'URL HERE'
+        },
+
+    ]
+
+    var sugArr = [
+        {
+            name: 'po-ta-toes', 
+            description: 'boil em, mash em, stick em in a stew po-ta-toes',
+            URL: 'URL HERE'
+        },
+        {
+            name: 'po-ta-toes', 
+            description: 'boil em, mash em, stick em in a stew po-ta-toes',
+            URL: 'URL HERE'
+        },
+        {
+            name: 'po-ta-toes', 
+            description: 'boil em, mash em, stick em in a stew po-ta-toes',
+            URL: 'URL HERE'
+        },
+        {
+            name: 'po-ta-toes', 
+            description: 'boil em, mash em, stick em in a stew po-ta-toes',
+            URL: 'URL HERE'
+        },
+        {
+            name: 'po-ta-toes', 
+            description: 'boil em, mash em, stick em in a stew po-ta-toes',
+            URL: 'URL HERE'
+        },
+        {
+            name: 'po-ta-toes', 
+            description: 'boil em, mash em, stick em in a stew po-ta-toes',
+            URL: 'URL HERE'
+        },
+        {
+            name: 'po-ta-toes', 
+            description: 'boil em, mash em, stick em in a stew po-ta-toes',
+            URL: 'URL HERE'
+        },
+    ]
+
+    //takes an array of suggested recipies and appends them to the appropriate ancestor
+    function appendMeals (arr, ancestor) {
+        for (var i=0; i<arr.length; i++){
+            if(i%4===0){
+                var parent = $('<div>').addClass('tile is-parent');
+                    parent.attr('id', 'parent' + i);
+                ancestor.append(parent);
+                
+            }
+            var tileContents = $('<div>').addClass('corners-rounded has-background-grey-lighter').css('margin', '5px').css('padding', '10px');
+            var tile = $('<div>').addClass('tile is-child is-3');
+                tile.css('margin', '10px');    
+            var title = $('<h3>').addClass('title is-5').text(arr[i].name);
+            var snippet = $('<p>').text(arr[i].description);
+    
+            tileContents
+                .append(title)
+                .append(snippet);
+    
+            tile.append(tileContents);
+            parent.append(tile);
+        }
+    }
+    
+    appendMeals (favArr, ancestorFav);
+    appendMeals(sugArr, ancestorSug);
+
+    var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Keto', 'Paleo', 'Kosher', 'Halal'];
+
+    var btnGroup = $('<div>').addClass('buttons');
+    
+    filters.forEach(function(filter) {
+        var button = $('<button>').addClass('button is-primary is-outlined');
+            button.attr('data-selected', 'false');
+            button.text(filter);
+            btnGroup.append(button);
+    });
+
+    $('.buttons > .button').on('click', function(){
+        var state = $(this).attr('data-selected');
+        if(state === 'false'){
+            $(this).attr('data-selected', 'true');
+            $(this).removeClass('is-outlined');
+        }else{
+            $(this).attr('data-selected', 'false');
+            $(this).addClass('is-outlined');
+        }
+        console.log($(this).attr('data-selected'));
+    });
+
+    level1.append(ancestorFav);
+    level2.append(ancestorSug);
+    level3.append(btnGroup);
+  
+
+    //filters
+    
+    container
+        .append(title1)
+        .append(level1)
+        .append(title2)
+        .append(level2)
+        .append(title3)
+        .append(level3);
+    
+    return container;
 }
 
 //appends Panels to the dashboard
