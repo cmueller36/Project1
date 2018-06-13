@@ -816,7 +816,7 @@ function mealsModal () {
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather(), dummyCard());
+toAppend.push(addDaily(), addWeather(), dummyCard(), addCalorieCard());
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
