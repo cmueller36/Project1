@@ -182,7 +182,6 @@ $('#modal-close').on('click', function() {
 function createPanelHead (icon, title, expand){
     //argument icon is a string containing icon html
     //title is a string containing the title text
-
     //create structure using bulma level class
     var header = document.createElement('div');
         header.classList.add('level');
