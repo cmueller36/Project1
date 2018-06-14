@@ -75,6 +75,15 @@ $(".dropdown-item").on("change", function () {
             entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
             $('#completed0').append(entry);
         });
+<<<<<<< HEAD
+=======
+    });
+
+    console.log(activitiesSummary);
+    $("#powerbiIframe").attr("src", useriframe);
+});
+
+>>>>>>> f45e8ce13ac182327f4c22df7218f772ae224b47
 
         //generates users iFrame
         $("#powerbiIframe").attr("src", useriframe);
@@ -98,6 +107,7 @@ $(".dropdown-item").on("change", function () {
     };
     firebase.initializeApp(config);
 
+<<<<<<< HEAD
     var database = firebase.database();
 
 
@@ -243,6 +253,10 @@ $(".dropdown-item").on("change", function () {
             currentUid = null;
             console.log("no user signed in");
         }
+=======
+// Initialize the FirebaseUI Widget using Firebase.  
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
+>>>>>>> f45e8ce13ac182327f4c22df7218f772ae224b47
 
         //once the user is authenticated
 
@@ -346,7 +360,6 @@ $(".dropdown-item").on("change", function () {
     }).then(function (res) {
         console.log(res);
         for (var i = 0; i < res.DailyForecasts.length; i++) {
-
             var data = res.DailyForecasts[i];
             var day = {
                 icon: undefined,
@@ -355,11 +368,9 @@ $(".dropdown-item").on("change", function () {
             }
             weatherData.push(day);
 
-
             //get correct icon for weather forecast
 
             switch (data.Day.Icon) {
-
                 case 1:
                 case 2:
                 case 3:
@@ -380,7 +391,6 @@ $(".dropdown-item").on("change", function () {
                 case 12:
                 case 13:
                     day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="showers">';
-
                     break;
                 case 14:
                     day.icon = '<img src="assets/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
@@ -437,9 +447,7 @@ $(".dropdown-item").on("change", function () {
                 case 40:
                     day.icon = '<img src="assets/weather-icons/rain-2.svg" alt="raindrops">';
                     break;
-
                 default:
-
                     day.icon = '<img src="assets/weather-icons/rainbow.svg" alt="rainbow"><p>Icon exception</p>';
                     break;
             }
@@ -448,6 +456,10 @@ $(".dropdown-item").on("change", function () {
         $('#weather-icon').html(weatherData[0].icon);
         $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
         $('#forecast').text(weatherData[0].forecast);
+<<<<<<< HEAD
     })
 
 })
+=======
+    });
+>>>>>>> f45e8ce13ac182327f4c22df7218f772ae224b47
