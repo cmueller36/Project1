@@ -60,6 +60,7 @@ ui.start('#firebaseui-auth-container', uiConfig);
 // Track the UID of the current user.  
 var currentUid = "";
 var fbActivities = [];
+
 firebase.auth().onAuthStateChanged(function (user) {
 
     // onAuthStateChanged listener triggers every time the user ID token changes.  
@@ -75,7 +76,15 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         ref.child(currentUid).child("activty").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
             console.log(snapshot.val());
-            fbActivities.push(snapshot.val());
+            //fbActivities.push(snapshot.val());
+
+            var activitiesEntry = Object.entries(snapshot.val());
+            console.log(activitiesEntry);
+            activitiesEntry.forEach(function (entry) {
+                fbActivities.push(entry[1]);
+            });
+            appendActivities(fbActivities);
+            
         });
 
     } else {
@@ -114,18 +123,24 @@ firebase.auth().onAuthStateChanged(function (user) {
         url: summaryURL,
         method: "GET"
     }).then(function (response) {
-        //this grabs the first index in the object array and gets the calories for it
-        activitiesSummary = response;
         console.log(response);
+        activitiesSummary = [];
+        var days = parseInt(moment().format('d')) + 1;
+
+        for (var i=0; i<days; i++){
+            activitiesSummary.push(response[i]);
+        }
+        //append relevent card data
+        //calories card
+        $('#caloriesToday').text(activitiesSummary[0].calories);
+
+        $('.grid').masonry();
+        //reverse array to append the data to modals easier
+        activitiesSummary.reverse();
+        console.log('activities Summary', activitiesSummary);
+        
+        
     
-        activitiesSummary.forEach(function (value) {
-            //console.log('this: ', value);
-            var entry = document.createElement('div');
-            entry.classList.add('has-background-grey-lighter');
-            entry.classList.add('corners-rounded');
-            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
-            $('#completed0').append(entry);
-        });
     });
     
     $("#powerbiIframe").attr("src", useriframe);
