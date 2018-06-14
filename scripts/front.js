@@ -957,6 +957,56 @@ function mealsModal () {
     return container;
 }
 
+//Calorie Card
+function addCalorieCard () {
+    var elem = document.createElement('div');
+    elem.classList.add('grid-item');
+    elem.classList.add('grid-item--width1');
+    elem.classList.add('box');
+
+
+    //Calorie card head
+    var head = createPanelHead('<img src= "assets/panel-icons/man.svg" alt="burnMan">', 'Calories', true);
+    var title2 = document.createElement('h3');
+        title2.classList.add('title');-
+        title2.classList.add('is-5');
+        title2.append(document.createTextNode('Calories Count'));
+
+    //Calorie card body
+    var cardBody = document.createElement('div');
+        cardBody.classList.add('level');
+
+    //Create 2 caloric elements: burned and goal to add content
+    var burnedCalories = document.createElement('div');
+        burnedCalories.classList.add('level-item');
+    var goalCalories = document.createElement('div');
+        goalCalories.classList.add('level-item');
+    var burnedP = document.createElement('h3');
+        burnedP.classList.add('subtitle');
+        burnedP.classList.add('is-5');
+        burnedP.classList.add('level-item');
+    var goalP = document.createElement('p');
+        goalP.classList.add('title');
+        goalP.classList.add('is-5');
+        goalP.classList.add('level-item');
+
+    burnedP.appendChild(document.createTextNode('1200 kcal'));
+    goalP.appendChild(document.createTextNode(' / ' + '1500 kcal'));
+
+    burnedCalories.append(burnedP);
+    goalCalories.append(goalP);
+    cardBody.append(burnedCalories);
+    cardBody.append(goalCalories);
+
+    elem.append(head);
+    elem.append(cardBody);
+
+    return elem;
+
+}
+
+
+
 //DEV FUNCTION DELETE FOR PRODUCTION 
 function dummyCard () {
     var elem = document.createElement('div');
@@ -975,7 +1025,7 @@ function dummyCard () {
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather(), dummyCard(), addMeals()); 
+toAppend.push(addDaily(), addWeather(), addCalorieCard(), addMeals()); 
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
