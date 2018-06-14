@@ -602,7 +602,7 @@ function dummyCard () {
         elem.classList.add('box');
         elem.setAttribute('id', 'dummy');
 
-    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Meals', true);
+    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
 
     elem.append(head);
 
@@ -688,6 +688,7 @@ function addMeals() {
         btn.classList.add('button');
         btn.classList.add('is-primary');
         btn.innerText = 'Search Meals';
+        btn.setAttribute('id', 'searchMeals');
     
     //when creating a form the tag has to be an input tag
     //the input tag needs the type attribute to be specified is it radio? checkbox? text? ect
