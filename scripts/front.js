@@ -806,13 +806,37 @@ function addMeals() {
         table.append(tbody);
 
         favMeals.append(table);
-        level.append(favMeals);  
-        
+        level.append(favMeals); 
     }
+
+    var filterTitle = document.createElement('h3');
+        filterTitle.classList.add('title');
+        filterTitle.classList.add('is-6');
+        filterTitle.innerText = 'Filters';
+
+    var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Keto', 'Paleo', 'Kosher', 'Halal'];
+    var level2 = document.createElement('div');
+        level2.classList.add('level');
+
+    var btnGroup = document.createElement('div');
+        btnGroup.classList.add('buttons');
+    
+    filters.forEach(function(filter) {
+        var button = document.createElement('span');
+            button.classList.add('button');
+            button.classList.add('is-primary');
+            button.classList.add('is-outlined');
+            button.setAttribute('data-selected', 'false');
+            button.appendChild(document.createTextNode(filter));
+            btnGroup.append(button);
+    });
+    level2.append(btnGroup);
     
     elem.append(head);
     elem.append(field);
+    elem.append(level2);
     elem.append(body);
+    
             
     return elem;
 }
@@ -832,8 +856,7 @@ function mealsModal () {
         .css('margin-bottom', '50px').css('padding', '10px');
     var level2 = $('<div>').addClass('corners-rounded has-background-grey-light')
         .css('margin-bottom', '50px').css('padding', '10px');
-    var level3 = $('<div>').addClass('level')
-        .css('margin-bottom', '50px').css('padding', '10px');;
+    
     
     //favorites
     var ancestorFav = $('<div>').addClass('tile is-ancestor is-vertical');
@@ -953,21 +976,9 @@ function mealsModal () {
     appendMeals (favArr, ancestorFav);
     //appendMeals(sugArr, ancestorSug);
 
-    var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Keto', 'Paleo', 'Kosher', 'Halal'];
-
-    var btnGroup = $('<div>').addClass('buttons');
-    
-    filters.forEach(function(filter) {
-        var button = $('<span>').addClass('button is-primary is-outlined');
-            button.attr('data-selected', 'false');
-            button.text(filter);
-            btnGroup.append(button);
-    });
-
-
     level1.append(ancestorFav);
-    level2.append(ancestorSug);
-    level3.append(btnGroup);
+    //level2.append(ancestorSug);
+    
   
 
     //filters
