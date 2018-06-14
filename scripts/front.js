@@ -571,22 +571,6 @@ function weatherModal () {
     return elem;
 }
 
-//DEV FUNCTION DELETE FOR PRODUCTION 
-function dummyCard () {
-    var elem = document.createElement('div');
-        elem.classList.add('grid-item');
-        elem.classList.add('grid-item--width1');
-        elem.classList.add('box');
-        elem.setAttribute('id', 'dummy');
-
-    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
-
-    elem.append(head);
-
-    return elem;
-}
-
-
 function pedometerModal (dateArr) {
     var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var now = getNow();
@@ -943,7 +927,8 @@ function mealsModal () {
             btnGroup.append(button);
     });
 
-    $('.buttons > .button').on('click', function(){
+    $('div.buttons > button').on('click', function(){
+        
         var state = $(this).attr('data-selected');
         if(state === 'false'){
             $(this).attr('data-selected', 'true');
@@ -973,78 +958,76 @@ function mealsModal () {
     return container;
 }
 
+//Calorie Card
+function addCalorieCard () {
+    var elem = document.createElement('div');
+    elem.classList.add('grid-item');
+    elem.classList.add('grid-item--width1');
+    elem.classList.add('box');
+
+
+    //Calorie card head
+    var head = createPanelHead('<img src= "assets/panel-icons/man.svg" alt="burnMan">', 'Calories', true);
+    var title2 = document.createElement('h3');
+        title2.classList.add('title');-
+        title2.classList.add('is-5');
+        title2.append(document.createTextNode('Calories Count'));
+
+    //Calorie card body
+    var cardBody = document.createElement('div');
+        cardBody.classList.add('level');
+
+    //Create 2 caloric elements: burned and goal to add content
+    var burnedCalories = document.createElement('div');
+        burnedCalories.classList.add('level-item');
+    var goalCalories = document.createElement('div');
+        goalCalories.classList.add('level-item');
+    var burnedP = document.createElement('h3');
+        burnedP.classList.add('subtitle');
+        burnedP.classList.add('is-5');
+        burnedP.classList.add('level-item');
+    var goalP = document.createElement('p');
+        goalP.classList.add('title');
+        goalP.classList.add('is-5');
+        goalP.classList.add('level-item');
+
+    burnedP.appendChild(document.createTextNode('1200 kcal'));
+    goalP.appendChild(document.createTextNode(' / ' + '1500 kcal'));
+
+    burnedCalories.append(burnedP);
+    goalCalories.append(goalP);
+    cardBody.append(burnedCalories);
+    cardBody.append(goalCalories);
+
+    elem.append(head);
+    elem.append(cardBody);
+
+    return elem;
+
+}
+
+
+
+//DEV FUNCTION DELETE FOR PRODUCTION 
+function dummyCard () {
+    var elem = document.createElement('div');
+        elem.classList.add('grid-item');
+        elem.classList.add('grid-item--width1');
+        elem.classList.add('box');
+        elem.setAttribute('id', 'dummy');
+
+    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
+
+    elem.append(head);
+
+    return elem;
+}
+
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather(), dummyCard(), addMeals()); 
+toAppend.push(addDaily(), addWeather(), addCalorieCard(), addMeals()); 
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
-/*
-DEPRECATED
-    Calendar Panel
-        function addCalendar () {
-        //create the .box panel element
-        var elem = document.createElement('div');
-            elem.classList.add('grid-item');
-            elem.classList.add('grid-item--width5');
-            elem.classList.add('box');
-            elem.setAttribute('id', 'calendar');
-            
 
-        //create the head of the panel
-        var head = createPanelHead('<i class="far fa-calendar-alt fa-3x"></i>', 'Calendar');
-
-        //create a body element
-        var body = document.createElement('div');
-            body.classList.add('columns');
-
-        //creates 5 day elements containing a table to add content to
-        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        for (i=0; i<5; i++){
-            var day = document.createElement('div');
-                day.classList.add('column');
-                day.classList.add('calendar-column');
-                day.classList.add('corners-rounded');
-                day.classList.add('has-background-grey-lighter');
-            var table = document.createElement('table');
-                table.classList.add('table');
-                table.classList.add('is-fullwidth');
-                table.classList.add('corners-rounded');
-            var thead = document.createElement('thead');
-            var tbody = document.createElement('tbody');
-            var row1 = document.createElement('tr');
-                row1.setAttribute('data-day', i);
-                //innerHTML needs to be canged to reflect the day and date
-                row1.innerHTML = `<th><span>Date</span> <span>Day</span></th>`;
-            var row2 = document.createElement('tr');
-                row2.setAttribute('data-day', i);
-            var goals = document.createElement('td');
-                goals.classList.add('table-cell--height1')
-                goals.setAttribute('id', 'goal' + i);
-            var row3 = document.createElement('tr');
-                row3.setAttribute('data-day', i);
-            var completed = document.createElement('td');
-                completed.setAttribute('id', 'completed' + i);
-                completed.classList.add('table-cell--height1');
-                
-            row2.append(goals);
-            row3.append(completed);
-            
-            //append elements put humpty dumpty together again
-            thead.append(row1);
-            tbody.append(row2);
-            tbody.append(row3);
-            table.append(thead);
-            table.append(tbody);
-            day.append(table);
-            //append day element to body
-            body.append(day);
-        }
-
-        
-        elem.append(head);
-        elem.append(body);
-        return elem;
-    }
-*/
