@@ -28,8 +28,6 @@ var uidJasmine = "AarJudUzomQymI5HS72yehqoBAX2";
 var activitiesSummary = [];
 
 
-
-
 //User dropdown selection
 $(".dropdown-item").on("change", function () {
     userSelected = $(this).val();
