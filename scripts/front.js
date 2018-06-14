@@ -188,7 +188,6 @@ $('#modal-close').on('click', function() {
 function createPanelHead (icon, title, expand){
     //argument icon is a string containing icon html
     //title is a string containing the title text
-
     //create structure using bulma level class
     var header = document.createElement('div');
         header.classList.add('level');
@@ -580,12 +579,13 @@ function dummyCard () {
         elem.classList.add('box');
         elem.setAttribute('id', 'dummy');
 
-    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Meals', true);
+    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
 
     elem.append(head);
 
     return elem;
 }
+
 
 function pedometerModal (dateArr) {
     var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -634,6 +634,165 @@ function pedometerModal (dateArr) {
     }
 
     return level;
+}
+
+
+function addMeals() {
+    var elem = document.createElement("div");
+        elem.classList.add('grid-item');
+        elem.classList.add('grid-item--width5');
+        elem.classList.add('box');
+    
+    var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="sunny-icon">', 'Meals', true);
+    
+    var body = document.createElement('div');
+
+    //grouped inputs need the field class
+    var field = document.createElement('div');
+        field.classList.add('field');
+        field.classList.add('has-addons'); //has addons makes the submit button attached to the input
+
+    //to format alignment, every input needs the control class
+    var inputControl = document.createElement('div');
+        inputControl.classList.add('control');
+        inputControl.classList.add('is-expanded');
+
+    var btnControl = document.createElement('div');
+        btnControl.classList.add('control');
+
+    //make a button with text
+    var btn = document.createElement('button');
+        btn.classList.add('button');
+        btn.classList.add('is-primary');
+        btn.innerText = 'Search Meals';
+        btn.setAttribute('id', 'searchMeals');
+    
+    //when creating a form the tag has to be an input tag
+    //the input tag needs the type attribute to be specified is it radio? checkbox? text? ect
+    //the placeholder attribute allows us to set placeholder text that is deleted when the user inputs text
+    //we add the bulma class input to format the style of the input
+    var search = document.createElement('input');
+        search.setAttribute('type', 'text');
+        search.setAttribute('placeholder', 'Search Recipes');
+        search.classList.add('input');
+        search.classList.add('is-primary');
+ 
+        //now the elements are appended together 
+        /*
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text">
+                </div>
+                <div class="control">
+                    <button class="button">Text here</button>
+                </div>
+            </div>
+        */
+        inputControl.append(search);
+        btnControl.append(btn);
+        field.append(inputControl);
+        field.append(btnControl);
+    //instead of having each result as a string, I made them objects so we can add both a title and a body text
+    var mealsResults = [
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+        {
+            name: 'The Best Chiken',
+            text: 'The Best Chicken anyone is ever had can be yours click here!'
+        },
+    ];
+    //setting < mealsResults.length allows us to dynamically insert as many elements as we want
+    for (var j= 0; j < mealsResults.length; j++) {
+        //if the index is divisible by 4 then we add a new level
+        //this means we add a level every 4th element
+        //since we declare var level, we are creating a new element and assigning it the name of level
+        //this way content always gets appended to the last level we create
+        //the level class ensures that all elements are vertically centered in their container
+        if(j%4 === 0) {
+            var level = document.createElement('div');
+                level.classList.add('level');
+            body.append(level);
+        }
+        
+        //usually we add the level-item class to each result, but that messes with the width so I didnt' add it
+        var favMeals = document.createElement('div');
+            favMeals.classList.add('corners-rounded');
+            favMeals.classList.add('has-background-grey-lighter');
+            favMeals.classList.add('meal-results');
+
+        var table = document.createElement('table');
+            table.classList.add('table');
+            table.classList.add('is-fullwidth');
+            table.classList.add('corners-rounded');
+
+        //while we don't have to use thead and tbody usually bulma uses them to style tables and make them look pretty
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+        
+        //thead and tbody need a row class 
+        var row1 = document.createElement('tr');
+        var row2 = document.createElement('tr');
+        
+        //th means table head and is the tabel cell that usually goes in the row contained in the  thead tag if you have one
+        //it makes the text bolder
+        var th = document.createElement('th');
+        var resultTitle = document.createTextNode(mealsResults[j].name);
+            th.appendChild(resultTitle);
+
+        //td stands for table data and is you adverage table cell that usually goes in rows contained in tbody if you have one 
+        var td = document.createElement('td');
+        var p2 = document.createElement('p');
+        var resultText = document.createTextNode(mealsResults[j].text);
+            p2.appendChild(resultText);
+            td.appendChild(p2);
+
+
+        //put them all together
+        /*
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    <tr>
+                <tbody>
+            </table>
+        */
+        row1.append(th);
+        row2.append(td);
+        thead.append(row1);
+        tbody.append(row2);
+        table.append(thead);
+        table.append(tbody);
+
+        favMeals.append(table);
+        level.append(favMeals);  
+        
+    }
+    
+    elem.append(head);
+    elem.append(field);
+    elem.append(body);
+            
+    return elem;
 }
 
 function mealsModal () {
@@ -816,7 +975,11 @@ function mealsModal () {
 //appends Panels to the dashboard
 var toAppend = [];
 
+<<<<<<< HEAD
 toAppend.push(addDaily(), addWeather(), dummyCard());
+=======
+toAppend.push(addDaily(), addWeather(), dummyCard(), addMeals()); 
+>>>>>>> bee6fb1b4be7b882332995fcb7738e5dcd4f0dcd
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
