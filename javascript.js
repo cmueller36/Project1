@@ -75,276 +75,275 @@ $(".dropdown-item").on("change", function () {
             entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
             $('#completed0').append(entry);
         });
-      
-          //generates users iFrame
-    $("#powerbiIframe").attr("src",useriframe);
+
+        //generates users iFrame
+        $("#powerbiIframe").attr("src", useriframe);
     });
 
 
 
 
 
-var activitiesSummary = [];
+    var activitiesSummary = [];
 
 
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyBBmBBRUZAr5nK4iW39KtxrjXiUPWyW1eQ",
-    authDomain: "project1-testdev.firebaseapp.com",
-    databaseURL: "https://project1-testdev.firebaseio.com",
-    projectId: "project1-testdev",
-    storageBucket: "project1-testdev.appspot.com",
-    messagingSenderId: "128017361927"
-};
-firebase.initializeApp(config);
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBBmBBRUZAr5nK4iW39KtxrjXiUPWyW1eQ",
+        authDomain: "project1-testdev.firebaseapp.com",
+        databaseURL: "https://project1-testdev.firebaseio.com",
+        projectId: "project1-testdev",
+        storageBucket: "project1-testdev.appspot.com",
+        messagingSenderId: "128017361927"
+    };
+    firebase.initializeApp(config);
 
-var database = firebase.database();
+    var database = firebase.database();
 
 
 
-// Initialize the FirebaseUI Widget using Firebase.  
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    // Initialize the FirebaseUI Widget using Firebase.  
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-// FirebaseUI config.
-var uiConfig = {
-    signInSuccessUrl: "./index.html",
-    signInOptions: [
-        // Leave the lines as is for the providers you want to offer your users.
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    ],
-};
+    // FirebaseUI config.
+    var uiConfig = {
+        signInSuccessUrl: "./index.html",
+        signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        ],
+    };
 
-// The start method will wait until the DOM is loaded.
-ui.start('#firebaseui-auth-container', uiConfig);
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
 
-// if (ui.isPendingRedirect()) {
-//     ui.start('#firebaseui-auth-container', uiConfig);
-// };
+    // if (ui.isPendingRedirect()) {
+    //     ui.start('#firebaseui-auth-container', uiConfig);
+    // };
 
-// Track the UID of the current user.  
-var currentUid = "";
-firebase.auth().onAuthStateChanged(function (user) {
+    // Track the UID of the current user.  
+    var currentUid = "";
+    firebase.auth().onAuthStateChanged(function (user) {
 
-    // onAuthStateChanged listener triggers every time the user ID token changes.  
-    // This could happen when a new user signs in or signs out.  
-    // It could also happen when the current user ID token expires and is refreshed.  
-    if (user && user.uid != currentUid) {
-        // Update the UI when a new user signs in.  
-        // Otherwise ignore if this is a token refresh.  
-        // Update the current user UID.  
-        currentUid = user.uid;
-        console.log(currentUid);
-
-        var ref = database.ref();
-
-        ref.child(currentUid).orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
-            console.log(snapshot.val());
+        // onAuthStateChanged listener triggers every time the user ID token changes.  
+        // This could happen when a new user signs in or signs out.  
+        // It could also happen when the current user ID token expires and is refreshed.  
+        if (user && user.uid != currentUid) {
+            // Update the UI when a new user signs in.  
+            // Otherwise ignore if this is a token refresh.  
+            // Update the current user UID.  
+            currentUid = user.uid;
             console.log(currentUid);
-            snapshot.forEach(function (data) {
-                $("#tablebody").append($("<tr><td>"
-                    + data.val().Calories + "</td><td>"
-                    + data.val().Notes
-                    + "</td></tr>"))
+
+            var ref = database.ref();
+
+            ref.child(currentUid).orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
+                console.log(snapshot.val());
+                console.log(currentUid);
+                snapshot.forEach(function (data) {
+                    $("#tablebody").append($("<tr><td>"
+                        + data.val().Calories + "</td><td>"
+                        + data.val().Notes
+                        + "</td></tr>"))
+                });
+            });
+
+        } else {
+            // Sign out operation. Reset the current user UID.  
+            currentUid = null;
+            console.log("no user signed in");
+        }
+    });
+
+
+    $("#logout").on("click", function (event) {
+        event.preventDefault();
+        firebase.auth().signOut().then(function () {
+            // Sign-out successful.
+        }).catch(function (error) {
+            // An error happened.
+        });
+
+        $('.table tbody').remove();
+
+    });
+
+
+
+
+
+
+    var user = "";
+    var calories = "";
+    var notes = "";
+    var temp = "";
+
+    $("#submit").on("click", function (event) {
+
+
+        event.preventDefault();
+
+        user = $("#userName").val().trim();
+        calories = $("#userCalories").val().trim();
+        notes = $("#userNotes").val().trim();
+
+        temp = {
+            User: currentUid,
+            Calories: calories,
+            Notes: notes
+        }
+
+
+        database.ref(currentUid).push(temp);
+    })
+
+
+    // Initialize the FirebaseUI Widget using Firebase.  
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    // FirebaseUI config.
+    var uiConfig = {
+        signInSuccessUrl: "./index.html",
+        signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        ],
+    };
+
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
+
+    // Track the UID of the current user.  
+    var currentUid = "";
+    //Login
+    firebase.auth().onAuthStateChanged(function (user) {
+
+        // onAuthStateChanged listener triggers every time the user ID token changes.  
+        // This could happen when a new user signs in or signs out.  
+        // It could also happen when the current user ID token expires and is refreshed.  
+        if (user && user.uid != currentUid) {
+            // Update the UI when a new user signs in.  
+            // Otherwise ignore if this is a token refresh.  
+            // Update the current user UID.  
+            currentUid = user.uid;
+            console.log(currentUid);
+
+            var ref = database.ref();
+
+            ref.child(currentUid + "/activity").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
+                console.log(snapshot.val());
+                console.log(currentUid);
+                // snapshot.forEach(function (data) {
+
+                // });
+            });
+
+        } else {
+            // Sign out operation. Reset the current user UID.  
+            currentUid = null;
+            console.log("no user signed in");
+        }
+
+        //once the user is authenticated
+
+        if (currentUid === uidChris) {
+            userToken = tokenChris;
+            useriframe = iframeChris;
+        }
+
+        if (currentUid === uidAnna) {
+            userToken = tokenAnna;
+            useriframe = iframeAnna;
+        }
+
+        if (currentUid === uidJordan) {
+            userToken = tokenJordan;
+            useriframe = iframeJordan;
+        }
+
+        if (currentUid === uidClaire) {
+            userToken = tokenClaire;
+            useriframe = iframeClaire;
+        }
+
+        if (currentUid === uidJasmine) {
+            userToken = tokenJasmine;
+            useriframe = iframeJasmine;
+        }
+
+        var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
+
+        $.ajax({
+            url: summaryURL,
+            method: "GET"
+        }).then(function (response) {
+            //this grabs the first index in the object array and gets the calories for it
+            activitiesSummary = response;
+            console.log(response);
+
+            activitiesSummary.forEach(function (value) {
+                //console.log('this: ', value);
+                var entry = document.createElement('div');
+                entry.classList.add('has-background-grey-lighter');
+                entry.classList.add('corners-rounded');
+                entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
+                $('#completed0').append(entry);
             });
         });
 
-    } else {
-        // Sign out operation. Reset the current user UID.  
-        currentUid = null;
-        console.log("no user signed in");
-    }
-});
-
-
-$("#logout").on("click", function (event) {
-    event.preventDefault();
-    firebase.auth().signOut().then(function () {
-        // Sign-out successful.
-    }).catch(function (error) {
-        // An error happened.
+        console.log(useriframe);
+        $("#powerbiIframe").attr("src", useriframe);
     });
 
-    $('.table tbody').remove();
-
-});
-
-
-
-
-
-
-var user = "";
-var calories = "";
-var notes = "";
-var temp = "";
-
-$("#submit").on("click", function (event) {
-
-
-    event.preventDefault();
-
-    user = $("#userName").val().trim();
-    calories = $("#userCalories").val().trim();
-    notes = $("#userNotes").val().trim();
-
-    temp = {
-        User: currentUid,
-        Calories: calories,
-        Notes: notes
-    }
-
-
-    database.ref(currentUid).push(temp);
-})
-
-
-// Initialize the FirebaseUI Widget using Firebase.  
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-// FirebaseUI config.
-var uiConfig = {
-    signInSuccessUrl: "./index.html",
-    signInOptions: [
-        // Leave the lines as is for the providers you want to offer your users.
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    ],
-};
-
-// The start method will wait until the DOM is loaded.
-ui.start('#firebaseui-auth-container', uiConfig);
-
-// Track the UID of the current user.  
-var currentUid = "";
-//Login
-firebase.auth().onAuthStateChanged(function (user) {
-
-    // onAuthStateChanged listener triggers every time the user ID token changes.  
-    // This could happen when a new user signs in or signs out.  
-    // It could also happen when the current user ID token expires and is refreshed.  
-    if (user && user.uid != currentUid) {
-        // Update the UI when a new user signs in.  
-        // Otherwise ignore if this is a token refresh.  
-        // Update the current user UID.  
-        currentUid = user.uid;
-        console.log(currentUid);
-
-        var ref = database.ref();
-
-        ref.child(currentUid+"/activity").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
-            console.log(snapshot.val());
-            console.log(currentUid);
-            // snapshot.forEach(function (data) {
-
-            // });
+    //logout of firebase
+    $("#logout").on("click", function (event) {
+        firebase.initializeApp(config);
+        console.log("logout");
+        event.preventDefault();
+        firebase.auth().signOut().then(function () {
+            console.log("Sign-out successful");
+        }).catch(function (error) {
+            console.log(error);
+            console.log("An error happened");
         });
 
-    } else {
-        // Sign out operation. Reset the current user UID.  
-        currentUid = null;
-        console.log("no user signed in");
-    }
-
-    //once the user is authenticated
-
-    if (currentUid === uidChris) {
-        userToken = tokenChris;
-        useriframe = iframeChris;
-    }
-
-    if (currentUid === uidAnna) {
-        userToken = tokenAnna;
-        useriframe = iframeAnna;
-    }
-
-    if (currentUid === uidJordan) {
-        userToken = tokenJordan;
-        useriframe = iframeJordan;
-    }
-
-    if (currentUid === uidClaire) {
-        userToken = tokenClaire;
-        useriframe = iframeClaire;
-    }
-
-    if (currentUid === uidJasmine) {
-        userToken = tokenJasmine;
-        useriframe = iframeJasmine;
-    }
-
-    var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
-
-    $.ajax({
-        url: summaryURL,
-        method: "GET"
-    }).then(function (response) {
-        //this grabs the first index in the object array and gets the calories for it
-        activitiesSummary = response;
-        console.log(response);
-
-        activitiesSummary.forEach(function (value) {
-            //console.log('this: ', value);
-            var entry = document.createElement('div');
-            entry.classList.add('has-background-grey-lighter');
-            entry.classList.add('corners-rounded');
-            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
-            $('#completed0').append(entry);
-        });
     });
 
-    console.log(useriframe);
-    $("#powerbiIframe").attr("src", useriframe);
-});
 
-//logout of firebase
-$("#logout").on("click", function (event) {
-    firebase.initializeApp(config);
-    console.log("logout");
-    event.preventDefault();
-    firebase.auth().signOut().then(function () {
-        console.log("Sign-out successful");
-    }).catch(function (error) {
-        console.log(error);
-        console.log("An error happened");
+    //variables storing information relevant to Recipe API
+    $("#run").on("click", function (event) {
+
+        event.preventDefault();
+
+        var recipeSearch = "chicken";
+        var recipeAppId = "&app_id=84dfbeab";
+        var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
+        var numberOfRecipes = "&from=0&to=20";
+        var caloriesQuery = "&calories=" + activitiesSummary[0].calories; //add data from Human API per activity
+        var health = "&healthLabel=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
+        var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery;
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response)
+        })
+
     });
 
-});
 
 
-//variables storing information relevant to Recipe API
-$("#run").on("click", function (event) {
 
-    event.preventDefault();
-
-    var recipeSearch = "chicken";
-    var recipeAppId = "&app_id=84dfbeab";
-    var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
-    var numberOfRecipes = "&from=0&to=20";
-    var caloriesQuery = "&calories=" + activitiesSummary[0].calories; //add data from Human API per activity
-    var health = "&healthLabel=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
-    var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery;
+    //weather data
+    var weatherAPI = "?apikey=YmtcFPorPCo5IQDz9HzhufW3JeeVaA2f";
+    var weatherURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/329823" + weatherAPI;
+    var weatherData = [];
 
     $.ajax({
-        url: queryURL,
+        url: weatherURL,
         method: "GET"
-    }).then(function (response) {
-        console.log(response)
-    })
-
-});
-
-
-
-
-//weather data
-var weatherAPI = "?apikey=YmtcFPorPCo5IQDz9HzhufW3JeeVaA2f";
-var weatherURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/329823" + weatherAPI;
-var weatherData = [];
-
-$.ajax({
-    url: weatherURL,
-    method: "GET"
-})
-    .then(function (res) {
+    }).then(function (res) {
         console.log(res);
         for (var i = 0; i < res.DailyForecasts.length; i++) {
 
@@ -383,7 +382,7 @@ $.ajax({
                     day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="showers">';
 
                     break;
-             case 14:
+                case 14:
                     day.icon = '<img src="assets/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
                     break;
                 case 15:
@@ -449,6 +448,6 @@ $.ajax({
         $('#weather-icon').html(weatherData[0].icon);
         $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
         $('#forecast').text(weatherData[0].forecast);
+    })
 
-    });
-
+})
