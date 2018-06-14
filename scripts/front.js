@@ -24,193 +24,64 @@ function getNow () {
     return temp;
 }
 
-//dropdown toggle
-$(document).on('click', '.dropdown', function () {
-    if ($(this).hasClass('is-active')){
-        $(this).removeClass('is-active');
-    }else{
-        $(this).addClass('is-active');
-    }
-});
+//returns an array of all the dates in the current week
+var dateArr = [];
+function getDates (day) {
+      if(day !== 0){
+        console.log(day);
+       date = moment().subtract(day-1, 'days').format('MMMM Do');
+       console.log(date);
+       dateArr.push(date);
+       day--;
+       return getDates(day);
+   }else if(dateArr.length !== 7) {
+       console.log(dateArr.length);
+       var remaining = 7 - dateArr.length;
+       console.log('remaining: ', remaining);
+       var remainingArr = [];
+       console.log(remainingArr);
+        for (var i=0; i < remaining; i++) {
+            date = moment().add(i+1 , 'days').format('MMMM Do');
+            remainingArr.push(date);
+        }
+        dateArr = dateArr.concat(remainingArr);
+   }else {
+       for (var i=0; i<7; i++) {
+        date = moment().add(i, 'days').format('MMMM Do');
+        dateArr.push(date);
+       }
+   }
+}
+getDates(moment().format('d'));
 
-//Activates Modal and appends content 
-$(document).on('click', '.fa-arrows-alt-h', function () {
-
-    $('#modal').addClass('is-active');
-
-    var panelName = this.getAttribute('data-panel');
-    console.log('panelName: ', panelName);
-
-    //if statement that appends modal content depending on the panel clicked on
-    switch (panelName) {
-        case "Daily":
-            var head = createPanelHead('<img class="image is-64x64" src="assets/panel-icons/schedule.svg" alt="schedule-icon">', 'Daily Report', false);
-            var level1 = $('<div>').addClass('level');
-            var level2 = $('<div>').addClass('level');
-            var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
-            var itemA = $('<div>').addClass('level-item');
-            var itemB = $('<div>').addClass('level-item');
-
-            itemA.append(iframe);
-            itemB.append(dailyModal());
-
-            level1.append(itemA);
-            level2.append(itemB)
-
-            $('#modalDiv')
-                .append(head)
-                .append(level1)
-                .append(level2);
-            
-            //Daily modal dropdown listener
-            $('#unitsDrop').find('.dropdown-item').on('click', function () {
-                console.log('clicked');
-                var option = $(this).attr('data-option')
-                console.log(option);
-                if(option === '0') {
-                    $('#unitsDrop > .dropdown-trigger').find($('span')).text('Reps');
-                    $('#unitsDrop').attr('data-selected', 0);
-                    console.log('Reps was selected')
-                }else{
-                    $('#unitsDrop > .dropdown-trigger').find($('span')).text('Minutes');
-                    console.log('Minutes was selected');
-                    $('#unitsDrop').attr('data-selected', 1);
-                }
-            });
-
-            //Grab data append and update database
-            $('#add-activity').on('click', function () {
-                event.preventDefault();
-                $('#activityForm').find('.help').remove();
-
-                var newItem = $('<tr>');
-
-                var activity = $('<td>').text($('#newActivity').val().trim());
-
-                var duration = $('<td>');
-
-                var close = $('<td>').append('<i class="fas fa-times"></i>');
-
-                var units = $('#unitsDrop').attr('data-selected');
-
-                var fbUnits = "";
-
-                if (units === '0') {
-                    duration.text($('#newDuration').val().trim() + ' Reps');
-                    fbUnits = "Reps";
-                }else if(units === '1') {
-                    duration.text($('#newDuration').val().trim() + ' Mins');
-                    fbUnits = "Mins";
-                }else{
-                    return $('#activityForm').append('<p class="help is-danger">Please select a unit</p>');
-                }
-
-                newItem
-                    .append(activity)
-                    .append(duration)
-                    .append(close);
-
-                $('#itemsList').append(newItem);
-
-                //collect items for Firebase
-                var fbActivity = $("#newActivity").val().trim();
-                var fbDuration = $("#newDuration").val().trim();
-
-                console.log(fbActivity);
-                console.log(fbDuration);
-                console.log(fbUnits);
-
-                //store items in temp in JSON
-                temp = {
-                    User: currentUid,
-                    Activity: fbActivity,
-                    Duration: fbDuration+" "+fbUnits
-                }
+function appendActivities(arr) {
+    //create a table???
+    var $goals = $('#goals');
+    $goals.empty();
+    ///database call to user to grab any data for today placeholders are used for now
+    //fbActivities
+    console.log(arr);
+    arr.forEach(function (activity) {
         
-                //send items to firebase
-                database.ref(currentUid+"/activty").push(temp);
-            });
+        if (activity.date === moment().format('L')){
+            var item = document.createElement('div');
+            var label = document.createElement('label');
+                label.classList.add('checkbox');
+                label.setAttribute('data-checked', false);
+            var text = ' ' + activity.Activity + ', ' + activity.Duration
+            var checkbox = document.createElement('input');
+                checkbox.setAttribute('type', 'checkbox');
+       
+            label.append(checkbox);  
+            label.append(document.createTextNode(' ' + text));
 
-            $(document).on('click', '.fa-times', function () {
-                console.log('clicked');
-                $(this).parent().parent().remove();
-            });
-            break;
-        case "Weather":
-            var head = createPanelHead('<img class="image is-64x64" src="assets/weather-icons/sun.svg" alt="weather">', 'Weather', false);
 
-            var body = weatherModal();
-
-            $('#modalDiv')
-                .append(head)
-                .append(body);
-            
-            break;
-        case "pedometer":
-            var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Pedometer', false);
-            var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
-            var title1 = $('<h3>').addClass('title is-4').text('Week View');
-            var title2 = $('<h3>').addClass('title is-4').text('Trends');
-            //get dates for this week
-            //call to user database, get pedometer steps for the week
-            
-            
-            function getDates (day) {
-                //returns an array of all the dates in the current week
-               var dateArr = [];
-               if(day !== 0){
-                   date = moment().add(day-1, 'days').format('MMMM Do');
-                   dateArr.push(date);
-                   day--;
-                   return getDates(day);
-               }else if(dateArr.length !== 7) {
-                   var remaining = 7 - dateArr.length;
-                   var remainingArr = [];
-                    for (var i=0; i < remaining; i++) {
-                        date = moment().add(i + 1, 'days').format('MMMM Do');
-                        remainingArr.push(date);
-                    }
-                    dateArr = dateArr.concat(remainingArr);
-               }else if(day === 0) {
-                   for (var i=0; i<7; i++) {
-                    date = moment().add(i, 'days').format('MMMM Do');
-                    dateArr.push(date);
-                   }
-               }
-               return dateArr;
-            }
-            var level = $('<div>').addClass('level');
-                
-                iframe.addClass('level-item');
-                level.append(iframe);
-            
-            $('#modalDiv')
-                .append(head)
-                .append(title1)
-                .append(pedometerModal(getDates(moment().format('d'))))
-                .append(title2)
-                .append(level);
-            break;
-        case 'Meals':
-            var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Meals', false);
-            
-            $('#modalDiv')
-                .append(head)
-                .append(mealsModal());
-
-            break;    
-        case 'Calories':
-            //CREATE MODAL
-            calorieModal();
-            break;
-    }
-});
-
-//Deactivates Modal
-$('#modal-close').on('click', function() {
-    $('#modal').removeClass('is-active');
-    $('#modalDiv').empty();
-}); 
+            item.append(label);
+            $goals.append(item);
+        }
+        
+    });
+}
 
  //Creates a header element with an icon and a title
 function createPanelHead (icon, title, expand){
@@ -342,6 +213,7 @@ function addDaily () {
     var elem = document.createElement('div');
         elem.classList.add('grid-item');
         elem.classList.add('grid-item--width2');
+        elem.classList.add('grid-item--height2');
         elem.classList.add('box');
         elem.setAttribute('id', 'daily');
 
@@ -390,22 +262,6 @@ function addDaily () {
     elem.append(head);
     elem.append(body);
 
-    ///database call to user to grab any data for today placeholders are used for now
-    var todos = ['calories', 'go for a run', 'weight lifting'];
-    todos.forEach(function (todo) {
-        var item = document.createElement('div');
-        var label = document.createElement('label');
-            label.classList.add('checkbox');
-        var checkbox = document.createElement('input');
-            checkbox.setAttribute('type', 'checkbox');
-       
-        label.append(checkbox);  
-        label.append(document.createTextNode(' ' + todo));
-
-
-        item.append(label);
-        goals.append(item);
-    });
     
     return elem;
 }
@@ -496,7 +352,8 @@ function dailyModal () {
 function addWeather () {
     var elem = document.createElement('div');
         elem.classList.add('grid-item');
-        elem.classList.add('grid-item--width1');
+        elem.classList.add('grid-item--width2');
+        elem.classList.add('grid-item--height');
         elem.classList.add('box');
         elem.setAttribute('id', 'daily');
 
@@ -599,12 +456,12 @@ function weatherModal () {
     return elem;
 }
 
+//appends pedometer modal content to modal
 function pedometerModal (dateArr) {
     var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var now = getNow();
     var level = $('<div>').addClass('level');
     for (var i=0; i<7; i++){
-
         var item = $('<div>')
             .addClass('level-item corners-rounded has-background-grey-lighter')
             .css('margin', '5px')
@@ -618,17 +475,22 @@ function pedometerModal (dateArr) {
         var row2 = $('<tr>');
         var th = $('<th>');
         var td1 = $('<td>')
-            .addClass('has-text-centered');
+            .addClass('steps has-text-centered')
         var td2 = $('<td>').append('<p>steps</p>');
 
         var date = $('<p>').append(week[i] + ',<br>' + dateArr[i]);
         th.append(date);
         
-        var steps = $('<h3>').addClass('subtitle is-3')
-            .html('10,245');
-        td1
-            .append(steps)
-            .append('<p>steps</p>');
+        var text = $('<h3>').addClass('title is-3');
+       
+        if(activitiesSummary[i]){
+            text.text(activitiesSummary[i].steps);
+        }else{
+            text.text('0');
+        }
+
+        td1.append(text);
+        td1.append('<p>Steps</p>')
 
         row1.append(th);
         row2.append(td1);
@@ -644,26 +506,25 @@ function pedometerModal (dateArr) {
 
         level.append(item);
     }
-
+    
     return level;
 }
 
+//Creates the meals card
 function addMeals() {
     var elem = document.createElement("div");
         elem.classList.add('grid-item');
-        elem.classList.add('grid-item--width5');
+        elem.classList.add('grid-item--widthfull');
         elem.classList.add('box');
     
-    var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="sunny-icon">', 'Meals', true);
+    var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="nutrition-icon">', 'Meals', true);
     
     var body = document.createElement('div');
 
-    //grouped inputs need the field class
     var field = document.createElement('div');
         field.classList.add('field');
-        field.classList.add('has-addons'); //has addons makes the submit button attached to the input
+        field.classList.add('has-addons'); 
 
-    //to format alignment, every input needs the control class
     var inputControl = document.createElement('div');
         inputControl.classList.add('control');
         inputControl.classList.add('is-expanded');
@@ -671,39 +532,23 @@ function addMeals() {
     var btnControl = document.createElement('div');
         btnControl.classList.add('control');
 
-    //make a button with text
     var btn = document.createElement('button');
         btn.classList.add('button');
         btn.classList.add('is-primary');
         btn.innerText = 'Search Meals';
         btn.setAttribute('id', 'searchMeals');
     
-    //when creating a form the tag has to be an input tag
-    //the input tag needs the type attribute to be specified is it radio? checkbox? text? ect
-    //the placeholder attribute allows us to set placeholder text that is deleted when the user inputs text
-    //we add the bulma class input to format the style of the input
     var search = document.createElement('input');
         search.setAttribute('type', 'text');
         search.setAttribute('placeholder', 'Search Recipes');
         search.classList.add('input');
         search.classList.add('is-primary');
  
-        //now the elements are appended together 
-        /*
-            <div class="field">
-                <div class="control">
-                    <input class="input" type="text">
-                </div>
-                <div class="control">
-                    <button class="button">Text here</button>
-                </div>
-            </div>
-        */
         inputControl.append(search);
         btnControl.append(btn);
         field.append(inputControl);
         field.append(btnControl);
-    //instead of having each result as a string, I made them objects so we can add both a title and a body text
+ 
     var mealsResults = [
         {
             name: 'The Best Chiken',
@@ -726,20 +571,15 @@ function addMeals() {
             text: 'The Best Chicken anyone is ever had can be yours click here!'
         },
     ];
-    //setting < mealsResults.length allows us to dynamically insert as many elements as we want
+
     for (var j= 0; j < mealsResults.length; j++) {
-        //if the index is divisible by 4 then we add a new level
-        //this means we add a level every 4th element
-        //since we declare var level, we are creating a new element and assigning it the name of level
-        //this way content always gets appended to the last level we create
-        //the level class ensures that all elements are vertically centered in their container
+
         if(j%4 === 0) {
             var level = document.createElement('div');
                 level.classList.add('level');
             body.append(level);
         }
         
-        //usually we add the level-item class to each result, but that messes with the width so I didnt' add it
         var favMeals = document.createElement('div');
             favMeals.classList.add('corners-rounded');
             favMeals.classList.add('has-background-grey-lighter');
@@ -750,43 +590,22 @@ function addMeals() {
             table.classList.add('is-fullwidth');
             table.classList.add('corners-rounded');
 
-        //while we don't have to use thead and tbody usually bulma uses them to style tables and make them look pretty
         var thead = document.createElement('thead');
         var tbody = document.createElement('tbody');
         
-        //thead and tbody need a row class 
         var row1 = document.createElement('tr');
         var row2 = document.createElement('tr');
         
-        //th means table head and is the tabel cell that usually goes in the row contained in the  thead tag if you have one
-        //it makes the text bolder
         var th = document.createElement('th');
         var resultTitle = document.createTextNode(mealsResults[j].name);
             th.appendChild(resultTitle);
 
-        //td stands for table data and is you adverage table cell that usually goes in rows contained in tbody if you have one 
         var td = document.createElement('td');
         var p2 = document.createElement('p');
         var resultText = document.createTextNode(mealsResults[j].text);
             p2.appendChild(resultText);
             td.appendChild(p2);
 
-
-        //put them all together
-        /*
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                    <tr>
-                <tbody>
-            </table>
-        */
         row1.append(th);
         row2.append(td);
         thead.append(row1);
@@ -831,11 +650,6 @@ function addMeals() {
 }
 
 function mealsModal () {
-    //list of favorited recipiecs 
-    //list of random suggested recipies for calorie meal goal
-    //list of button filters like gluten-free, vegetarian...ect.
-    //button filters are user settings that are stored and activated from the user database
-    //3 levels
     var container = $('<div>');
     var title1 = $('<h3>').addClass('title is-4').text('Favorites');
     var title2 = $('<h3>').addClass('title is-4').text('Suggested');
@@ -938,6 +752,7 @@ function mealsModal () {
         },
     ]
 
+
     //takes an array of suggested recipies and appends them to the appropriate ancestor
     function appendMeals (arr, ancestor) {
         for (var i=0; i<arr.length; i++){
@@ -977,20 +792,19 @@ function mealsModal () {
         .append(level1)
         //.append(title2)
         //.append(level2)
-        .append(title3)
-        .append(level3);
+        //.append(title3)
+        //.append(level3);
     
     return container;
 }
-
-
 
 //Calorie Card
 //TODO: ALTER CARD TO REFLECT BURNED/GOALS
 function addCalorieCard () {
     var elem = document.createElement('div');
     elem.classList.add('grid-item');
-    elem.classList.add('grid-item--width1');
+    elem.classList.add('grid-item--width2');
+    elem.classList.add('grid-item--height');
     elem.classList.add('box');
 
 
@@ -1003,7 +817,8 @@ function addCalorieCard () {
 
     //Calorie card body
     var cardBody = document.createElement('div');
-        cardBody.classList.add('level');
+        cardBody.classList.add('has-text-centered');
+        //cardBody.classList.add('level');
 
     //Create 2 caloric elements: burned and goal to add content
     var burnedCalories = document.createElement('div');
@@ -1011,21 +826,23 @@ function addCalorieCard () {
     var goalCalories = document.createElement('div');
         goalCalories.classList.add('level-item');
     var burnedP = document.createElement('h3');
-        burnedP.classList.add('subtitle');
-        burnedP.classList.add('is-5');
-        burnedP.classList.add('level-item');
+        burnedP.classList.add('title');
+        burnedP.classList.add('is-1');
+        burnedP.setAttribute('id', 'caloriesToday');
+        //burnedP.classList.add('level-item');
     var goalP = document.createElement('p');
         goalP.classList.add('title');
         goalP.classList.add('is-5');
         goalP.classList.add('level-item');
+    var units = document.createElement('p');
+        units.innerHTML = 'kcal Burned';
 
-    burnedP.appendChild(document.createTextNode('1200 kcal'));
-    goalP.appendChild(document.createTextNode(' / ' + '1500 kcal'));
 
     burnedCalories.append(burnedP);
-    goalCalories.append(goalP);
-    cardBody.append(burnedCalories);
-    cardBody.append(goalCalories);
+    //goalCalories.append(goalP);
+    cardBody.append(burnedP);
+    cardBody.append(units);
+    //cardBody.append(goalCalories);
 
     elem.append(head);
     elem.append(cardBody);
@@ -1037,18 +854,34 @@ function addCalorieCard () {
 function calorieModal() {
     var head = createPanelHead('<img src= "assets/panel-icons/man.svg" alt="burnMan">', 'Calories', false);
     //5day trend
-    var level = $('<div>').addClass('level')
+    var level1 = $('<div>').addClass('level');
 
-    for (var i=0; i<5; i++) {
-        var date = moment().add(i, 'days').format('DDDD, MMMM Do');
-        var item = $('<div>').addClass('level-item');
-        var table = $('<table>').addClass('table is-fullwidth');
+    var title1 = $('<h3>').addClass('title is-4');
+        title1.text('Week View');
+    
+    
+    
+
+    for (var i=0; i<7; i++) {
+        var date = dateArr[i];
+        var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var item = $('<div>').addClass('level-item calories-level-item corners-rounded has-background-grey-lighter');
+        var table = $('<table>').addClass('table is-fullwidth corners-rounded');
         var thead = $('<thead>');
         var tbody = $('<tbody>');
         var row1 = $('<tr>');
         var row2 = $('<tr>');
-        var th = $('<th>').text(date);
-        var td = $('<td>');
+        var th = $('<th>').html(week[i] + ',<br>' + date);
+        var td = $('<td>').addClass('has-text-centered');
+        var text = $('<h3>').addClass('title is-3');
+
+        if(activitiesSummary[i]){
+            text.text(activitiesSummary[i].calories);
+        }else{
+            text.text('0');
+        }
+
+        td.append(text).append('<p>kcal Burned</p>');
 
         row1.append(th);
         row2.append(td);
@@ -1058,23 +891,33 @@ function calorieModal() {
         table.append(tbody);
 
         item.append(table);
-        level.append(item);
+        level1.append(item);
     }
     //iframe panel
+    var title2 = $('<h3>').addClass('title is-4');
+        title2.text('Trends');
+    var calorieIframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9');
+    var level2 = $('<div>').addClass('level');
 
+    calorieIframe.addClass('level-item');
+
+    level2.append(calorieIframe);
     $('#modalDiv')
         .append(head)
-        .append();
+        .append(title1)
+        .append(level1)
+        .append(title2)
+        .append(level2);
 
 }
-
 
 
 //DEV FUNCTION DELETE FOR PRODUCTION 
 function dummyCard () {
     var elem = document.createElement('div');
         elem.classList.add('grid-item');
-        elem.classList.add('grid-item--width1');
+        elem.classList.add('grid-item--width2');
+        elem.classList.add('grid-item--height');
         elem.classList.add('box');
         elem.setAttribute('id', 'dummy');
 
@@ -1088,9 +931,11 @@ function dummyCard () {
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather(), addCalorieCard(), addMeals()); 
+toAppend.push(addDaily(), addWeather(), addCalorieCard(), dummyCard(), addMeals()); 
 
 $grid.append(toAppend).masonry('appended', toAppend);
+
+//All Listeners go here
 
 //Filters onclick funtion changes style and data-selected attribute
 $('.btn-filter').on('click', function(){
@@ -1103,4 +948,186 @@ $('.btn-filter').on('click', function(){
         $(this).addClass('is-outlined');
     }
     console.log($(this).attr('data-selected'));
+});
+
+//dropdown toggle
+$(document).on('click', '.dropdown', function () {
+    if ($(this).hasClass('is-active')){
+        $(this).removeClass('is-active');
+    }else{
+        $(this).addClass('is-active');
+    }
+});
+
+//Activates Modal and appends content 
+$(document).on('click', '.fa-arrows-alt-h', function () {
+
+    $('#modal').addClass('is-active');
+
+    var panelName = this.getAttribute('data-panel');
+    console.log('panelName: ', panelName);
+
+    //if statement that appends modal content depending on the panel clicked on
+    switch (panelName) {
+        case "Daily":
+            var head = createPanelHead('<img class="image is-64x64" src="assets/panel-icons/schedule.svg" alt="schedule-icon">', 'Daily Report', false);
+            var level1 = $('<div>').addClass('level');
+            var level2 = $('<div>').addClass('level');
+            var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
+            var itemA = $('<div>').addClass('level-item');
+            var itemB = $('<div>').addClass('level-item');
+
+            itemA.append(dailyModal());
+            itemB.append(iframe);
+
+            level1.append(itemA);
+            level2.append(itemB)
+
+            $('#modalDiv')
+                .append(head)
+                .append(level1)
+                .append(level2);
+            
+            //Daily modal dropdown listener
+            $('#unitsDrop').find('.dropdown-item').on('click', function () {
+                console.log('clicked');
+                var option = $(this).attr('data-option')
+                console.log(option);
+                if(option === '0') {
+                    $('#unitsDrop > .dropdown-trigger').find($('span')).text('Reps');
+                    $('#unitsDrop').attr('data-selected', 0);
+                    console.log('Reps was selected')
+                }else{
+                    $('#unitsDrop > .dropdown-trigger').find($('span')).text('Minutes');
+                    console.log('Minutes was selected');
+                    $('#unitsDrop').attr('data-selected', 1);
+                }
+            });
+
+            //Grab data append and update database
+            $('#add-activity').on('click', function () {
+                event.preventDefault();
+                $('#activityForm').find('.help').remove();
+
+                var newItem = $('<tr>');
+
+                var activity = $('<td>').text($('#newActivity').val().trim());
+
+                var duration = $('<td>');
+
+                var close = $('<td>').append('<i class="fas fa-times"></i>');
+
+                var units = $('#unitsDrop').attr('data-selected');
+
+                var fbUnits = "";
+
+                if (units === '0') {
+                    duration.text($('#newDuration').val().trim() + ' Reps');
+                    fbUnits = "Reps";
+                }else if(units === '1') {
+                    duration.text($('#newDuration').val().trim() + ' Mins');
+                    fbUnits = "Mins";
+                }else{
+                    return $('#activityForm').append('<p class="help is-danger">Please select a unit</p>');
+                }
+
+                newItem
+                    .append(activity)
+                    .append(duration)
+                    .append(close);
+
+                $('#itemsList').append(newItem);
+
+                //collect items for Firebase
+                var fbActivity = $("#newActivity").val().trim();
+                var fbDuration = $("#newDuration").val().trim();
+
+                console.log(fbActivity);
+                console.log(fbDuration);
+                console.log(fbUnits);
+
+                //store items in temp in JSON
+                temp = {
+                    User: currentUid,
+                    Activity: fbActivity,
+                    Duration: fbDuration+" "+fbUnits,
+                    date: moment().format('L'),
+                    completed: false
+                }
+        
+                //send items to firebase
+                database.ref(currentUid+"/activty").push(temp);
+            });
+
+            $(document).on('click', '.fa-times', function () {
+                console.log('clicked');
+                $(this).parent().parent().remove();
+            });
+            break;
+        case "Weather":
+            var head = createPanelHead('<img class="image is-64x64" src="assets/weather-icons/sun.svg" alt="weather">', 'Weather', false);
+
+            var body = weatherModal();
+
+            $('#modalDiv')
+                .append(head)
+                .append(body);
+            
+            break;
+        case "pedometer":
+            var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Pedometer', false);
+            var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
+            var title1 = $('<h3>').addClass('title is-4').text('Week View');
+            var title2 = $('<h3>').addClass('title is-4').text('Trends');
+            //get dates for this week
+            //call to user database, get pedometer steps for the week
+            
+            
+           
+            var level = $('<div>').addClass('level');
+                
+                iframe.addClass('level-item');
+                level.append(iframe);
+            
+            $('#modalDiv')
+                .append(head)
+                .append(title1)
+                .append(pedometerModal(dateArr))
+                .append(title2)
+                .append(level);
+            break;
+        case 'Meals':
+            var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="nutrition-icon">', 'Meals', false);
+            
+            $('#modalDiv')
+                .append(head)
+                .append(mealsModal());
+
+            break;    
+        case 'Calories':
+            //CREATE MODAL
+            calorieModal();
+            break;
+    }
+});
+
+//Deactivates Modal
+$('#modal-close').on('click', function() {
+    $('#modal').removeClass('is-active');
+    $('#modalDiv').empty();
+}); 
+
+$(document).on('click', 'label', function(e) {
+    e.preventDefault();
+    console.log($(this).attr('data-checked'));
+    
+    if($(this).attr('data-checked') === 'false'){
+        $(this).attr('data-checked', 'true');
+        $(this).css('text-decoration', 'line-through');
+    }else{
+        $(this).attr('data-checked', 'false');
+        $(this).css('text-decoration', 'none');
+    }
+    console.log(this);
+
 });
