@@ -198,17 +198,6 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 .append(head)
                 .append(mealsModal());
 
-            $('div.buttons > span').on('click', function(){
-            var state = $(this).attr('data-selected');
-            if(state === 'false'){
-                $(this).attr('data-selected', 'true');
-                $(this).removeClass('is-outlined');
-            }else{
-                $(this).attr('data-selected', 'false');
-                $(this).addClass('is-outlined');
-            }
-            console.log($(this).attr('data-selected'));
-            });
             break;    
         case 'Calories':
             //CREATE MODAL
@@ -826,6 +815,7 @@ function addMeals() {
             button.classList.add('button');
             button.classList.add('is-primary');
             button.classList.add('is-outlined');
+            button.classList.add('btn-filter');
             button.setAttribute('data-selected', 'false');
             button.appendChild(document.createTextNode(filter));
             btnGroup.append(button);
@@ -836,7 +826,6 @@ function addMeals() {
     elem.append(field);
     elem.append(level2);
     elem.append(body);
-    
             
     return elem;
 }
@@ -994,6 +983,8 @@ function mealsModal () {
     return container;
 }
 
+
+
 //Calorie Card
 //TODO: ALTER CARD TO REFLECT BURNED/GOALS
 function addCalorieCard () {
@@ -1101,4 +1092,15 @@ toAppend.push(addDaily(), addWeather(), addCalorieCard(), addMeals());
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
-
+//Filters onclick funtion changes style and data-selected attribute
+$('.btn-filter').on('click', function(){
+    var state = $(this).attr('data-selected');
+    if(state === 'false'){
+        $(this).attr('data-selected', 'true');
+        $(this).removeClass('is-outlined');
+    }else{
+        $(this).attr('data-selected', 'false');
+        $(this).addClass('is-outlined');
+    }
+    console.log($(this).attr('data-selected'));
+});
