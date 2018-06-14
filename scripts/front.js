@@ -174,7 +174,23 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
             $('#modalDiv')
                 .append(head)
                 .append(mealsModal());
+
+            $('div.buttons > span').on('click', function(){
+            var state = $(this).attr('data-selected');
+            if(state === 'false'){
+                $(this).attr('data-selected', 'true');
+                $(this).removeClass('is-outlined');
+            }else{
+                $(this).attr('data-selected', 'false');
+                $(this).addClass('is-outlined');
+            }
+            console.log($(this).attr('data-selected'));
+            });
             break;    
+        case 'Calories':
+            //CREATE MODAL
+            calorieModal();
+            break;
     }
 });
 
@@ -620,7 +636,6 @@ function pedometerModal (dateArr) {
     return level;
 }
 
-
 function addMeals() {
     var elem = document.createElement("div");
         elem.classList.add('grid-item');
@@ -920,24 +935,12 @@ function mealsModal () {
     var btnGroup = $('<div>').addClass('buttons');
     
     filters.forEach(function(filter) {
-        var button = $('<button>').addClass('button is-primary is-outlined');
+        var button = $('<span>').addClass('button is-primary is-outlined');
             button.attr('data-selected', 'false');
             button.text(filter);
             btnGroup.append(button);
     });
 
-    $('div.buttons > button').on('click', function(){
-        
-        var state = $(this).attr('data-selected');
-        if(state === 'false'){
-            $(this).attr('data-selected', 'true');
-            $(this).removeClass('is-outlined');
-        }else{
-            $(this).attr('data-selected', 'false');
-            $(this).addClass('is-outlined');
-        }
-        console.log($(this).attr('data-selected'));
-    });
 
     level1.append(ancestorFav);
     level2.append(ancestorSug);
@@ -958,6 +961,7 @@ function mealsModal () {
 }
 
 //Calorie Card
+//TODO: ALTER CARD TO REFLECT BURNED/GOALS
 function addCalorieCard () {
     var elem = document.createElement('div');
     elem.classList.add('grid-item');
@@ -1003,6 +1007,21 @@ function addCalorieCard () {
 
     return elem;
 
+}
+
+function calorieModal() {
+    var head = createPanelHead('<img src= "assets/panel-icons/man.svg" alt="burnMan">', 'Calories', false);
+    //5day trend
+    var level = $('<div>').addClass('level')
+
+    for (var i=0; i<5; i++) {
+        var item = $('<div>').addClass('level-item');
+
+        
+    }
+    //iframe panel
+
+    $('#modalDiv').append(head);
 }
 
 
