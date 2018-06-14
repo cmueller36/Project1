@@ -170,7 +170,29 @@ $(document).on("click", ".dietQuery", function(event) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response)
+        console.log(response);
+
+        //calories per serving = response.hits[i].recipe.calories / response.hits[i].recipe.yield
+
+        $(document).on("click", ".button", function(event) {
+            event.preventDefault();
+        
+            var recipeArray = [];
+        
+            recipeArray.push(response.hits);
+        
+            console.log(recipeArray);
+        
+            for (i = 0; i < recipeArray.length; i++) {
+                
+            }
+        
+            var meals = {
+                name: response.hits[0].recipe.label,
+                calories: response.hits[0].recipe.calories / response.hits[0].recipe.yield,
+            
+            }
+        })
     })
     
 })
