@@ -17,71 +17,15 @@ var iframeJasmine = "https://app.powerbi.com/view?r=eyJrIjoiZDhjZTNiNTUtNzliNi00
 
 var useriframe = "";
 
+//user ids from firebase
+var uidChris = "lJLzL33avkdSXjBz9pNKnAe0Dug2";
+var uidClaire = "stRYWlF1dJYish2vDnfNZEGVt7W2";
+var uidJordan = "VTn0jLWUetgMwJmUce0Cf3mWtuY2";
+var uidAnna = "dWKyQd8BGof1eOfrFXRJdrJuFY92";
+var uidJasmine = "AarJudUzomQymI5HS72yehqoBAX2";
 
 
 var activitiesSummary = [];
-
-
-
-
-//User dropdown selection
-$(".dropdown-item").on("change", function () {
-    userSelected = $(this).val();
-
-    if (userSelected === "Chris") {
-        userToken = tokenChris;
-        useriframe = iframeChris;
-    }
-
-    if (userSelected === "Anna") {
-        userToken = tokenAnna;
-        useriframe = iframeAnna;
-    }
-
-    if (userSelected === "Jordan") {
-        userToken = tokenJordan;
-        useriframe = iframeJordan;
-    }
-
-    if (userSelected === "Claire") {
-        userToken = tokenClaire;
-        useriframe = iframeClaire;
-    }
-
-    if (userSelected === "Jasmine") {
-        userToken = tokenJasmine;
-        useriframe = iframeJasmine;
-    }
-
-    var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
-
-    $.ajax({
-        url: summaryURL,
-        method: "GET"
-    }).then(function (response) {
-        //this grabs the first index in the object array and gets the calories for it
-        activitiesSummary = response;
-        console.log(response);
-
-        activitiesSummary.forEach(function (value) {
-            console.log('this: ', value);
-            var entry = document.createElement('div');
-            entry.classList.add('has-background-grey-lighter');
-            entry.classList.add('corners-rounded');
-            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
-            $('#completed0').append(entry);
-        });
-    });
-
-    console.log(activitiesSummary);
-    $("#powerbiIframe").attr("src", useriframe);
-});
-
-
-
-
-
-
 
 // Initialize Firebase
 var config = {
@@ -112,12 +56,10 @@ var uiConfig = {
 // The start method will wait until the DOM is loaded.
 ui.start('#firebaseui-auth-container', uiConfig);
 
-// if (ui.isPendingRedirect()) {
-//     ui.start('#firebaseui-auth-container', uiConfig);
-// };
-
+//once the user is authenticated
 // Track the UID of the current user.  
 var currentUid = "";
+var fbActivities = [];
 firebase.auth().onAuthStateChanged(function (user) {
 
     // onAuthStateChanged listener triggers every time the user ID token changes.  
@@ -128,19 +70,12 @@ firebase.auth().onAuthStateChanged(function (user) {
         // Otherwise ignore if this is a token refresh.  
         // Update the current user UID.  
         currentUid = user.uid;
-        console.log(currentUid);
 
         var ref = database.ref();
 
-        ref.child(currentUid).orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
+        ref.child(currentUid).child("activty").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
             console.log(snapshot.val());
-            console.log(currentUid);
-            snapshot.forEach(function (data) {
-                $("#tablebody").append($("<tr><td>"
-                    + data.val().Calories + "</td><td>"
-                    + data.val().Notes
-                    + "</td></tr>"))
-            });
+            fbActivities.push(snapshot.val());
         });
 
     } else {
@@ -148,10 +83,73 @@ firebase.auth().onAuthStateChanged(function (user) {
         currentUid = null;
         console.log("no user signed in");
     }
+    if (currentUid === uidChris) {
+        userToken = tokenChris;
+        useriframe = iframeChris;
+    }
+    
+    if (currentUid === uidAnna) {
+        userToken = tokenAnna;
+        useriframe = iframeAnna;
+    }
+    
+    if (currentUid === uidJordan) {
+        userToken = tokenJordan;
+        useriframe = iframeJordan;
+    }
+    
+    if (currentUid === uidClaire) {
+        userToken = tokenClaire;
+        useriframe = iframeClaire;
+    }
+    
+    if (currentUid === uidJasmine) {
+        userToken = tokenJasmine;
+        useriframe = iframeJasmine;
+    }
+    
+    var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
+    
+    $.ajax({
+        url: summaryURL,
+        method: "GET"
+    }).then(function (response) {
+        //this grabs the first index in the object array and gets the calories for it
+        activitiesSummary = response;
+        console.log(response);
+    
+        activitiesSummary.forEach(function (value) {
+            //console.log('this: ', value);
+            var entry = document.createElement('div');
+            entry.classList.add('has-background-grey-lighter');
+            entry.classList.add('corners-rounded');
+            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
+            $('#completed0').append(entry);
+        });
+    });
+    
+    $("#powerbiIframe").attr("src", useriframe);
 });
 
-//variables storing information relevant to Recipe API
 
+
+
+//logout of firebase
+$("#logout").on("click", function (event) {
+    firebase.initializeApp(config);
+    console.log("logout");
+    event.preventDefault();
+    firebase.auth().signOut().then(function () {
+        console.log("Sign-out successful");
+    }).catch(function (error) {
+        console.log(error);
+        console.log("An error happened");
+    });
+
+});
+
+
+//variables storing information relevant to Recipe API
 $("#run").on("click", function (event) {
 
     event.preventDefault();
@@ -176,113 +174,111 @@ $("#run").on("click", function (event) {
 
 
 
-
+//weather data
 var weatherAPI = "?apikey=YmtcFPorPCo5IQDz9HzhufW3JeeVaA2f";
 var weatherURL = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/329823" + weatherAPI;
 var weatherData = [];
 
-
 $.ajax({
     url: weatherURL,
     method: "GET"
-})
-    .then(function (res) {
-        console.log(res);
-        for (var i = 0; i < res.DailyForecasts.length; i++) {
-            var data = res.DailyForecasts[i];
-            var day = {
-                icon: undefined,
-                forecast: data.Day.IconPhrase,
-                temp: data.Temperature.Maximum.Value
-            }
-            weatherData.push(day);
-
-            //get correct icon for weather forecast
-
-            switch (data.Day.Icon) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    day.icon = '<img src="assets/weather-icons/sun.svg" alt="sunny">'
-                    break;
-                case 6:
-                    day.icon = '<img src="assets/weather-icons/cloudy.svg"" alt="partly-cloudy">'
-                    break;
-                case 7:
-                case 8:
-                    day.icon = '<img src="assets/weather-icons/cloudy-1.svg" alt="cloudy">';
-                    break;
-                case 11:
-                    day.icon = '<img src="assets/weather-icons/fog-1.svg" alt="fog">';
-                    break;
-                case 12:
-                case 13:
-                    day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="showers">';
-                    break;
-                case 14:
-                    day.icon = '<img src="assets/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
-                    break;
-                case 15:
-                case 16:
-                case 17:
-                case 41:
-                case 42:
-                    day.icon = '<img src="assets/weather-icons/thunder.svg" alt="thunder">';
-                    break;
-                case 18:
-                    day.icon = '<img src="assets/weather-icons/rain.svg" alt="rain">';
-                    break;
-                case 19:
-                case 20:
-                case 21:
-                case 43:
-                case 44:
-                    day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="flurries">';
-                    break;
-                case 22:
-                case 23:
-                    day.icon = '<img src="assets/weather-icons/snow.svg" alt="snow">';
-                    break;
-                case 24:
-                    day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="ice">';
-                    break;
-                case 25:
-                case 26:
-                case 29:
-                    day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="fog">';
-                    break;
-                case 30:
-                    day.icon = '<img src="assets/weather-icons/hot.svg" alt="hot">';
-                    break;
-                case 31:
-                    day.icon = '<img src="assets/weather-icons/thermometer.svg" alt="cold-thermometer">';
-                    break;
-                case 32:
-                    day.icon = '<img src="assets/weather-icons/wind.svg" alt="windy">';
-                    break;
-                case 33:
-                case 34:
-                    day.icon = '<img src="assets/weather-icons/full-moon-and-stars.svg" alt="moon">';
-                    break;
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                    day.icon = '<img src="assets/weather-icons/cloudy-2.svg" alt="moon-clouds">';
-                    break;
-                case 39:
-                case 40:
-                    day.icon = '<img src="assets/weather-icons/rain-2.svg" alt="raindrops">';
-                    break;
-                default:
-                    day.icon = '<img src="assets/weather-icons/rainbow.svg" alt="rainbow"><p>Icon exception</p>';
-                    break;
-            }
+}).then(function (res) {
+    console.log(res);
+    for (var i = 0; i < res.DailyForecasts.length; i++) {
+        var data = res.DailyForecasts[i];
+        var day = {
+            icon: undefined,
+            forecast: data.Day.IconPhrase,
+            temp: data.Temperature.Maximum.Value
         }
-        console.log(weatherData);
-        $('#weather-icon').html(weatherData[0].icon);
-        $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
-        $('#forecast').text(weatherData[0].forecast);
-    });
+        weatherData.push(day);
+
+        //get correct icon for weather forecast
+
+        switch (data.Day.Icon) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                day.icon = '<img src="assets/weather-icons/sun.svg" alt="sunny">'
+                break;
+            case 6:
+                day.icon = '<img src="assets/weather-icons/cloudy.svg"" alt="partly-cloudy">'
+                break;
+            case 7:
+            case 8:
+                day.icon = '<img src="assets/weather-icons/cloudy-1.svg" alt="cloudy">';
+                break;
+            case 11:
+                day.icon = '<img src="assets/weather-icons/fog-1.svg" alt="fog">';
+                break;
+            case 12:
+            case 13:
+                day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="showers">';
+                break;
+            case 14:
+                day.icon = '<img src="assets/weather-icons/rain-3.svg" alt="showers-partly-sunny">';
+                break;
+            case 15:
+            case 16:
+            case 17:
+            case 41:
+            case 42:
+                day.icon = '<img src="assets/weather-icons/thunder.svg" alt="thunder">';
+                break;
+            case 18:
+                day.icon = '<img src="assets/weather-icons/rain.svg" alt="rain">';
+                break;
+            case 19:
+            case 20:
+            case 21:
+            case 43:
+            case 44:
+                day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="flurries">';
+                break;
+            case 22:
+            case 23:
+                day.icon = '<img src="assets/weather-icons/snow.svg" alt="snow">';
+                break;
+            case 24:
+                day.icon = '<img src="assets/weather-icons/snowflake.svg" alt="ice">';
+                break;
+            case 25:
+            case 26:
+            case 29:
+                day.icon = '<img src="assets/weather-icons/rain-1.svg" alt="fog">';
+                break;
+            case 30:
+                day.icon = '<img src="assets/weather-icons/hot.svg" alt="hot">';
+                break;
+            case 31:
+                day.icon = '<img src="assets/weather-icons/thermometer.svg" alt="cold-thermometer">';
+                break;
+            case 32:
+                day.icon = '<img src="assets/weather-icons/wind.svg" alt="windy">';
+                break;
+            case 33:
+            case 34:
+                day.icon = '<img src="assets/weather-icons/full-moon-and-stars.svg" alt="moon">';
+                break;
+            case 35:
+            case 36:
+            case 37:
+            case 38:
+                day.icon = '<img src="assets/weather-icons/cloudy-2.svg" alt="moon-clouds">';
+                break;
+            case 39:
+            case 40:
+                day.icon = '<img src="assets/weather-icons/rain-2.svg" alt="raindrops">';
+                break;
+            default:
+                day.icon = '<img src="assets/weather-icons/rainbow.svg" alt="rainbow"><p>Icon exception</p>';
+                break;
+        }
+    }
+    console.log(weatherData);
+    $('#weather-icon').html(weatherData[0].icon);
+    $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
+    $('#forecast').text(weatherData[0].forecast);
+});

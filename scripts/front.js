@@ -80,6 +80,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
 
             //Grab data append and update database
             $('#add-activity').on('click', function () {
+                event.preventDefault();
                 $('#activityForm').find('.help').remove();
 
                 var newItem = $('<tr>');
@@ -92,10 +93,14 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
 
                 var units = $('#unitsDrop').attr('data-selected');
 
+                var fbUnits = "";
+
                 if (units === '0') {
                     duration.text($('#newDuration').val().trim() + ' Reps');
+                    fbUnits = "Reps";
                 }else if(units === '1') {
                     duration.text($('#newDuration').val().trim() + ' Mins');
+                    fbUnits = "Mins";
                 }else{
                     return $('#activityForm').append('<p class="help is-danger">Please select a unit</p>');
                 }
@@ -106,6 +111,24 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                     .append(close);
 
                 $('#itemsList').append(newItem);
+
+                //collect items for Firebase
+                var fbActivity = $("#newActivity").val().trim();
+                var fbDuration = $("#newDuration").val().trim();
+
+                console.log(fbActivity);
+                console.log(fbDuration);
+                console.log(fbUnits);
+
+                //store items in temp in JSON
+                temp = {
+                    User: currentUid,
+                    Activity: fbActivity,
+                    Duration: fbDuration+" "+fbUnits
+                }
+        
+                //send items to firebase
+                database.ref(currentUid+"/activty").push(temp);
             });
 
             $(document).on('click', '.fa-times', function () {
