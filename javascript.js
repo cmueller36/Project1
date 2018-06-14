@@ -59,31 +59,23 @@ ui.start('#firebaseui-auth-container', uiConfig);
 //once the user is authenticated
 // Track the UID of the current user.  
 var currentUid = "";
+var fbActivities = [];
 firebase.auth().onAuthStateChanged(function (user) {
 
     // onAuthStateChanged listener triggers every time the user ID token changes.  
     // This could happen when a new user signs in or signs out.  
     // It could also happen when the current user ID token expires and is refreshed.  
     if (user && user.uid != currentUid) {
-
-        
         // Update the UI when a new user signs in.  
         // Otherwise ignore if this is a token refresh.  
         // Update the current user UID.  
         currentUid = user.uid;
-        console.log(currentUid);
 
         var ref = database.ref();
 
-        ref.child(currentUid).orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
+        ref.child(currentUid).child("activty").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
             console.log(snapshot.val());
-            console.log(currentUid);
-            snapshot.forEach(function (data) {
-                $("#tablebody").append($("<tr><td>"
-                    + data.val().Calories + "</td><td>"
-                    + data.val().Notes
-                    + "</td></tr>"))
-            });
+            fbActivities.push(snapshot.val());
         });
 
     } else {
@@ -136,7 +128,6 @@ firebase.auth().onAuthStateChanged(function (user) {
         });
     });
     
-    console.log(useriframe);
     $("#powerbiIframe").attr("src", useriframe);
 });
 
