@@ -951,7 +951,7 @@ function mealsModal () {
     }
     
     appendMeals (favArr, ancestorFav);
-    appendMeals(sugArr, ancestorSug);
+    //appendMeals(sugArr, ancestorSug);
 
     var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Keto', 'Paleo', 'Kosher', 'Halal'];
 
@@ -975,8 +975,8 @@ function mealsModal () {
     container
         .append(title1)
         .append(level1)
-        .append(title2)
-        .append(level2)
+        //.append(title2)
+        //.append(level2)
         .append(title3)
         .append(level3);
     
@@ -1038,13 +1038,32 @@ function calorieModal() {
     var level = $('<div>').addClass('level')
 
     for (var i=0; i<5; i++) {
+        var date = moment().add(i, 'days').format('DDDD, MMMM Do');
         var item = $('<div>').addClass('level-item');
+        var table = $('<table>').addClass('table is-fullwidth');
+        var thead = $('<thead>');
+        var tbody = $('<tbody>');
+        var row1 = $('<tr>');
+        var row2 = $('<tr>');
+        var th = $('<th>').text(date);
+        var td = $('<td>');
 
-        
+        row1.append(th);
+        row2.append(td);
+        thead.append(row1);
+        tbody.append(row2);
+        table.append(thead);
+        table.append(tbody);
+
+        item.append(table);
+        level.append(item);
     }
     //iframe panel
 
-    $('#modalDiv').append(head);
+    $('#modalDiv')
+        .append(head)
+        .append();
+
 }
 
 
