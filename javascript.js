@@ -433,13 +433,6 @@ $.ajax({
         $('#weather-icon').html(weatherData[0].icon);
         $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
         $('#forecast').text(weatherData[0].forecast);
-<<<<<<< HEAD
-});
-
-
-database.ref().on();
-=======
 
     });
->>>>>>> bee6fb1b4be7b882332995fcb7738e5dcd4f0dcd
-
+});

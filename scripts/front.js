@@ -676,6 +676,7 @@ function addMeals() {
         search.setAttribute('placeholder', 'Search Recipes');
         search.classList.add('input');
         search.classList.add('is-primary');
+        search.setAttribute('id', 'mealSearch');
  
         //now the elements are appended together 
         /*
@@ -975,11 +976,7 @@ function mealsModal () {
 //appends Panels to the dashboard
 var toAppend = [];
 
-<<<<<<< HEAD
-toAppend.push(addDaily(), addWeather(), dummyCard());
-=======
 toAppend.push(addDaily(), addWeather(), dummyCard(), addMeals()); 
->>>>>>> bee6fb1b4be7b882332995fcb7738e5dcd4f0dcd
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
