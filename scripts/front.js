@@ -928,6 +928,8 @@ function dummyCard () {
     return elem;
 }
 
+//add username
+$('#username').text(`Hello, ${'Name'}`);
 //appends Panels to the dashboard
 var toAppend = [];
 
