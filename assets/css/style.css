@@ -7,6 +7,7 @@ html, body {
     margin-top: 300px;
 }
 
+
 #dash{
     margin: 10px;
 }
@@ -16,7 +17,15 @@ html, body {
 }
 
 .grid-sizer {
-    width: 20%;
+    width: 30%;
+}
+
+.grid-item--height{
+    height: 230px;
+}
+
+.grid-item--height2{
+    height: 485px;
 }
 
 .grid-item--width1{
@@ -24,15 +33,15 @@ html, body {
 }
 
 .grid-item--width2{
-    width: 40%;
+    width: 30%;
 }
 
 .grid-item--width3{
-    width: 60%;
+    width: 40%;
 }
 
 .grid-item--width4{
-    width: 80%;
+    width: 50%;
 }
 
 .grid-item--width5{
@@ -61,14 +70,6 @@ html, body {
     border-radius: 4px;
 }
 
-.calendar-column {
-    margin: 5px;
-}
-
-.margin-small {
-    margin: 3px;
-}
-
 .modal-content--width {
     width: 80%;
 }
@@ -95,10 +96,10 @@ html, body {
 }
 
 .card-weather {
-    width: 175px;
-    padding: 10px;
+    width: 200px;
+    padding: 20px;
     margin: 5px;
-    height: 250px;
+    height: 275px;
 }
 .card-title-weather {
     height: 50px;
@@ -109,6 +110,11 @@ html, body {
     max-width: 800px;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.calories-level-item {
+    margin: 5px;
+    padding: 10px;
 }
 
 /*scrollbars*/
