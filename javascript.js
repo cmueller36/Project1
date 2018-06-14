@@ -286,7 +286,7 @@ $.ajax({
 
 })
 
-$("#searchMeals").on("click", function(event) {
+$(document).on("click", "", function(event) {
     event.preventDefault();
     alert("worked");
     console.log(response);
