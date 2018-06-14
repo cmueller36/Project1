@@ -75,15 +75,12 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         var ref = database.ref();
 
-        ref.child(currentUid).orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
+        ref.child(currentUid+"/activity").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
             console.log(snapshot.val());
             console.log(currentUid);
-            snapshot.forEach(function (data) {
-                $("#tablebody").append($("<tr><td>"
-                    + data.val().Calories + "</td><td>"
-                    + data.val().Notes
-                    + "</td></tr>"))
-            });
+            // snapshot.forEach(function (data) {
+
+            // });
         });
 
     } else {
