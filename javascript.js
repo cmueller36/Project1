@@ -141,6 +141,7 @@ $("#logout").on("click", function (event) {
     event.preventDefault();
     firebase.auth().signOut().then(function () {
         console.log("Sign-out successful");
+        window.location = "login.html";
     }).catch(function (error) {
         console.log(error);
         console.log("An error happened");
