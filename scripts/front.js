@@ -520,7 +520,7 @@ function addMeals() {
     var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="nutrition-icon">', 'Meals', true);
 
     var body = document.createElement('div');
-
+        body.setAttribute('id', 'results');
     var field = document.createElement('div');
     field.classList.add('field');
     field.classList.add('has-addons');
@@ -550,73 +550,9 @@ function addMeals() {
     field.append(inputControl);
     field.append(btnControl);
 
-    var mealsResults = [
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-    ];
+    
 
-    for (var j = 0; j < mealsResults.length; j++) {
-
-        if (j % 4 === 0) {
-            var level = document.createElement('div');
-            level.classList.add('level');
-            body.append(level);
-        }
-
-        var favMeals = document.createElement('div');
-        favMeals.classList.add('corners-rounded');
-        favMeals.classList.add('has-background-grey-lighter');
-        favMeals.classList.add('meal-results');
-
-        var table = document.createElement('table');
-        table.classList.add('table');
-        table.classList.add('is-fullwidth');
-        table.classList.add('corners-rounded');
-
-        var thead = document.createElement('thead');
-        var tbody = document.createElement('tbody');
-
-        var row1 = document.createElement('tr');
-        var row2 = document.createElement('tr');
-
-        var th = document.createElement('th');
-        var resultTitle = document.createTextNode(mealsResults[j].name);
-        th.appendChild(resultTitle);
-
-        var td = document.createElement('td');
-        var p2 = document.createElement('p');
-        var resultText = document.createTextNode(mealsResults[j].text);
-        p2.appendChild(resultText);
-        td.appendChild(p2);
-
-        row1.append(th);
-        row2.append(td);
-        thead.append(row1);
-        tbody.append(row2);
-        table.append(thead);
-        table.append(tbody);
-
-        favMeals.append(table);
-        level.append(favMeals);
-    }
+   
 
     var filterTitle = document.createElement('h3');
     filterTitle.classList.add('title');
@@ -650,6 +586,63 @@ function addMeals() {
     return elem;
 }
 
+function getSearchResults(arr) {
+    $('#results').empty();
+    for (var j = 0; j < arr.length; j++) {
+
+        if (j % 4 === 0) {
+            var level = document.createElement('div');
+            level.classList.add('level');
+            $('#results').append(level);
+        }
+
+        var favMeals = document.createElement('div');
+        favMeals.classList.add('corners-rounded');
+        favMeals.classList.add('has-background-grey-lighter');
+        favMeals.classList.add('meal-results');
+
+        var table = document.createElement('table');
+        table.classList.add('table');
+        table.classList.add('is-fullwidth');
+        table.classList.add('corners-rounded');
+
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+            tbody.classList.add('clickRecipe');
+            
+        var row1 = document.createElement('tr');
+        var row2 = document.createElement('tr');
+
+        var th = document.createElement('th');
+        var resultTitle = document.createTextNode(recipeArr[j].name);
+        th.appendChild(resultTitle);
+
+        var td = document.createElement('td');
+        var img = document.createElement('img');
+            img.classList.add('corners-rounded');
+            
+            img.setAttribute('src', recipeArr[j].image);
+            img.setAttribute('alt', 'Query result img');
+        td.appendChild(img);
+
+        var link = document.createElement('a');
+            link.setAttribute('href', recipeArr[j].url);
+            link.setAttribute('target', '_blank');
+            link.setAttribute('style', 'display:none');
+        tbody.append(link);
+
+        row1.append(th);
+        row2.append(td);
+        thead.append(row1);
+        tbody.append(row2);
+        table.append(thead);
+        table.append(tbody);
+
+        favMeals.append(table);
+        level.append(favMeals);
+    }
+}
+
 function mealsModal() {
     var container = $('<div>');
     var title1 = $('<h3>').addClass('title is-4').text('Favorites');
@@ -666,92 +659,7 @@ function mealsModal() {
     var ancestorFav = $('<div>').addClass('tile is-ancestor is-vertical');
     var ancestorSug = $('<div>').addClass('tile is-ancestor is-vertical');
 
-    var favArr = [
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-
-    ]
-
-    var sugArr = [
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-    ]
+   
 
 
     //takes an array of suggested recipies and appends them to the appropriate ancestor
@@ -986,6 +894,7 @@ $('.btn-filter').on('click', function () {
         $(this).addClass('is-outlined');
     }
     console.log($(this).attr('data-selected'));
+    
 });
 
 //dropdown toggle
@@ -1168,4 +1077,10 @@ $(document).on('click', 'label', function (e) {
     }
     console.log(this);
 
+});
+
+//makes meals tbody clickable
+$(document).on('click', '.clickRecipe', function (){
+    console.log('clicked');
+    window.open($(this).find('a').attr('href'));
 });
