@@ -618,6 +618,17 @@ function getSearchResults(arr) {
         th.appendChild(resultTitle);
 
         var td = document.createElement('td');
+        var emptyHeart = document.createElement('button');
+            emptyHeart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
+            emptyHeart.classList.add('button');
+            emptyHeart.classList.add('level-center');
+            emptyHeart.classList.add('has-background-grey-lighter');
+           th.appendChild(emptyHeart);
+
+           emptyHeart.setAttribute('id', 'empty');
+
+           document.getElementbyId('empty').addEventListener('click', '?');
+
         var img = document.createElement('img');
             img.classList.add('corners-rounded');
             
