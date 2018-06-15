@@ -913,28 +913,63 @@ function calorieModal() {
 }
 
 
-//DEV FUNCTION DELETE FOR PRODUCTION 
-function dummyCard() {
-    var elem = document.createElement('div');
-    elem.classList.add('grid-item');
-    elem.classList.add('grid-item--width2');
-    elem.classList.add('grid-item--height');
-    elem.classList.add('box');
-    elem.setAttribute('id', 'dummy');
 
-    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
 
-    elem.append(head);
+//Pedometer Card
+function addPedometer() {
+    var elem = document.createElement("div");
+        elem.classList.add("grid-item");
+        elem.classList.add('grid-item--width2');
+        elem.classList.add("box");
+      
+//Create header for the Pedometer
+    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="pedomter">', 'Pedometer', true);
+    
+//Create body element 
 
-    return elem;
+
+    var body = document.createElement('div');
+        body.classList.add('has-text-centered');
+        body.classList.add('level');
+    var today = document.createElement('h3');
+        today.setAttribute('id', 'todaysStats')
+        today.classList.add('title');
+        today.classList.add('is-4');
+        today.append(document.createTextNode('Today:'));
+    
+
+        body.appendChild(today);
+               
+//Create footer element
+
+var footer = document.createElement('footer');
+    footer.classList.add('has-text-centered');
+    footer.classList.add('level');
+
+var yStats = document.createElement('h5');
+    yStats.setAttribute('id', 'yStats')
+    // yStats.classList.add('subtitle');
+    yStats.classList.add('is-6');
+    yStats.append(document.createTextNode('Yesterday:'));
+
+    footer.appendChild(yStats)
+  
+    
+        elem.append(head);
+        elem.append(body);
+        elem.append(footer);
+        return elem; 
 }
+
 
 //add username
 $('#username').text(`Hello, ${userNameNav}`);
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather(), addCalorieCard(), dummyCard(), addMeals());
+
+toAppend.push(addDaily(), addWeather(), addCalorieCard(), addPedometer(), addMeals()); 
+
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
