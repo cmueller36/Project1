@@ -17,6 +17,24 @@ var iframeJasmine = "https://app.powerbi.com/view?r=eyJrIjoiZDhjZTNiNTUtNzliNi00
 
 var useriframe = "";
 
+//iframe Calories for Power BI Dashboard
+var iframeCaloriesChris = "https://app.powerbi.com/view?r=eyJrIjoiZTI0NDg5ZTEtMTFjOC00YjNjLWI0ZTgtYzVlY2NjZDIzYTU2IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframeCaloriesJordan = "https://app.powerbi.com/view?r=eyJrIjoiMmM5YWI0OGEtY2RjMS00MzZiLTg0ZTctNzZhZTMyZWI4NGE1IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframeCaloriesClaire = "https://app.powerbi.com/view?r=eyJrIjoiOTA5YTdjOTEtYWYwOS00ZWMxLWE1ZGQtM2U4NDIwNTM2NjEzIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframeCaloriesAnna = "https://app.powerbi.com/view?r=eyJrIjoiMTBjNWY3ZmItZDA4Ni00MzUwLWE3NTYtNTFiODk4NTZjZTc2IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframeCaloriesJasmine = "https://app.powerbi.com/view?r=eyJrIjoiODBlMDVhMWUtYTE2OC00YzdhLTk3YWQtMjYxYzgyNzc1MWFmIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+
+var useriframeCalories = "";
+
+//iframe Pedometer for Power BI Dashboard
+var iframePedometerChris = "https://app.powerbi.com/view?r=eyJrIjoiZTU4YTdiODItOGZmNC00YzhlLTkxNDgtZjA3ZTk4YWRlOWU4IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var ifrmaePedometerJordan = "https://app.powerbi.com/view?r=eyJrIjoiMjE2YjhiZjYtYzkyMS00NGExLWEwNzEtNGRhNmEwNTFlZTUwIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframePedometerClaire = "https://app.powerbi.com/view?r=eyJrIjoiMzEyNTY5YmYtNzgyMy00YTE1LTk5ZjctZTk5YzNmMDRlMTFlIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframePedometerAnna = "https://app.powerbi.com/view?r=eyJrIjoiNmY1MjVlZWMtYTVjMC00OWM1LTk4NDQtNDI3YjUxNWMwYWJlIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+var iframePedometerJasmine = "https://app.powerbi.com/view?r=eyJrIjoiMjhiYTA5YzEtNTliNi00NGZhLWIzYTItN2JkMjQ3MDcxMWJhIiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9";
+
+var useriframePedometer = "";
+
 //user ids from firebase
 var uidChris = "lJLzL33avkdSXjBz9pNKnAe0Dug2";
 var uidClaire = "stRYWlF1dJYish2vDnfNZEGVt7W2";
@@ -89,30 +107,40 @@ firebase.auth().onAuthStateChanged(function (user) {
         userToken = tokenChris;
         useriframe = iframeChris;
         userNameNav = "Chris";
+        useriframeCalories = iframeCaloriesChris;
+        useriframePedometer = iframePedometerChris;
     }
 
     if (currentUid === uidAnna) {
         userToken = tokenAnna;
         useriframe = iframeAnna;
         userNameNav = "Anna";
+        useriframeCalories = iframeCaloriesAnna;
+        useriframePedometer = iframePedometerAnna;
     }
 
     if (currentUid === uidJordan) {
         userToken = tokenJordan;
         useriframe = iframeJordan;
         userNameNav = "Jordan";
+        useriframeCalories = iframeCaloriesJordan;
+        useriframePedometer = ifrmaePedometerJordan;
     }
 
     if (currentUid === uidClaire) {
         userToken = tokenClaire;
         useriframe = iframeClaire;
         userNameNav = "Claire";
+        useriframeCalories = iframeCaloriesClaire;
+        useriframePedometer = iframePedometerClaire;
     }
 
     if (currentUid === uidJasmine) {
         userToken = tokenJasmine;
         useriframe = iframeJasmine;
         userNameNav = "Jasmine";
+        useriframeCalories = iframeCaloriesJasmine;
+        useriframePedometer = iframePedometerJasmine;
     }
 
     var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
@@ -136,6 +164,8 @@ firebase.auth().onAuthStateChanged(function (user) {
         //append relevent card data
         //calories card
         $('#caloriesToday').text(activitiesSummary[0].calories);
+        $('#stepsToday').text(activitiesSummary[0].steps);
+        $('#stepsYesterday').text(activitiesSummary[0].steps);
 
         $('.grid').masonry();
         //reverse array to append the data to modals easier
