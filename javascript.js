@@ -27,6 +27,8 @@ var uidJasmine = "AarJudUzomQymI5HS72yehqoBAX2";
 
 var activitiesSummary = [];
 
+var userNameNav = "";
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyBBmBBRUZAr5nK4iW39KtxrjXiUPWyW1eQ",
@@ -60,7 +62,6 @@ ui.start('#firebaseui-auth-container', uiConfig);
 // Track the UID of the current user.  
 var currentUid = "";
 var fbActivities = [];
-
 firebase.auth().onAuthStateChanged(function (user) {
 
     // onAuthStateChanged listener triggers every time the user ID token changes.  
@@ -73,18 +74,10 @@ firebase.auth().onAuthStateChanged(function (user) {
         currentUid = user.uid;
 
         var ref = database.ref();
-
+        //grabs user activity
         ref.child(currentUid).child("activty").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
             console.log(snapshot.val());
-            //fbActivities.push(snapshot.val());
-
-            var activitiesEntry = Object.entries(snapshot.val());
-            console.log(activitiesEntry);
-            activitiesEntry.forEach(function (entry) {
-                fbActivities.push(entry[1]);
-            });
-            appendActivities(fbActivities);
-            
+            fbActivities.push(snapshot.val());
         });
 
     } else {
@@ -95,54 +88,53 @@ firebase.auth().onAuthStateChanged(function (user) {
     if (currentUid === uidChris) {
         userToken = tokenChris;
         useriframe = iframeChris;
+        userNameNav = "Chris";
     }
-    
+
     if (currentUid === uidAnna) {
         userToken = tokenAnna;
         useriframe = iframeAnna;
+        userNameNav = "Anna";
     }
-    
+
     if (currentUid === uidJordan) {
         userToken = tokenJordan;
         useriframe = iframeJordan;
+        userNameNav = "Jordan";
     }
-    
+
     if (currentUid === uidClaire) {
         userToken = tokenClaire;
         useriframe = iframeClaire;
+        userNameNav = "Claire";
     }
-    
+
     if (currentUid === uidJasmine) {
         userToken = tokenJasmine;
         useriframe = iframeJasmine;
+        userNameNav = "Jasmine";
     }
-    
+
     var summaryURL = "https://api.humanapi.co/v1/human/activities/summaries?access_token=" + userToken;
-    
+
     $.ajax({
         url: summaryURL,
         method: "GET"
     }).then(function (response) {
+        //this grabs the first index in the object array and gets the calories for it
+        activitiesSummary = response;
         console.log(response);
-        activitiesSummary = [];
-        var days = parseInt(moment().format('d')) + 1;
 
-        for (var i=0; i<days; i++){
-            activitiesSummary.push(response[i]);
-        }
-        //append relevent card data
-        //calories card
-        $('#caloriesToday').text(activitiesSummary[0].calories);
-
-        $('.grid').masonry();
-        //reverse array to append the data to modals easier
-        activitiesSummary.reverse();
-        console.log('activities Summary', activitiesSummary);
-        
-        
-    
+        activitiesSummary.forEach(function (value) {
+            //console.log('this: ', value);
+            var entry = document.createElement('div');
+            entry.classList.add('has-background-grey-lighter');
+            entry.classList.add('corners-rounded');
+            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
+            $('#completed0').append(entry);
+        });
     });
-    
+
     $("#powerbiIframe").attr("src", useriframe);
 });
 
@@ -165,26 +157,67 @@ $("#logout").on("click", function (event) {
 });
 
 
-//variables storing information relevant to Recipe API
-$("#run").on("click", function (event) {
+var recipeName = "";
+var recipeImage = "";
+var recipeURL = "";
+var recipeSearchValue = "";
+
+$(document).on("click","#searchMeals",function(){
+
+    recipeSearchValue =  $("input:text").val();
 
     event.preventDefault();
 
-    var recipeSearch = "chicken";
+    var recipeSearch = recipeSearchValue;
     var recipeAppId = "&app_id=84dfbeab";
     var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
-    var numberOfRecipes = "&from=0&to=20";
-    var caloriesQuery = "&calories=" + activitiesSummary[0].calories; //add data from Human API per activity
-    var health = "&healthLabel=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
-    var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery;
+    var numberOfRecipes = "&from=0&to=10";
+    var caloriesQuery = "&calories=500"+ $("#caloriesToday").text();
+    var diet = "";
+    var health = "&healthLabel=" + diet; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
+    var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery + health;
 
     $.ajax({
         url: queryURL,
         method: "GET"
-    }).then(function (response) {
-        console.log(response)
     })
+    .then(function (response) {
+        console.log(response);
 
+        recipeName = {
+            one: response.hits[0].recipe.label,
+            two: response.hits[1].recipe.label,
+            three: response.hits[2].recipe.label,
+            four: response.hits[3].recipe.label,
+            five: response.hits[4].recipe.label,
+            six: response.hits[5].recipe.label,
+            seven: response.hits[6].recipe.label,
+            eight: response.hits[7].recipe.label
+        }
+
+        recipeImage = {
+            one: response.hits[0].recipe.image,
+            two: response.hits[1].recipe.image,
+            three: response.hits[2].recipe.image,
+            four: response.hits[3].recipe.image,
+            five: response.hits[4].recipe.image,
+            six: response.hits[5].recipe.image,
+            seven: response.hits[6].recipe.image,
+            eight: response.hits[7].recipe.image
+        }
+
+        recipeURL = {
+            one: response.hits[0].recipe.url,
+            two: response.hits[1].recipe.url,
+            three: response.hits[2].recipe.url,
+            four: response.hits[3].recipe.url,
+            five: response.hits[4].recipe.url,
+            six: response.hits[5].recipe.url,
+            seven: response.hits[6].recipe.url,
+            eight: response.hits[7].recipe.url
+        }
+
+    })
 });
 
 
