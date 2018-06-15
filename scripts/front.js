@@ -520,7 +520,7 @@ function addMeals() {
     var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="nutrition-icon">', 'Meals', true);
 
     var body = document.createElement('div');
-
+        body.setAttribute('id', 'results');
     var field = document.createElement('div');
     field.classList.add('field');
     field.classList.add('has-addons');
@@ -549,74 +549,6 @@ function addMeals() {
     btnControl.append(btn);
     field.append(inputControl);
     field.append(btnControl);
-
-    var mealsResults = [
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-        {
-            name: 'The Best Chiken',
-            text: 'The Best Chicken anyone is ever had can be yours click here!'
-        },
-    ];
-
-    for (var j = 0; j < mealsResults.length; j++) {
-
-        if (j % 4 === 0) {
-            var level = document.createElement('div');
-            level.classList.add('level');
-            body.append(level);
-        }
-
-        var favMeals = document.createElement('div');
-        favMeals.classList.add('corners-rounded');
-        favMeals.classList.add('has-background-grey-lighter');
-        favMeals.classList.add('meal-results');
-
-        var table = document.createElement('table');
-        table.classList.add('table');
-        table.classList.add('is-fullwidth');
-        table.classList.add('corners-rounded');
-
-        var thead = document.createElement('thead');
-        var tbody = document.createElement('tbody');
-
-        var row1 = document.createElement('tr');
-        var row2 = document.createElement('tr');
-
-        var th = document.createElement('th');
-        var resultTitle = document.createTextNode(mealsResults[j].name);
-        th.appendChild(resultTitle);
-
-        var td = document.createElement('td');
-        var p2 = document.createElement('p');
-        var resultText = document.createTextNode(mealsResults[j].text);
-        p2.appendChild(resultText);
-        td.appendChild(p2);
-
-        row1.append(th);
-        row2.append(td);
-        thead.append(row1);
-        tbody.append(row2);
-        table.append(thead);
-        table.append(tbody);
-
-        favMeals.append(table);
-        level.append(favMeals);
-    }
 
     var filterTitle = document.createElement('h3');
     filterTitle.classList.add('title');
@@ -650,6 +582,68 @@ function addMeals() {
     return elem;
 }
 
+function getSearchResults(arr) {
+    $('#results').empty();
+    for (var j = 0; j < arr.length; j++) {
+
+        if (j % 4 === 0) {
+            var level = document.createElement('div');
+            level.classList.add('level');
+            $('#results').append(level);
+        }
+
+        var favMeals = document.createElement('div');
+        favMeals.classList.add('corners-rounded');
+        favMeals.classList.add('has-background-grey-lighter');
+        favMeals.classList.add('meal-results');
+
+        var table = document.createElement('table');
+        table.classList.add('table');
+        table.classList.add('is-fullwidth');
+        table.classList.add('corners-rounded');
+
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+            tbody.classList.add('clickRecipe');
+            
+        var row1 = document.createElement('tr');
+        var row2 = document.createElement('tr');
+
+        var th = document.createElement('th');
+        var resultTitle = document.createTextNode(recipeArr[j].name);
+        th.appendChild(resultTitle);
+
+        var td = document.createElement('td');
+        var img = document.createElement('img');
+            img.classList.add('corners-rounded');
+            
+            img.setAttribute('src', recipeArr[j].image);
+            img.setAttribute('alt', 'Query result img');
+        td.appendChild(img);
+
+        var link = document.createElement('a');
+            link.setAttribute('href', recipeArr[j].url);
+            link.setAttribute('target', '_blank');
+            link.setAttribute('style', 'display:none');
+        tbody.append(link);
+
+        var emptyHeart = document.createElement('div');
+            emptyHeart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
+            emptyHeart.classList.add('level-right');
+            th.appendChild(emptyHeart);
+
+        row1.append(th);
+        row2.append(td);
+        thead.append(row1);
+        tbody.append(row2);
+        table.append(thead);
+        table.append(tbody);
+
+        favMeals.append(table);
+        level.append(favMeals);
+    }
+}
+
 function mealsModal() {
     var container = $('<div>');
     var title1 = $('<h3>').addClass('title is-4').text('Favorites');
@@ -666,92 +660,7 @@ function mealsModal() {
     var ancestorFav = $('<div>').addClass('tile is-ancestor is-vertical');
     var ancestorSug = $('<div>').addClass('tile is-ancestor is-vertical');
 
-    var favArr = [
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-        {
-            name: "noodles",
-            description: 'boil some water to start making these fantastically bland noodles',
-            url: 'URL HERE'
-        },
-
-    ]
-
-    var sugArr = [
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-        {
-            name: 'po-ta-toes',
-            description: 'boil em, mash em, stick em in a stew po-ta-toes',
-            URL: 'URL HERE'
-        },
-    ]
+   
 
 
     //takes an array of suggested recipies and appends them to the appropriate ancestor
@@ -779,28 +688,18 @@ function mealsModal() {
     }
 
     appendMeals(favArr, ancestorFav);
-    //appendMeals(sugArr, ancestorSug);
 
     level1.append(ancestorFav);
-    //level2.append(ancestorSug);
-
-
 
     //filters
-
     container
         .append(title1)
-        .append(level1)
-    //.append(title2)
-    //.append(level2)
-    //.append(title3)
-    //.append(level3);
+        .append(level1);
 
     return container;
 }
 
 //Calorie Card
-//TODO: ALTER CARD TO REFLECT BURNED/GOALS
 function addCalorieCard() {
     var elem = document.createElement('div');
     elem.classList.add('grid-item');
@@ -912,9 +811,6 @@ function calorieModal() {
 
 }
 
-
-
-
 //Pedometer Card
 function addPedometer() {
     var elem = document.createElement("div");
@@ -922,12 +818,10 @@ function addPedometer() {
         elem.classList.add('grid-item--width2');
         elem.classList.add("box");
       
-//Create header for the Pedometer
+    //Create header for the Pedometer
     var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="pedomter">', 'Pedometer', true);
-    
-//Create body element 
 
-
+    //Create body element 
     var body = document.createElement('div');
         body.classList.add('has-text-centered');
         body.classList.add('level');
@@ -936,29 +830,43 @@ function addPedometer() {
         today.classList.add('title');
         today.classList.add('is-4');
         today.append(document.createTextNode('Today:'));
-    
+        today.innerText = `Today: `;
 
+    var stepsTday = document.createElement('h1');
+        stepsTday.classList.add('title');
+        stepsTday.classList.add('is-1');
+        stepsTday.setAttribute('style', 'margin-right: 30px');
+        stepsTday.setAttribute('id', 'stepsToday');
+        
         body.appendChild(today);
-               
-//Create footer element
+        body.append(stepsTday);
 
-var footer = document.createElement('footer');
-    footer.classList.add('has-text-centered');
-    footer.classList.add('level');
+    //Create footer element
 
-var yStats = document.createElement('h5');
-    yStats.setAttribute('id', 'yStats')
-    // yStats.classList.add('subtitle');
-    yStats.classList.add('is-6');
-    yStats.append(document.createTextNode('Yesterday:'));
+    var footer = document.createElement('footer');
+        footer.classList.add('has-text-centered');
+        footer.classList.add('level');
 
-    footer.appendChild(yStats)
-  
+    var yesterday = document.createElement('h5');
+        yesterday.setAttribute('id', 'yStats')
+        // yStats.classList.add('subtitle');
+        yesterday.classList.add('is-6');
+        yesterday.innerText = "Yesterday: "
+
+    var stepsYday = document.createElement('h4');
+        stepsYday.classList.add('title');
+        stepsYday.classList.add('is-4');
+        stepsYday.setAttribute('style', 'margin-right: 30px');
+        stepsYday.setAttribute('id', 'stepsYesterday');
+
+        footer.appendChild(yesterday);
+        footer.append(stepsYday);
     
-        elem.append(head);
-        elem.append(body);
-        elem.append(footer);
-        return elem; 
+        
+            elem.append(head);
+            elem.append(body);
+            elem.append(footer);
+            return elem; 
 }
 
 
@@ -986,6 +894,7 @@ $('.btn-filter').on('click', function () {
         $(this).addClass('is-outlined');
     }
     console.log($(this).attr('data-selected'));
+    
 });
 
 //dropdown toggle
@@ -1112,7 +1021,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 .append(body);
 
             break;
-        case "pedometer":
+        case "Pedometer":
             var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Pedometer', false);
             var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
             var title1 = $('<h3>').addClass('title is-4').text('Week View');
@@ -1168,4 +1077,10 @@ $(document).on('click', 'label', function (e) {
     }
     console.log(this);
 
+});
+
+//makes meals tbody clickable
+$(document).on('click', '.clickRecipe', function (){
+    console.log('clicked');
+    window.open($(this).find('a').attr('href'));
 });
