@@ -126,12 +126,22 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(response);
 
         activitiesSummary.forEach(function (value) {
-            //console.log('this: ', value);
-            var entry = document.createElement('div');
-            entry.classList.add('has-background-grey-lighter');
-            entry.classList.add('corners-rounded');
-            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
-            $('#completed0').append(entry);
+            console.log(response);
+        activitiesSummary = [];
+        var days = parseInt(moment().format('d')) + 1;
+
+        for (var i=0; i<days; i++){
+            activitiesSummary.push(response[i]);
+        }
+        //append relevent card data
+        //calories card
+        $('#caloriesToday').text(activitiesSummary[0].calories);
+
+        $('.grid').masonry();
+        //reverse array to append the data to modals easier
+        activitiesSummary.reverse();
+        console.log('activities Summary', activitiesSummary);
+        
         });
     });
 
