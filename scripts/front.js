@@ -623,7 +623,7 @@ function addMeals() {
         filterTitle.classList.add('is-6');
         filterTitle.innerText = 'Filters';
 
-    var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Keto', 'Paleo', 'Kosher', 'Halal'];
+    var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Paleo', 'Kosher'];
     var level2 = document.createElement('div');
         level2.classList.add('level');
 
@@ -632,7 +632,7 @@ function addMeals() {
     
     filters.forEach(function(filter) {
         var button = document.createElement('span');
-            button.classList.add('button');
+            button.classList.add('button', 'dietQuery');
             button.classList.add('is-primary');
             button.classList.add('is-outlined');
             button.classList.add('btn-filter');
@@ -779,36 +779,8 @@ function mealsModal () {
     }
     
     appendMeals (favArr, ancestorFav);
-<<<<<<< HEAD
     appendMeals(sugArr, ancestorSug);
-
-    var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Paleo', 'Kosher'];
-
-    var btnGroup = $('<div>').addClass('buttons');
     
-    filters.forEach(function(filter) {
-        var button = $('<button>').addClass('button is-primary is-outlined dietQuery');
-            button.attr('data-selected', 'false');
-            button.text(filter);
-            btnGroup.append(button);
-    });
-
-    $('div.buttons > button').on('click', function(){
-        
-        var state = $(this).attr('data-selected');
-        if(state === 'false'){
-            $(this).attr('data-selected', 'true');
-            $(this).removeClass('is-outlined');
-        }else{
-            $(this).attr('data-selected', 'false');
-            $(this).addClass('is-outlined');
-        }
-        console.log($(this).attr('data-selected'));
-    });
-=======
-    //appendMeals(sugArr, ancestorSug);
->>>>>>> 84d5cf80ada0b6b833b878d2be645e591c9cf685
-
     level1.append(ancestorFav);
     //level2.append(ancestorSug);
     
