@@ -164,7 +164,7 @@ $("#logout").on("click", function (event) {
 
 });
 
-
+var filtered;
 //variables storing information relevant to Recipe API
 $("#run").on("click", function (event) {
 
@@ -175,7 +175,7 @@ $("#run").on("click", function (event) {
     var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
     var numberOfRecipes = "&from=0&to=20";
     var caloriesQuery = "&calories=" + activitiesSummary[0].calories; //add data from Human API per activity
-    var health = "&healthLabel=no-sugar"; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
+    var health = `&healthLabel=${filtered}`; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
     var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery;
 
     $.ajax({

@@ -536,7 +536,7 @@ function addMeals() {
         btn.classList.add('button');
         btn.classList.add('is-primary');
         btn.innerText = 'Search Meals';
-        btn.setAttribute('id', 'searchMeals');
+        btn.setAttribute('id', 'run');
     
     var search = document.createElement('input');
         search.setAttribute('type', 'text');
@@ -945,11 +945,13 @@ $('.btn-filter').on('click', function(){
     if(state === 'false'){
         $(this).attr('data-selected', 'true');
         $(this).removeClass('is-outlined');
+        filtered = this.innerText;
     }else{
         $(this).attr('data-selected', 'false');
         $(this).addClass('is-outlined');
     }
     console.log($(this).attr('data-selected'));
+    
 });
 
 //dropdown toggle
