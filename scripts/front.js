@@ -598,7 +598,16 @@ function addMeals() {
         
         var th = document.createElement('th');
         var resultTitle = document.createTextNode(mealsResults[j].name);
+        var emptyHeart = document.createElement('button');
+        emptyHeart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
+        emptyHeart.classList.add('button');
+        emptyHeart.classList.add('level-right');
+        //emptyHeart.classList.add('is-danger');
             th.appendChild(resultTitle);
+            th.appendChild(emptyHeart);
+
+            
+
 
         var td = document.createElement('td');
         var p2 = document.createElement('p');
