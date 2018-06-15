@@ -8,7 +8,7 @@ var $grid = $('.grid').masonry({
 });
 
 //returns an object with the current date data
-function getNow () {
+function getNow() {
     var now = moment().format('MMMM, D, Do, dddd, YYYY');
     var arr = now.split(',');
     var temp = {
@@ -26,31 +26,31 @@ function getNow () {
 
 //returns an array of all the dates in the current week
 var dateArr = [];
-function getDates (day) {
-      if(day !== 0){
+function getDates(day) {
+    if (day !== 0) {
         console.log(day);
-       date = moment().subtract(day-1, 'days').format('MMMM Do');
-       console.log(date);
-       dateArr.push(date);
-       day--;
-       return getDates(day);
-   }else if(dateArr.length !== 7) {
-       console.log(dateArr.length);
-       var remaining = 7 - dateArr.length;
-       console.log('remaining: ', remaining);
-       var remainingArr = [];
-       console.log(remainingArr);
-        for (var i=0; i < remaining; i++) {
-            date = moment().add(i+1 , 'days').format('MMMM Do');
+        date = moment().subtract(day - 1, 'days').format('MMMM Do');
+        console.log(date);
+        dateArr.push(date);
+        day--;
+        return getDates(day);
+    } else if (dateArr.length !== 7) {
+        console.log(dateArr.length);
+        var remaining = 7 - dateArr.length;
+        console.log('remaining: ', remaining);
+        var remainingArr = [];
+        console.log(remainingArr);
+        for (var i = 0; i < remaining; i++) {
+            date = moment().add(i + 1, 'days').format('MMMM Do');
             remainingArr.push(date);
         }
         dateArr = dateArr.concat(remainingArr);
-   }else {
-       for (var i=0; i<7; i++) {
-        date = moment().add(i, 'days').format('MMMM Do');
-        dateArr.push(date);
-       }
-   }
+    } else {
+        for (var i = 0; i < 7; i++) {
+            date = moment().add(i, 'days').format('MMMM Do');
+            dateArr.push(date);
+        }
+    }
 }
 getDates(moment().format('d'));
 
@@ -62,82 +62,82 @@ function appendActivities(arr) {
     //fbActivities
     console.log(arr);
     arr.forEach(function (activity) {
-        
-        if (activity.date === moment().format('L')){
+
+        if (activity.date === moment().format('L')) {
             var item = document.createElement('div');
             var label = document.createElement('label');
-                label.classList.add('checkbox');
-                label.setAttribute('data-checked', false);
+            label.classList.add('checkbox');
+            label.setAttribute('data-checked', false);
             var text = ' ' + activity.Activity + ', ' + activity.Duration
             var checkbox = document.createElement('input');
-                checkbox.setAttribute('type', 'checkbox');
-       
-            label.append(checkbox);  
+            checkbox.setAttribute('type', 'checkbox');
+
+            label.append(checkbox);
             label.append(document.createTextNode(' ' + text));
 
 
             item.append(label);
             $goals.append(item);
         }
-        
+
     });
 }
 
- //Creates a header element with an icon and a title
-function createPanelHead (icon, title, expand){
+//Creates a header element with an icon and a title
+function createPanelHead(icon, title, expand) {
     //argument icon is a string containing icon html
     //title is a string containing the title text
     //create structure using bulma level class
     var header = document.createElement('div');
-        header.classList.add('level');
+    header.classList.add('level');
     var left = document.createElement('div');
-        left.classList.add('level-left');
+    left.classList.add('level-left');
 
     //create icon and append classes
     var iconElem = document.createElement('span');
-        iconElem.classList.add('icon');
-        iconElem.classList.add('is-medium');
-        iconElem.innerHTML = icon;
-    
+    iconElem.classList.add('icon');
+    iconElem.classList.add('is-medium');
+    iconElem.innerHTML = icon;
+
     //create title element and append classes
     var titleElem = document.createElement('h2');
-        titleElem.classList.add('title');
-        titleElem.classList.add('is-4');
-        titleElem.appendChild(document.createTextNode(title));
+    titleElem.classList.add('title');
+    titleElem.classList.add('is-4');
+    titleElem.appendChild(document.createTextNode(title));
 
     //append content elements to structure 
     left.append(iconElem);
     left.append(titleElem);
     header.append(left);
 
-    if (expand === true){
+    if (expand === true) {
         var right = document.createElement('div');
         right.classList.add('level-right');
-        right.innerHTML = '<i class="fas fa-arrows-alt-h" data-fa-transform="rotate--45" data-panel='+ title +'></i>';
+        right.innerHTML = '<i class="fas fa-arrows-alt-h" data-fa-transform="rotate--45" data-panel=' + title + '></i>';
         header.append(right);
-    }   
+    }
 
     //return completed header object
     return header;
 }
 
 //Creates the contents of the modal
-function createModal (panel, callback, icon) {
+function createModal(panel, callback, icon) {
     console.log('this element is ', panel);
-    
+
     var head = createPanelHead(icon, panel, false);
-            
-    
+
+
     level1.append(itemA);
 
-    if(arguments[1]){
+    if (arguments[1]) {
         var title2 = $('<h3>')
             .addClass('title is-5')
         var level2 = $('<div>').addClass('level')
         var container = $('<div>').addClass('level-item').css('width', '800px');
         container.append(callback);
         level2.append(container)
-    }else{
+    } else {
         console.log('nothing to append');
     }
 
@@ -150,20 +150,20 @@ function createModal (panel, callback, icon) {
 }
 
 //Returns an iframe element to be inserted into the modal
-function generateIframe (url) {
+function generateIframe(url) {
     var iframe = $('<iframe>')
-    .addClass('iframe-size corners-rounded has-background-grey-lighter')
-    .attr('id', 'userData')
-    .attr('width', '800')
-    .attr('height', '600')
-    .attr('src', url)
-    .attr('frameborder', '0')
-    .attr('allowFullscreen', 'true');
+        .addClass('iframe-size corners-rounded has-background-grey-lighter')
+        .attr('id', 'userData')
+        .attr('width', '800')
+        .attr('height', '600')
+        .attr('src', url)
+        .attr('frameborder', '0')
+        .attr('allowFullscreen', 'true');
     return iframe;
 }
 
 //returns a dropdown element, 
-function generateDropdown (label, itemsArr) {
+function generateDropdown(label, itemsArr) {
     //label is a string that contains the name of the dropdown
     //itemsArr is an array of strings with the items you want to include in the dropdown
     //each item will have a data attribute data-option="[number]" indicating the index of the element in the array
@@ -179,15 +179,15 @@ function generateDropdown (label, itemsArr) {
     var label = $('<span>').text(label);
     var arrow = $('<div>').addClass('icon is-small')
         .append($('<i>').addClass('fas fa-angle-down').attr('aria-hidden', 'true'));
-    
+
     //dropdown content
     var menu = $('<div>').addClass('dropdown-menu').attr('id', contentId).attr('role', 'menu');
     var content = $('<div>').addClass('dropdown-content');
 
     //dropdown items
-    for (var i=0; i<itemsArr.length; i++) {
+    for (var i = 0; i < itemsArr.length; i++) {
         var item = $('<p>').addClass('dropdown-item').attr('data-option', i);
-            item.text(itemsArr[i]);
+        item.text(itemsArr[i]);
         content.append(item);
     }
 
@@ -196,7 +196,7 @@ function generateDropdown (label, itemsArr) {
     button
         .append(label)
         .append(arrow);
-    
+
     trigger.append(button);
 
     dropdown
@@ -208,46 +208,46 @@ function generateDropdown (label, itemsArr) {
 }
 
 //Daily Report
-function addDaily () {
+function addDaily() {
     var now = getNow();
     var elem = document.createElement('div');
-        elem.classList.add('grid-item');
-        elem.classList.add('grid-item--width2');
-        elem.classList.add('grid-item--height2');
-        elem.classList.add('box');
-        elem.setAttribute('id', 'daily');
+    elem.classList.add('grid-item');
+    elem.classList.add('grid-item--width2');
+    elem.classList.add('grid-item--height2');
+    elem.classList.add('box');
+    elem.setAttribute('id', 'daily');
 
     var head = createPanelHead('<img class="image is-64x64" src="assets/panel-icons/schedule.svg" alt="schedule-icon">', 'Daily Report', true);
-    
+
     var body = document.createElement('div');
-    
+
     var day = document.createElement('div');
-        day.classList.add('column');
-        day.classList.add('calendar-column');
-        day.classList.add('corners-rounded');
-        day.classList.add('has-background-grey-lighter');
-    
+    day.classList.add('column');
+    day.classList.add('calendar-column');
+    day.classList.add('corners-rounded');
+    day.classList.add('has-background-grey-lighter');
+
     var table = document.createElement('table');
-        table.classList.add('table');
-        table.classList.add('is-fullwidth');
-        table.classList.add('corners-rounded');
-    
+    table.classList.add('table');
+    table.classList.add('is-fullwidth');
+    table.classList.add('corners-rounded');
+
     var thead = document.createElement('thead');
-    
+
     var tbody = document.createElement('tbody');
-    
+
     var row1 = document.createElement('tr');
-        //innerHTML needs to be canged to reflect the day and date
-        row1.innerHTML = `<th><span>${now.month} ${now.dayOrdered}</span>, <span>${now.dow}</span></th>`;
-    
-    var row2 = document.createElement('tr');       
-    
+    //innerHTML needs to be canged to reflect the day and date
+    row1.innerHTML = `<th><span>${now.month} ${now.dayOrdered}</span>, <span>${now.dow}</span></th>`;
+
+    var row2 = document.createElement('tr');
+
     var goals = document.createElement('td');
-        goals.classList.add('table-cell--height2')   ;
-        goals.setAttribute('id', 'goals');    
-      
+    goals.classList.add('table-cell--height2');
+    goals.setAttribute('id', 'goals');
+
     row2.append(goals);
-    
+
     //append elements put humpty dumpty together again
     thead.append(row1);
     tbody.append(row2);
@@ -262,12 +262,12 @@ function addDaily () {
     elem.append(head);
     elem.append(body);
 
-    
+
     return elem;
 }
 
 //creates daily report modal
-function dailyModal () {
+function dailyModal() {
     //display the users inputted elements and allow the user to delete any elements
     var container = $('<div>');
     //INSERT table that displays today's inputted elements
@@ -278,7 +278,7 @@ function dailyModal () {
     var thead = $('<thead>');
     var theadRow = $('<tr>');
     var tbody = $('<tbody>').attr('id', 'itemsList');
-    
+
     var field = $('<div>')
         .addClass('field has-addons')
         .attr('id', 'activityForm');
@@ -296,7 +296,7 @@ function dailyModal () {
         .addClass('control');
 
     var quantityInput = $('<input>')
-        .addClass('input') 
+        .addClass('input')
         .attr('type', 'text')
         .attr('placeholder', 'How many/long')
         .attr('id', 'newDuration');
@@ -312,28 +312,28 @@ function dailyModal () {
     var submitBtn = $('<div>')
         .addClass('button is-primary')
         .attr('id', 'add-activity')
-        .text('Add'); 
+        .text('Add');
 
     theadRow
         .append('<th>Activity</th>')
         .append('<th>Reps/Duration</th>')
         .append('<th></th>');
-    
+
     thead.append(theadRow);
 
     todayItems
         .append(thead)
         .append(tbody);
-    
+
     activity.append(activityInput);
 
     quantity.append(quantityInput);
-    
+
     unit.append(unitDropdown);
 
     submit.append(submitBtn);
 
-    
+
     field
         .append(activity)
         .append(quantity)
@@ -349,67 +349,67 @@ function dailyModal () {
 }
 
 //creates daily weather card
-function addWeather () {
+function addWeather() {
     var elem = document.createElement('div');
-        elem.classList.add('grid-item');
-        elem.classList.add('grid-item--width2');
-        elem.classList.add('grid-item--height');
-        elem.classList.add('box');
-        elem.setAttribute('id', 'daily');
+    elem.classList.add('grid-item');
+    elem.classList.add('grid-item--width2');
+    elem.classList.add('grid-item--height');
+    elem.classList.add('box');
+    elem.setAttribute('id', 'daily');
 
     var head = createPanelHead('<img class="image is-48x48" src="assets/weather-icons/sun.svg" alt="sunny-icon">', 'Weather', true);
 
     var level1 = document.createElement('div');
-        level1.classList.add('level');
+    level1.classList.add('level');
 
     var level2 = document.createElement('div');
-        level2.classList.add('level');
-    
+    level2.classList.add('level');
+
 
     var iconDiv = document.createElement('div');
-        iconDiv.classList.add('level-item');
+    iconDiv.classList.add('level-item');
 
     var icon = document.createElement('div');
-        icon.classList.add('image');
-        icon.classList.add('is-96x96');
-        icon.setAttribute('id', 'weather-icon');
-    
+    icon.classList.add('image');
+    icon.classList.add('is-96x96');
+    icon.setAttribute('id', 'weather-icon');
+
     var forecast = document.createElement('p');
-        forecast.classList.add('level-right');
-        forecast.setAttribute('id', 'forecast');
+    forecast.classList.add('level-right');
+    forecast.setAttribute('id', 'forecast');
 
     var tempDiv = document.createElement('div');
-        tempDiv.classList.add('level-left');
+    tempDiv.classList.add('level-left');
 
     var temp = document.createElement('h3');
-        temp.classList.add('subtitle');
-        temp.classList.add('is-4')
-        temp.setAttribute('id', 'temp');
+    temp.classList.add('subtitle');
+    temp.classList.add('is-4')
+    temp.setAttribute('id', 'temp');
 
 
     tempDiv.append(temp);
     iconDiv.append(icon);
-    
+
     level1.append(iconDiv);
     level2.append(tempDiv);
     level2.append(forecast);
-    
+
 
     elem.append(head);
     elem.append(level1);
     elem.append(level2);
-  
+
 
     return elem;
 }
 
 //creates 5 day forecast modal
-function weatherModal () {
+function weatherModal() {
     var elem = $('<div>');
 
     var level0 = $('<div>').addClass('level');
 
-    for(var i=0; i<5; i++){
+    for (var i = 0; i < 5; i++) {
 
         var date = moment().add(i, 'days').format('dddd, MMMM Do');
 
@@ -420,24 +420,24 @@ function weatherModal () {
         var item = $('<div>').addClass('card-weather corners-rounded has-background-grey-lighter');
 
         var head = $('<h3>').addClass('subtitle is-5 card-title-weather');
-            head.text(date);
+        head.text(date);
         var iconDiv = $('<div>').addClass('level-item');
 
         var icon = $('<div>').html(weatherData[i].icon)
-            icon.addClass('image is-96x96');
+        icon.addClass('image is-96x96');
 
         var temp = $('<h3>').addClass('item-left subtitle is-5').css('width', '50px');
-            temp.text(weatherData[i].temp + String.fromCharCode(176) + 'F');
+        temp.text(weatherData[i].temp + String.fromCharCode(176) + 'F');
 
         var forecastDiv = $('<div>').addClass('level').css('width', '125px').css('height', '50px');
 
         var forecast = $('<p>').addClass('item-right has-text-centered');
-            forecast.text(weatherData[i].forecast);
+        forecast.text(weatherData[i].forecast);
 
         forecastDiv.append(forecast);
         iconDiv.append(icon);
         level1.append(iconDiv);
-        
+
         level2
             .append(temp)
             .append(forecastDiv);
@@ -452,22 +452,22 @@ function weatherModal () {
 
     elem
         .append(level0)
-        
+
     return elem;
 }
 
 //appends pedometer modal content to modal
-function pedometerModal (dateArr) {
+function pedometerModal(dateArr) {
     var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var now = getNow();
     var level = $('<div>').addClass('level');
-    for (var i=0; i<7; i++){
+    for (var i = 0; i < 7; i++) {
         var item = $('<div>')
             .addClass('level-item corners-rounded has-background-grey-lighter')
             .css('margin', '5px')
             .css('padding', '10px');
 
-        
+
         var table = $('<table>').addClass('table is-fullwidth corners-rounded');
         var thead = $('<thead>');
         var tbody = $('<tbody>')
@@ -480,12 +480,12 @@ function pedometerModal (dateArr) {
 
         var date = $('<p>').append(week[i] + ',<br>' + dateArr[i]);
         th.append(date);
-        
+
         var text = $('<h3>').addClass('title is-3');
-       
-        if(activitiesSummary[i]){
+
+        if (activitiesSummary[i]) {
             text.text(activitiesSummary[i].steps);
-        }else{
+        } else {
             text.text('0');
         }
 
@@ -497,48 +497,50 @@ function pedometerModal (dateArr) {
 
         thead.append(row1);
         tbody.append(row2);
-        
+
         table
             .append(thead)
             .append(tbody);
-        
+
         item.append(table);
 
         level.append(item);
     }
-    
+
     return level;
 }
 
 //Creates the meals card
 function addMeals() {
     var elem = document.createElement("div");
-        elem.classList.add('grid-item');
-        elem.classList.add('grid-item--widthfull');
-        elem.classList.add('box');
-    
+    elem.classList.add('grid-item');
+    elem.classList.add('grid-item--widthfull');
+    elem.classList.add('box');
+
     var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="nutrition-icon">', 'Meals', true);
-    
+
     var body = document.createElement('div');
 
     var field = document.createElement('div');
-        field.classList.add('field');
-        field.classList.add('has-addons'); 
+    field.classList.add('field');
+    field.classList.add('has-addons');
 
     var inputControl = document.createElement('div');
-        inputControl.classList.add('control');
-        inputControl.classList.add('is-expanded');
+    inputControl.classList.add('control');
+    inputControl.classList.add('is-expanded');
 
     var btnControl = document.createElement('div');
-        btnControl.classList.add('control');
+    btnControl.classList.add('control');
 
     var btn = document.createElement('button');
-        btn.classList.add('button');
-        btn.classList.add('is-primary');
-        btn.innerText = 'Search Meals';
-        btn.setAttribute('id', 'searchMeals');
-    
+    btn.setAttribute('id', 'searchMeals');
+    btn.classList.add('button');
+    btn.classList.add('is-primary');
+    btn.innerText = 'Search Meals';
+
+
     var search = document.createElement('input');
+<<<<<<< HEAD
         search.setAttribute('type', 'text');
         search.setAttribute('placeholder', 'Search Recipes');
         search.classList.add('input');
@@ -550,6 +552,18 @@ function addMeals() {
         field.append(inputControl);
         field.append(btnControl);
  
+=======
+    search.setAttribute('type', 'text');
+    search.setAttribute('placeholder', 'Search Recipes');
+    search.classList.add('input');
+    search.classList.add('is-primary');
+
+    inputControl.append(search);
+    btnControl.append(btn);
+    field.append(inputControl);
+    field.append(btnControl);
+
+>>>>>>> 4c8395e96370b69c89e5b06269e7db34ab316b03
     var mealsResults = [
         {
             name: 'The Best Chiken',
@@ -573,39 +587,39 @@ function addMeals() {
         },
     ];
 
-    for (var j= 0; j < mealsResults.length; j++) {
+    for (var j = 0; j < mealsResults.length; j++) {
 
-        if(j%4 === 0) {
+        if (j % 4 === 0) {
             var level = document.createElement('div');
-                level.classList.add('level');
+            level.classList.add('level');
             body.append(level);
         }
-        
+
         var favMeals = document.createElement('div');
-            favMeals.classList.add('corners-rounded');
-            favMeals.classList.add('has-background-grey-lighter');
-            favMeals.classList.add('meal-results');
+        favMeals.classList.add('corners-rounded');
+        favMeals.classList.add('has-background-grey-lighter');
+        favMeals.classList.add('meal-results');
 
         var table = document.createElement('table');
-            table.classList.add('table');
-            table.classList.add('is-fullwidth');
-            table.classList.add('corners-rounded');
+        table.classList.add('table');
+        table.classList.add('is-fullwidth');
+        table.classList.add('corners-rounded');
 
         var thead = document.createElement('thead');
         var tbody = document.createElement('tbody');
-        
+
         var row1 = document.createElement('tr');
         var row2 = document.createElement('tr');
-        
+
         var th = document.createElement('th');
         var resultTitle = document.createTextNode(mealsResults[j].name);
-            th.appendChild(resultTitle);
+        th.appendChild(resultTitle);
 
         var td = document.createElement('td');
         var p2 = document.createElement('p');
         var resultText = document.createTextNode(mealsResults[j].text);
-            p2.appendChild(resultText);
-            td.appendChild(p2);
+        p2.appendChild(resultText);
+        td.appendChild(p2);
 
         row1.append(th);
         row2.append(td);
@@ -615,23 +629,24 @@ function addMeals() {
         table.append(tbody);
 
         favMeals.append(table);
-        level.append(favMeals); 
+        level.append(favMeals);
     }
 
     var filterTitle = document.createElement('h3');
-        filterTitle.classList.add('title');
-        filterTitle.classList.add('is-6');
-        filterTitle.innerText = 'Filters';
+    filterTitle.classList.add('title');
+    filterTitle.classList.add('is-6');
+    filterTitle.innerText = 'Filters';
 
     var filters = ['Vegetarian', 'Vegan', 'Pescetarian', 'Gluten-free', 'Dairy-free', 'Paleo', 'Kosher'];
     var level2 = document.createElement('div');
-        level2.classList.add('level');
+    level2.classList.add('level');
 
     var btnGroup = document.createElement('div');
-        btnGroup.classList.add('buttons');
-    
-    filters.forEach(function(filter) {
+    btnGroup.classList.add('buttons');
+
+    filters.forEach(function (filter) {
         var button = document.createElement('span');
+<<<<<<< HEAD
             button.classList.add('button', 'dietQuery');
             button.classList.add('is-primary');
             button.classList.add('is-outlined');
@@ -639,18 +654,27 @@ function addMeals() {
             button.setAttribute('data-selected', 'false');
             button.appendChild(document.createTextNode(filter));
             btnGroup.append(button);
+=======
+        button.classList.add('button');
+        button.classList.add('is-primary');
+        button.classList.add('is-outlined');
+        button.classList.add('btn-filter');
+        button.setAttribute('data-selected', 'false');
+        button.appendChild(document.createTextNode(filter));
+        btnGroup.append(button);
+>>>>>>> 4c8395e96370b69c89e5b06269e7db34ab316b03
     });
     level2.append(btnGroup);
-    
+
     elem.append(head);
     elem.append(field);
     elem.append(level2);
     elem.append(body);
-            
+
     return elem;
 }
 
-function mealsModal () {
+function mealsModal() {
     var container = $('<div>');
     var title1 = $('<h3>').addClass('title is-4').text('Favorites');
     var title2 = $('<h3>').addClass('title is-4').text('Suggested');
@@ -660,55 +684,55 @@ function mealsModal () {
         .css('margin-bottom', '50px').css('padding', '10px');
     var level2 = $('<div>').addClass('corners-rounded has-background-grey-light')
         .css('margin-bottom', '50px').css('padding', '10px');
-    
-    
+
+
     //favorites
     var ancestorFav = $('<div>').addClass('tile is-ancestor is-vertical');
     var ancestorSug = $('<div>').addClass('tile is-ancestor is-vertical');
-    
+
     var favArr = [
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
         {
-            name: "noodles", 
+            name: "noodles",
             description: 'boil some water to start making these fantastically bland noodles',
             url: 'URL HERE'
         },
@@ -717,37 +741,37 @@ function mealsModal () {
 
     var sugArr = [
         {
-            name: 'po-ta-toes', 
+            name: 'po-ta-toes',
             description: 'boil em, mash em, stick em in a stew po-ta-toes',
             URL: 'URL HERE'
         },
         {
-            name: 'po-ta-toes', 
+            name: 'po-ta-toes',
             description: 'boil em, mash em, stick em in a stew po-ta-toes',
             URL: 'URL HERE'
         },
         {
-            name: 'po-ta-toes', 
+            name: 'po-ta-toes',
             description: 'boil em, mash em, stick em in a stew po-ta-toes',
             URL: 'URL HERE'
         },
         {
-            name: 'po-ta-toes', 
+            name: 'po-ta-toes',
             description: 'boil em, mash em, stick em in a stew po-ta-toes',
             URL: 'URL HERE'
         },
         {
-            name: 'po-ta-toes', 
+            name: 'po-ta-toes',
             description: 'boil em, mash em, stick em in a stew po-ta-toes',
             URL: 'URL HERE'
         },
         {
-            name: 'po-ta-toes', 
+            name: 'po-ta-toes',
             description: 'boil em, mash em, stick em in a stew po-ta-toes',
             URL: 'URL HERE'
         },
         {
-            name: 'po-ta-toes', 
+            name: 'po-ta-toes',
             description: 'boil em, mash em, stick em in a stew po-ta-toes',
             URL: 'URL HERE'
         },
@@ -755,53 +779,60 @@ function mealsModal () {
 
 
     //takes an array of suggested recipies and appends them to the appropriate ancestor
-    function appendMeals (arr, ancestor) {
-        for (var i=0; i<arr.length; i++){
-            if(i%4===0){
+    function appendMeals(arr, ancestor) {
+        for (var i = 0; i < arr.length; i++) {
+            if (i % 4 === 0) {
                 var parent = $('<div>').addClass('tile is-parent');
-                    parent.attr('id', 'parent' + i);
+                parent.attr('id', 'parent' + i);
                 ancestor.append(parent);
-                
+
             }
             var tileContents = $('<div>').addClass('corners-rounded has-background-grey-lighter').css('margin', '5px').css('padding', '10px');
             var tile = $('<div>').addClass('tile is-child is-3');
-                tile.css('margin', '10px');    
+            tile.css('margin', '10px');
             var title = $('<h3>').addClass('title is-5').text(arr[i].name);
             var snippet = $('<p>').text(arr[i].description);
-    
+
             tileContents
                 .append(title)
                 .append(snippet);
-    
+
             tile.append(tileContents);
             parent.append(tile);
         }
     }
+<<<<<<< HEAD
     
     appendMeals (favArr, ancestorFav);
     appendMeals(sugArr, ancestorSug);
     
+=======
+
+    appendMeals(favArr, ancestorFav);
+    //appendMeals(sugArr, ancestorSug);
+
+>>>>>>> 4c8395e96370b69c89e5b06269e7db34ab316b03
     level1.append(ancestorFav);
     //level2.append(ancestorSug);
-    
-  
+
+
 
     //filters
-    
+
     container
         .append(title1)
         .append(level1)
-        //.append(title2)
-        //.append(level2)
-        //.append(title3)
-        //.append(level3);
-    
+    //.append(title2)
+    //.append(level2)
+    //.append(title3)
+    //.append(level3);
+
     return container;
 }
 
 //Calorie Card
 //TODO: ALTER CARD TO REFLECT BURNED/GOALS
-function addCalorieCard () {
+function addCalorieCard() {
     var elem = document.createElement('div');
     elem.classList.add('grid-item');
     elem.classList.add('grid-item--width2');
@@ -812,31 +843,31 @@ function addCalorieCard () {
     //Calorie card head
     var head = createPanelHead('<img src= "assets/panel-icons/man.svg" alt="burnMan">', 'Calories', true);
     var title2 = document.createElement('h3');
-        title2.classList.add('title');-
+    title2.classList.add('title'); -
         title2.classList.add('is-5');
-        title2.append(document.createTextNode('Calories Count'));
+    title2.append(document.createTextNode('Calories Count'));
 
     //Calorie card body
     var cardBody = document.createElement('div');
-        cardBody.classList.add('has-text-centered');
-        //cardBody.classList.add('level');
+    cardBody.classList.add('has-text-centered');
+    //cardBody.classList.add('level');
 
     //Create 2 caloric elements: burned and goal to add content
     var burnedCalories = document.createElement('div');
-        burnedCalories.classList.add('level-item');
+    burnedCalories.classList.add('level-item');
     var goalCalories = document.createElement('div');
-        goalCalories.classList.add('level-item');
+    goalCalories.classList.add('level-item');
     var burnedP = document.createElement('h3');
-        burnedP.classList.add('title');
-        burnedP.classList.add('is-1');
-        burnedP.setAttribute('id', 'caloriesToday');
-        //burnedP.classList.add('level-item');
+    burnedP.classList.add('title');
+    burnedP.classList.add('is-1');
+    burnedP.setAttribute('id', 'caloriesToday');
+    //burnedP.classList.add('level-item');
     var goalP = document.createElement('p');
-        goalP.classList.add('title');
-        goalP.classList.add('is-5');
-        goalP.classList.add('level-item');
+    goalP.classList.add('title');
+    goalP.classList.add('is-5');
+    goalP.classList.add('level-item');
     var units = document.createElement('p');
-        units.innerHTML = 'kcal Burned';
+    units.innerHTML = 'kcal Burned';
 
 
     burnedCalories.append(burnedP);
@@ -858,12 +889,12 @@ function calorieModal() {
     var level1 = $('<div>').addClass('level');
 
     var title1 = $('<h3>').addClass('title is-4');
-        title1.text('Week View');
-    
-    
-    
+    title1.text('Week View');
 
-    for (var i=0; i<7; i++) {
+
+
+
+    for (var i = 0; i < 7; i++) {
         var date = dateArr[i];
         var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         var item = $('<div>').addClass('level-item calories-level-item corners-rounded has-background-grey-lighter');
@@ -876,9 +907,9 @@ function calorieModal() {
         var td = $('<td>').addClass('has-text-centered');
         var text = $('<h3>').addClass('title is-3');
 
-        if(activitiesSummary[i]){
+        if (activitiesSummary[i]) {
             text.text(activitiesSummary[i].calories);
-        }else{
+        } else {
             text.text('0');
         }
 
@@ -896,7 +927,7 @@ function calorieModal() {
     }
     //iframe panel
     var title2 = $('<h3>').addClass('title is-4');
-        title2.text('Trends');
+    title2.text('Trends');
     var calorieIframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9');
     var level2 = $('<div>').addClass('level');
 
@@ -913,40 +944,75 @@ function calorieModal() {
 }
 
 
-//DEV FUNCTION DELETE FOR PRODUCTION 
-function dummyCard () {
-    var elem = document.createElement('div');
-        elem.classList.add('grid-item');
+
+
+//Pedometer Card
+function addPedometer() {
+    var elem = document.createElement("div");
+        elem.classList.add("grid-item");
         elem.classList.add('grid-item--width2');
-        elem.classList.add('grid-item--height');
-        elem.classList.add('box');
-        elem.setAttribute('id', 'dummy');
+        elem.classList.add("box");
+      
+//Create header for the Pedometer
+    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="pedomter">', 'Pedometer', true);
+    
+//Create body element 
 
-    var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'pedometer', true);
 
-    elem.append(head);
+    var body = document.createElement('div');
+        body.classList.add('has-text-centered');
+        body.classList.add('level');
+    var today = document.createElement('h3');
+        today.setAttribute('id', 'todaysStats')
+        today.classList.add('title');
+        today.classList.add('is-4');
+        today.append(document.createTextNode('Today:'));
+    
 
-    return elem;
+        body.appendChild(today);
+               
+//Create footer element
+
+var footer = document.createElement('footer');
+    footer.classList.add('has-text-centered');
+    footer.classList.add('level');
+
+var yStats = document.createElement('h5');
+    yStats.setAttribute('id', 'yStats')
+    // yStats.classList.add('subtitle');
+    yStats.classList.add('is-6');
+    yStats.append(document.createTextNode('Yesterday:'));
+
+    footer.appendChild(yStats)
+  
+    
+        elem.append(head);
+        elem.append(body);
+        elem.append(footer);
+        return elem; 
 }
 
+
 //add username
-$('#username').text(`Hello, ${'Name'}`);
+$('#username').text(`Hello, ${userNameNav}`);
 //appends Panels to the dashboard
 var toAppend = [];
 
-toAppend.push(addDaily(), addWeather(), addCalorieCard(), dummyCard(), addMeals()); 
+
+toAppend.push(addDaily(), addWeather(), addCalorieCard(), addPedometer(), addMeals()); 
+
 
 $grid.append(toAppend).masonry('appended', toAppend);
 
 //All Listeners go here
 
 //Filters onclick funtion changes style and data-selected attribute
-$('.btn-filter').on('click', function(){
+$('.btn-filter').on('click', function () {
     var state = $(this).attr('data-selected');
-    if(state === 'false'){
+    if (state === 'false') {
         $(this).attr('data-selected', 'true');
         $(this).removeClass('is-outlined');
-    }else{
+    } else {
         $(this).attr('data-selected', 'false');
         $(this).addClass('is-outlined');
     }
@@ -955,9 +1021,9 @@ $('.btn-filter').on('click', function(){
 
 //dropdown toggle
 $(document).on('click', '.dropdown', function () {
-    if ($(this).hasClass('is-active')){
+    if ($(this).hasClass('is-active')) {
         $(this).removeClass('is-active');
-    }else{
+    } else {
         $(this).addClass('is-active');
     }
 });
@@ -990,17 +1056,17 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 .append(head)
                 .append(level1)
                 .append(level2);
-            
+
             //Daily modal dropdown listener
             $('#unitsDrop').find('.dropdown-item').on('click', function () {
                 console.log('clicked');
                 var option = $(this).attr('data-option')
                 console.log(option);
-                if(option === '0') {
+                if (option === '0') {
                     $('#unitsDrop > .dropdown-trigger').find($('span')).text('Reps');
                     $('#unitsDrop').attr('data-selected', 0);
                     console.log('Reps was selected')
-                }else{
+                } else {
                     $('#unitsDrop > .dropdown-trigger').find($('span')).text('Minutes');
                     console.log('Minutes was selected');
                     $('#unitsDrop').attr('data-selected', 1);
@@ -1027,10 +1093,10 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 if (units === '0') {
                     duration.text($('#newDuration').val().trim() + ' Reps');
                     fbUnits = "Reps";
-                }else if(units === '1') {
+                } else if (units === '1') {
                     duration.text($('#newDuration').val().trim() + ' Mins');
                     fbUnits = "Mins";
-                }else{
+                } else {
                     return $('#activityForm').append('<p class="help is-danger">Please select a unit</p>');
                 }
 
@@ -1053,13 +1119,13 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 temp = {
                     User: currentUid,
                     Activity: fbActivity,
-                    Duration: fbDuration+" "+fbUnits,
+                    Duration: fbDuration + " " + fbUnits,
                     date: moment().format('L'),
                     completed: false
                 }
-        
+
                 //send items to firebase
-                database.ref(currentUid+"/activty").push(temp);
+                database.ref(currentUid + "/activty").push(temp);
             });
 
             $(document).on('click', '.fa-times', function () {
@@ -1075,7 +1141,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
             $('#modalDiv')
                 .append(head)
                 .append(body);
-            
+
             break;
         case "pedometer":
             var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Pedometer', false);
@@ -1084,14 +1150,14 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
             var title2 = $('<h3>').addClass('title is-4').text('Trends');
             //get dates for this week
             //call to user database, get pedometer steps for the week
-            
-            
-           
+
+
+
             var level = $('<div>').addClass('level');
-                
-                iframe.addClass('level-item');
-                level.append(iframe);
-            
+
+            iframe.addClass('level-item');
+            level.append(iframe);
+
             $('#modalDiv')
                 .append(head)
                 .append(title1)
@@ -1101,12 +1167,12 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
             break;
         case 'Meals':
             var head = createPanelHead('<img class="image is-48x48" src="assets/panel-icons/healthy-nutrition.svg" alt="nutrition-icon">', 'Meals', false);
-            
+
             $('#modalDiv')
                 .append(head)
                 .append(mealsModal());
 
-            break;    
+            break;
         case 'Calories':
             //CREATE MODAL
             calorieModal();
@@ -1115,19 +1181,19 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
 });
 
 //Deactivates Modal
-$('#modal-close').on('click', function() {
+$('#modal-close').on('click', function () {
     $('#modal').removeClass('is-active');
     $('#modalDiv').empty();
-}); 
+});
 
-$(document).on('click', 'label', function(e) {
+$(document).on('click', 'label', function (e) {
     e.preventDefault();
     console.log($(this).attr('data-checked'));
-    
-    if($(this).attr('data-checked') === 'false'){
+
+    if ($(this).attr('data-checked') === 'false') {
         $(this).attr('data-checked', 'true');
         $(this).css('text-decoration', 'line-through');
-    }else{
+    } else {
         $(this).attr('data-checked', 'false');
         $(this).css('text-decoration', 'none');
     }
