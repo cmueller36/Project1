@@ -627,6 +627,11 @@ function getSearchResults(arr) {
             link.setAttribute('style', 'display:none');
         tbody.append(link);
 
+        var emptyHeart = document.createElement('div');
+            emptyHeart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
+            emptyHeart.classList.add('level-right');
+            th.appendChild(emptyHeart);
+
         row1.append(th);
         row2.append(td);
         thead.append(row1);
