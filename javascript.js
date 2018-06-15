@@ -126,12 +126,22 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(response);
 
         activitiesSummary.forEach(function (value) {
-            //console.log('this: ', value);
-            var entry = document.createElement('div');
-            entry.classList.add('has-background-grey-lighter');
-            entry.classList.add('corners-rounded');
-            entry.innerHTML = `<p class="margin-small">Distance: ${value.distance}</p>` + `<p class="margin-small">Duration: ${value.duration}</p>`;
-            $('#completed0').append(entry);
+            console.log(response);
+        activitiesSummary = [];
+        var days = parseInt(moment().format('d')) + 1;
+
+        for (var i=0; i<days; i++){
+            activitiesSummary.push(response[i]);
+        }
+        //append relevent card data
+        //calories card
+        $('#caloriesToday').text(activitiesSummary[0].calories);
+
+        $('.grid').masonry();
+        //reverse array to append the data to modals easier
+        activitiesSummary.reverse();
+        console.log('activities Summary', activitiesSummary);
+        
         });
     });
 
@@ -157,10 +167,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     });
     //variables storing information relevant to Recipe API
 
-var recipeName = "";
-var recipeImage = "";
-var recipeURL = "";
-var recipeSearchValue = "";
+var recipeArr = [];
 
 $(document).on("click","#searchMeals",function(){
 
@@ -171,7 +178,7 @@ $(document).on("click","#searchMeals",function(){
     var recipeAppId = "&app_id=84dfbeab";
     var recipeApiKey = "&app_key=b2a7ec1260a71c648f7c481c5934f15b";
     var numberOfRecipes = "&from=0&to=8";
-    var caloriesQuery = "&calories=500"+ $("#caloriesToday").text();
+    var caloriesQuery = $("#caloriesToday").text();
     var diet = "";
     var health = "&healthLabel=" + diet; //add limiting food group from dropdown menu --> see HEALTH documentation in the Recipes API
     var queryURL = "https://api.edamam.com/search?q=" + recipeSearch + recipeAppId + recipeApiKey + numberOfRecipes + caloriesQuery + health;
@@ -183,42 +190,22 @@ $(document).on("click","#searchMeals",function(){
     .then(function (response) {
         console.log(response);
 
-        recipeName = {
-            one: response.hits[0].recipe.label,
-            two: response.hits[1].recipe.label,
-            three: response.hits[2].recipe.label,
-            four: response.hits[3].recipe.label,
-            five: response.hits[4].recipe.label,
-            six: response.hits[5].recipe.label,
-            seven: response.hits[6].recipe.label,
-            eight: response.hits[7].recipe.label
-        }
 
-        recipeImage = {
-            one: response.hits[0].recipe.image,
-            two: response.hits[1].recipe.image,
-            three: response.hits[2].recipe.image,
-            four: response.hits[3].recipe.image,
-            five: response.hits[4].recipe.image,
-            six: response.hits[5].recipe.image,
-            seven: response.hits[6].recipe.image,
-            eight: response.hits[7].recipe.image
+        for (var i=0; i<8; i++){
+            var temp = {
+                name: response.hits[i].recipe.label,
+                image: response.hits[i].recipe.image,
+                url: response.hits[i].recipe.url
+            }
+            recipeArr.push(temp);
         }
-
-        recipeURL = {
-            one: response.hits[0].recipe.url,
-            two: response.hits[1].recipe.url,
-            three: response.hits[2].recipe.url,
-            four: response.hits[3].recipe.url,
-            five: response.hits[4].recipe.url,
-            six: response.hits[5].recipe.url,
-            seven: response.hits[6].recipe.url,
-            eight: response.hits[7].recipe.url
-        }
+        console.log(recipeArr);
+        getSearchResults(recipeArr);
 
 });
 
-console.log(recipeURL);
+var favArr = [];
+
 
 
 
