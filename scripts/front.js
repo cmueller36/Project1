@@ -222,15 +222,15 @@ function addDaily() {
     var body = document.createElement('div');
 
     var day = document.createElement('div');
-    day.classList.add('column');
-    day.classList.add('calendar-column');
     day.classList.add('corners-rounded');
+    day.classList.add('space');
     day.classList.add('has-background-grey-lighter');
 
     var table = document.createElement('table');
     table.classList.add('table');
     table.classList.add('is-fullwidth');
     table.classList.add('corners-rounded');
+    table.classList.add('has-background-white');
 
     var thead = document.createElement('thead');
 
@@ -617,7 +617,6 @@ function getSearchResults(arr) {
         var td = document.createElement('td');
         var img = document.createElement('img');
             img.classList.add('corners-rounded');
-            
             img.setAttribute('src', recipeArr[j].image);
             img.setAttribute('alt', 'Query result img');
         td.appendChild(img);
@@ -797,7 +796,7 @@ function calorieModal() {
     //iframe panel
     var title2 = $('<h3>').addClass('title is-4');
     title2.text('Trends');
-    var calorieIframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9');
+    var calorieIframe = generateIframe(useriframeCalories);
     var level2 = $('<div>').addClass('level');
 
     calorieIframe.addClass('level-item');
@@ -921,7 +920,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
             var head = createPanelHead('<img class="image is-64x64" src="assets/panel-icons/schedule.svg" alt="schedule-icon">', 'Daily Report', false);
             var level1 = $('<div>').addClass('level');
             var level2 = $('<div>').addClass('level');
-            var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
+            var iframe = generateIframe(useriframe)
             var itemA = $('<div>').addClass('level-item');
             var itemB = $('<div>').addClass('level-item');
 
@@ -1024,7 +1023,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
             break;
         case "Pedometer":
             var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Pedometer', false);
-            var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
+            var iframe = generateIframe(useriframePedometer)
             var title1 = $('<h3>').addClass('title is-4').text('Week View');
             var title2 = $('<h3>').addClass('title is-4').text('Trends');
             //get dates for this week
