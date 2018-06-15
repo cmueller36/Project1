@@ -540,21 +540,9 @@ function addMeals() {
 
 
     var search = document.createElement('input');
-<<<<<<< HEAD
-        search.setAttribute('type', 'text');
-        search.setAttribute('placeholder', 'Search Recipes');
-        search.classList.add('input');
-        search.classList.add('is-primary');
-        search.setAttribute('id', 'mealSearch');
- 
-        inputControl.append(search);
-        btnControl.append(btn);
-        field.append(inputControl);
-        field.append(btnControl);
- 
-=======
     search.setAttribute('type', 'text');
     search.setAttribute('placeholder', 'Search Recipes');
+    search.setAttribute('id', 'searchInput');
     search.classList.add('input');
     search.classList.add('is-primary');
 
@@ -563,7 +551,6 @@ function addMeals() {
     field.append(inputControl);
     field.append(btnControl);
 
->>>>>>> 4c8395e96370b69c89e5b06269e7db34ab316b03
     var mealsResults = [
         {
             name: 'The Best Chiken',
@@ -646,15 +633,6 @@ function addMeals() {
 
     filters.forEach(function (filter) {
         var button = document.createElement('span');
-<<<<<<< HEAD
-            button.classList.add('button', 'dietQuery');
-            button.classList.add('is-primary');
-            button.classList.add('is-outlined');
-            button.classList.add('btn-filter');
-            button.setAttribute('data-selected', 'false');
-            button.appendChild(document.createTextNode(filter));
-            btnGroup.append(button);
-=======
         button.classList.add('button');
         button.classList.add('is-primary');
         button.classList.add('is-outlined');
@@ -662,7 +640,6 @@ function addMeals() {
         button.setAttribute('data-selected', 'false');
         button.appendChild(document.createTextNode(filter));
         btnGroup.append(button);
->>>>>>> 4c8395e96370b69c89e5b06269e7db34ab316b03
     });
     level2.append(btnGroup);
 
@@ -801,17 +778,10 @@ function mealsModal() {
             parent.append(tile);
         }
     }
-<<<<<<< HEAD
-    
-    appendMeals (favArr, ancestorFav);
-    appendMeals(sugArr, ancestorSug);
-    
-=======
 
     appendMeals(favArr, ancestorFav);
     //appendMeals(sugArr, ancestorSug);
 
->>>>>>> 4c8395e96370b69c89e5b06269e7db34ab316b03
     level1.append(ancestorFav);
     //level2.append(ancestorSug);
 
@@ -994,7 +964,7 @@ var yStats = document.createElement('h5');
 
 
 //add username
-$('#username').text(`Hello, ${userNameNav}`);
+// $('#username').text(`Hello, ${userNameNav}`);
 //appends Panels to the dashboard
 var toAppend = [];
 
