@@ -136,6 +136,8 @@ firebase.auth().onAuthStateChanged(function (user) {
         //append relevent card data
         //calories card
         $('#caloriesToday').text(activitiesSummary[0].calories);
+        $('#stepsToday').text(activitiesSummary[0].steps);
+        $('#stepsYesterday').text(activitiesSummary[0].steps);
 
         $('.grid').masonry();
         //reverse array to append the data to modals easier

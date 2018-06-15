@@ -550,10 +550,6 @@ function addMeals() {
     field.append(inputControl);
     field.append(btnControl);
 
-    
-
-   
-
     var filterTitle = document.createElement('h3');
     filterTitle.classList.add('title');
     filterTitle.classList.add('is-6');
@@ -687,28 +683,18 @@ function mealsModal() {
     }
 
     appendMeals(favArr, ancestorFav);
-    //appendMeals(sugArr, ancestorSug);
 
     level1.append(ancestorFav);
-    //level2.append(ancestorSug);
-
-
 
     //filters
-
     container
         .append(title1)
-        .append(level1)
-    //.append(title2)
-    //.append(level2)
-    //.append(title3)
-    //.append(level3);
+        .append(level1);
 
     return container;
 }
 
 //Calorie Card
-//TODO: ALTER CARD TO REFLECT BURNED/GOALS
 function addCalorieCard() {
     var elem = document.createElement('div');
     elem.classList.add('grid-item');
@@ -820,9 +806,6 @@ function calorieModal() {
 
 }
 
-
-
-
 //Pedometer Card
 function addPedometer() {
     var elem = document.createElement("div");
@@ -830,12 +813,10 @@ function addPedometer() {
         elem.classList.add('grid-item--width2');
         elem.classList.add("box");
       
-//Create header for the Pedometer
+    //Create header for the Pedometer
     var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="pedomter">', 'Pedometer', true);
-    
-//Create body element 
 
-
+    //Create body element 
     var body = document.createElement('div');
         body.classList.add('has-text-centered');
         body.classList.add('level');
@@ -844,29 +825,43 @@ function addPedometer() {
         today.classList.add('title');
         today.classList.add('is-4');
         today.append(document.createTextNode('Today:'));
-    
+        today.innerText = `Today: `;
 
+    var stepsTday = document.createElement('h1');
+        stepsTday.classList.add('title');
+        stepsTday.classList.add('is-1');
+        stepsTday.setAttribute('style', 'margin-right: 30px');
+        stepsTday.setAttribute('id', 'stepsToday');
+        
         body.appendChild(today);
-               
-//Create footer element
+        body.append(stepsTday);
 
-var footer = document.createElement('footer');
-    footer.classList.add('has-text-centered');
-    footer.classList.add('level');
+    //Create footer element
 
-var yStats = document.createElement('h5');
-    yStats.setAttribute('id', 'yStats')
-    // yStats.classList.add('subtitle');
-    yStats.classList.add('is-6');
-    yStats.append(document.createTextNode('Yesterday:'));
+    var footer = document.createElement('footer');
+        footer.classList.add('has-text-centered');
+        footer.classList.add('level');
 
-    footer.appendChild(yStats)
-  
+    var yesterday = document.createElement('h5');
+        yesterday.setAttribute('id', 'yStats')
+        // yStats.classList.add('subtitle');
+        yesterday.classList.add('is-6');
+        yesterday.innerText = "Yesterday: "
+
+    var stepsYday = document.createElement('h4');
+        stepsYday.classList.add('title');
+        stepsYday.classList.add('is-4');
+        stepsYday.setAttribute('style', 'margin-right: 30px');
+        stepsYday.setAttribute('id', 'stepsYesterday');
+
+        footer.appendChild(yesterday);
+        footer.append(stepsYday);
     
-        elem.append(head);
-        elem.append(body);
-        elem.append(footer);
-        return elem; 
+        
+            elem.append(head);
+            elem.append(body);
+            elem.append(footer);
+            return elem; 
 }
 
 
@@ -1021,7 +1016,7 @@ $(document).on('click', '.fa-arrows-alt-h', function () {
                 .append(body);
 
             break;
-        case "pedometer":
+        case "Pedometer":
             var head = createPanelHead('<img class="image" src="assets/panel-icons/feel-free.svg" alt="dummy">', 'Pedometer', false);
             var iframe = generateIframe('https://app.powerbi.com/view?r=eyJrIjoiZWEzZmU0ODQtZTYyNS00MGExLWI3NmItMDhmYmE3NDBjYzg5IiwidCI6ImUyYzc3ZjUwLTYyYzUtNDkxYy1iY2Q2LWIyYzBkOTU1YTU4OSIsImMiOjN9')
             var title1 = $('<h3>').addClass('title is-4').text('Week View');
