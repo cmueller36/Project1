@@ -106,15 +106,16 @@ firebase.auth().onAuthStateChanged(function (user) {
             });
             appendActivities(fbActivities);
         });
-<<<<<<< HEAD
-        
-=======
         //grabs favorite meals
         ref.child(currentUid).child('meals').orderByChild('User').equalTo(currentUid).on('value', function (snapshot) {
-            console.log(snapshot.val());
-            fbMeals.push(snapshot.val());
-        })
->>>>>>> c00cccec0068efe704d4c1d03f3b6dbe11088884
+            //fbMeals.push(snapshot.val());
+            var favEntry = Object.entries(snapshot.val());
+            console.log(favEntry);
+            favEntry.forEach(function(entry) {
+                fbMeals.push(entry[1]);
+            })
+            
+        });
 
     } else {
         // Sign out operation. Reset the current user UID.  
@@ -248,7 +249,7 @@ $(document).on("click","#searchMeals",function(){
             recipeArr.push(temp);
         }
         console.log(recipeArr);
-        getSearchResults(recipeArr);
+        getSearchResults(recipeArr, $('#results'));
 
 });
 
@@ -366,4 +367,14 @@ var favArr = [];
         $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
         $('#forecast').text(weatherData[0].forecast);
     });
+})
+
+$(document).on('click', '.fa-arrows-alt-h', function () {
+    if($(this).attr('data-panel') === 'Meals'){
+        console.log(fbMeals);
+            if(fbMeals.length > 0){
+                console.log('executed')
+                getSearchResults(fbMeals, $('#favMeals'));
+            }
+    }
 })

@@ -578,17 +578,19 @@ function addMeals() {
     elem.append(level2);
     elem.append(body);
 
+    
+
     return elem;
 }
 
-function getSearchResults(arr) {
+function getSearchResults(arr, elem) {
     $('#results').empty();
     for (var j = 0; j < arr.length; j++) {
 
         if (j % 4 === 0) {
             var level = document.createElement('div');
             level.classList.add('level');
-            $('#results').prepend(level);
+            $(elem).prepend(level);
         }
 
         var favMeals = document.createElement('div');
@@ -616,18 +618,18 @@ function getSearchResults(arr) {
         var resultTitle = document.createElement('span');
             resultTitle.setAttribute('style', 'width: 130px');
             resultTitle.classList.add('level-left');
-            resultTitle.innerText = recipeArr[j].name;
+            resultTitle.innerText = arr[j].name;
         thLevel.append(resultTitle);
 
         var td = document.createElement('td');
         var img = document.createElement('img');
             img.classList.add('corners-rounded');
-            img.setAttribute('src', recipeArr[j].image);
+            img.setAttribute('src', arr[j].image);
             img.setAttribute('alt', 'Query result img');
         td.appendChild(img);
 
         var link = document.createElement('a');
-            link.setAttribute('href', recipeArr[j].url);
+            link.setAttribute('href', arr[j].url);
             link.setAttribute('target', '_blank');
             link.setAttribute('style', 'display:none');
         tbody.append(link);
@@ -642,11 +644,7 @@ function getSearchResults(arr) {
             heart.classList.add('level-right');
             thLevel.append(heart);
 
-            th.append(thLevel);
-            
-
-           
-            
+            th.append(thLevel); 
 
         row1.append(th);
         row2.append(td);
@@ -667,45 +665,13 @@ function mealsModal() {
     var title3 = $('<h3>').addClass('title is-4').text('Filter');
 
     var level1 = $('<div>').addClass('corners-rounded has-background-grey-light')
-        .css('margin-bottom', '50px').css('padding', '10px');
+        .css('margin-bottom', '50px').css('padding', '10px')
+        .attr('id', 'favMeals');
     var level2 = $('<div>').addClass('corners-rounded has-background-grey-light')
         .css('margin-bottom', '50px').css('padding', '10px');
 
 
-    //favorites
-    var ancestorFav = $('<div>').addClass('tile is-ancestor is-vertical');
-    var ancestorSug = $('<div>').addClass('tile is-ancestor is-vertical');
-
-   
-
-
-    //takes an array of suggested recipies and appends them to the appropriate ancestor
-    function appendMeals(arr, ancestor) {
-        for (var i = 0; i < arr.length; i++) {
-            if (i % 4 === 0) {
-                var parent = $('<div>').addClass('tile is-parent');
-                parent.attr('id', 'parent' + i);
-                ancestor.append(parent);
-
-            }
-            var tileContents = $('<div>').addClass('corners-rounded has-background-grey-lighter').css('margin', '5px').css('padding', '10px');
-            var tile = $('<div>').addClass('tile is-child is-3');
-            tile.css('margin', '10px');
-            var title = $('<h3>').addClass('title is-5').text(arr[i].name);
-            var snippet = $('<p>').text(arr[i].description);
-
-            tileContents
-                .append(title)
-                .append(snippet);
-
-            tile.append(tileContents);
-            parent.append(tile);
-        }
-    }
-
-    appendMeals(favArr, ancestorFav);
-
-    level1.append(ancestorFav);
+    
 
     //filters
     container
@@ -727,7 +693,7 @@ function addCalorieCard() {
     //Calorie card head
     var head = createPanelHead('<img src= "assets/panel-icons/man.svg" alt="burnMan">', 'Calories', true);
     var title2 = document.createElement('h3');
-    title2.classList.add('title'); -
+    title2.classList.add('title'); 
         title2.classList.add('is-5');
     title2.append(document.createTextNode('Calories Count'));
 
