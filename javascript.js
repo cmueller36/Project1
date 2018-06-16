@@ -205,6 +205,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 var recipeArr = [];
 
+
 $(document).on("click","#searchMeals",function(){
 
     recipeSearchValue = $("#searchInput").val().trim();
