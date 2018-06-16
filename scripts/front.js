@@ -262,7 +262,6 @@ function addDaily() {
     elem.append(head);
     elem.append(body);
 
-
     return elem;
 }
 
@@ -888,7 +887,7 @@ function addPedometer() {
 
 
 //add username
-$('#username').text(`Hello, ${userNameNav}`);
+$('#username').text('Hello' + userNameNav);
 //appends Panels to the dashboard
 var toAppend = [];
 

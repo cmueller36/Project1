@@ -94,9 +94,11 @@ firebase.auth().onAuthStateChanged(function (user) {
         var ref = database.ref();
         //grabs user activity
         ref.child(currentUid).child("activty").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
-            console.log(snapshot.val());
+            
             fbActivities.push(snapshot.val());
+            console.log(fbActivities)
         });
+        
 
     } else {
         // Sign out operation. Reset the current user UID.  
@@ -198,7 +200,6 @@ $("#logout").on("click", function (event) {
 
 
 var recipeArr = [];
-
 
 $(document).on("click","#searchMeals",function(){
 
