@@ -599,23 +599,23 @@ function getSearchResults(arr) {
 
         var table = document.createElement('table');
         table.classList.add('table');
+        table.classList.add('has-background-white');
         table.classList.add('is-fullwidth');
         table.classList.add('corners-rounded');
 
         var thead = document.createElement('thead');
         var tbody = document.createElement('tbody');
             tbody.classList.add('clickRecipe');
-            
+
         var row1 = document.createElement('tr');
         var row2 = document.createElement('tr');
         var thLevel = document.createElement('div');
+            thLevel.setAttribute('style', 'height: 80px');
             thLevel.classList.add('level')
 
         var th = document.createElement('th');
         var resultTitle = document.createElement('span');
-            resultTitle.setAttribute('style', 'width: 140px');
-            resultTitle.setAttribute('style', 'height: 50px');
-            resultTitle.setAttribute('style', 'word-break: break-word');
+            resultTitle.setAttribute('style', 'width: 130px');
             resultTitle.classList.add('level-left');
             resultTitle.innerText = recipeArr[j].name;
         thLevel.append(resultTitle);
@@ -637,7 +637,6 @@ function getSearchResults(arr) {
         var heart = document.createElement('span');
             heart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
             heart.classList.add('level-center');
-            heart.classList.add('has-background-grey-lighter');
             heart.classList.add('heart');
             heart.setAttribute('data-selected', false);
             heart.setAttribute('data-index', j);
@@ -647,7 +646,7 @@ function getSearchResults(arr) {
             th.append(thLevel);
             
 
-           th.appendChild(heart);
+           
             
 
         row1.append(th);
@@ -1109,22 +1108,22 @@ $(document).on('click', '.heart', function() {
     console.log($(this).attr('data-selected'));
     
 
-if ($(this).attr('data-selected') === 'false') {
-    $(this).attr('data-selected', 'true');
-    $(this).empty();
-    $(this).html('<i class="fas fa-heart has-text-danger"></i>');
-    var index = $(this).attr('data-index');
-    favorited = recipeArr[index];
-    console.log(favorited);
-} else {
-    $(this).attr('data-selected','false');
-    $(this).empty();
-    $(this).html('<i class="far fa-heart has-text-danger"></i>');
-    var index = $(this).attr('data-index');
-    unfavorited = recipeArr[index];
-    console.log(unfavorited);
-} 
+    if ($(this).attr('data-selected') === 'false') {
+        $(this).attr('data-selected', 'true');
+        $(this).empty();
+        $(this).html('<i class="fas fa-heart has-text-danger"></i>');
+        var index = $(this).attr('data-index');
+        favorited = recipeArr[index];
+        console.log(favorited);
+    } else {
+        $(this).attr('data-selected','false');
+        $(this).empty();
+        $(this).html('<i class="far fa-heart has-text-danger"></i>');
+        var index = $(this).attr('data-index');
+        unfavorited = recipeArr[index];
+        console.log(unfavorited);
+    } 
 
 
-})
+});
 
