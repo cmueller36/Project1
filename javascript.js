@@ -251,9 +251,9 @@ $(document).on("click","#searchMeals",function(){
         console.log(recipeArr);
         getSearchResults(recipeArr, $('#results'));
 
-});
+    });
 
-var favArr = [];
+});
 
 
 
@@ -367,7 +367,7 @@ var favArr = [];
         $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
         $('#forecast').text(weatherData[0].forecast);
     });
-})
+
 
 $(document).on('click', '.fa-arrows-alt-h', function () {
     if($(this).attr('data-panel') === 'Meals'){
