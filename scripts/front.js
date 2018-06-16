@@ -866,16 +866,19 @@ $grid.append(toAppend).masonry('appended', toAppend);
 //All Listeners go here
 
 //Filters onclick funtion changes style and data-selected attribute
+var filters = '';
 $('.btn-filter').on('click', function () {
     var state = $(this).attr('data-selected');
     if (state === 'false') {
         $(this).attr('data-selected', 'true');
         $(this).removeClass('is-outlined');
+        
     } else {
         $(this).attr('data-selected', 'false');
         $(this).addClass('is-outlined');
     }
     console.log($(this).attr('data-selected'));
+    filters += this.innerText + '+';
     
 });
 
