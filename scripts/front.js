@@ -626,10 +626,17 @@ function getSearchResults(arr) {
             link.setAttribute('style', 'display:none');
         tbody.append(link);
 
-        var emptyHeart = document.createElement('div');
-            emptyHeart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
-            emptyHeart.classList.add('level-right');
-            th.appendChild(emptyHeart);
+        var heart = document.createElement('button');
+            heart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
+            heart.classList.add('button');
+            heart.classList.add('level-center');
+            heart.classList.add('has-background-grey-lighter');
+            heart.classList.add('heart');
+            heart.setAttribute('data-selected', false);
+            
+
+           th.appendChild(heart);
+            
 
         row1.append(th);
         row2.append(td);
@@ -1083,3 +1090,25 @@ $(document).on('click', '.clickRecipe', function (){
     console.log('clicked');
     window.open($(this).find('a').attr('href'));
 });
+
+
+$(document).on('click', '.heart', function() {
+    console.log($(this).attr('data-selected'));
+    
+
+if ($(this).attr('data-selected') === 'false') {
+    $(this).attr('data-selected', 'true');
+    $(this).empty();
+    $(this).html('<i class="fas fa-heart"></i>');
+
+} else {
+    $(this).attr('data-selected','false');
+    $(this).empty();
+    $(this).html('<i class="far fa-heart"></i>'
+
+    )
+} 
+
+
+})
+
