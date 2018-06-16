@@ -94,6 +94,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         var ref = database.ref();
         //grabs user activity
         ref.child(currentUid).child("activty").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
+            $('#goals').empty();
             console.log(snapshot.val());
             //fbActivities.push(snapshot.val());
 
@@ -102,7 +103,6 @@ firebase.auth().onAuthStateChanged(function (user) {
             activitiesEntry.forEach(function (entry) {
                 fbActivities.push(entry[1]);
             });
-            $('#goals').empty();
             appendActivities(fbActivities);
         });
         

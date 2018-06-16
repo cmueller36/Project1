@@ -55,11 +55,9 @@ function getDates(day) {
 getDates(moment().format('d'));
 
 function appendActivities(arr) {
-    //create a table???
     var $goals = $('#goals');
+    $goals.empty();
     
-    ///database call to user to grab any data for today placeholders are used for now
-    //fbActivities
     console.log(arr);
     arr.forEach(function (activity) {
         if (activity.date === moment().format('L')) {
@@ -76,9 +74,10 @@ function appendActivities(arr) {
 
 
             item.append(label);
-            $goals.append(item);
+            
+            $goals.html(item);
         }
-
+        
     });
 }
 
@@ -244,7 +243,8 @@ function addDaily() {
     var goals = document.createElement('td');
     goals.classList.add('table-cell--height2');
     goals.setAttribute('id', 'goals');
-
+    goals.setAttribute('style', 'overflow-y: scroll');
+    goals.innerText = ('something is here');
     row2.append(goals);
 
     //append elements put humpty dumpty together again
