@@ -80,6 +80,7 @@ ui.start('#firebaseui-auth-container', uiConfig);
 // Track the UID of the current user.  
 var currentUid = "";
 var fbActivities = [];
+var fbMeals = [];
 firebase.auth().onAuthStateChanged(function (user) {
 
     // onAuthStateChanged listener triggers every time the user ID token changes.  
@@ -97,6 +98,11 @@ firebase.auth().onAuthStateChanged(function (user) {
             console.log(snapshot.val());
             fbActivities.push(snapshot.val());
         });
+
+        ref.child(currentUid).child('meals').orderByChild('User').equalTo(currentUid).on('value', function (snapshot) {
+            console.log(snapshot.val());
+            fbMeals.push(snapshot.val());
+        })
 
     } else {
         // Sign out operation. Reset the current user UID.  

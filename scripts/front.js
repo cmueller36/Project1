@@ -1084,3 +1084,7 @@ $(document).on('click', '.clickRecipe', function (){
     console.log('clicked');
     window.open($(this).find('a').attr('href'));
 });
+
+$(document).on('click', '.fa-heart', function() {
+    alert("worked");
+})
