@@ -95,14 +95,27 @@ firebase.auth().onAuthStateChanged(function (user) {
         var ref = database.ref();
         //grabs user activity
         ref.child(currentUid).child("activty").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
+            $('#goals').empty();
             console.log(snapshot.val());
-            fbActivities.push(snapshot.val());
+            //fbActivities.push(snapshot.val());
+
+            var activitiesEntry = Object.entries(snapshot.val());
+            console.log(activitiesEntry);
+            activitiesEntry.forEach(function (entry) {
+                fbActivities.push(entry[1]);
+            });
+            appendActivities(fbActivities);
         });
         //grabs favorite meals
         ref.child(currentUid).child('meals').orderByChild('User').equalTo(currentUid).on('value', function (snapshot) {
-            console.log(snapshot.val());
-            fbMeals.push(snapshot.val());
-        })
+            //fbMeals.push(snapshot.val());
+            var favEntry = Object.entries(snapshot.val());
+            console.log(favEntry);
+            favEntry.forEach(function(entry) {
+                fbMeals.push(entry[1]);
+            })
+            
+        });
 
     } else {
         // Sign out operation. Reset the current user UID.  
@@ -205,7 +218,6 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 var recipeArr = [];
 
-
 $(document).on("click","#searchMeals",function(){
 
     recipeSearchValue = $("#searchInput").val().trim();
@@ -237,7 +249,7 @@ $(document).on("click","#searchMeals",function(){
             recipeArr.push(temp);
         }
         console.log(recipeArr);
-        getSearchResults(recipeArr);
+        getSearchResults(recipeArr, $('#results'));
 
 });
 
@@ -355,4 +367,14 @@ var favArr = [];
         $('#temp').text(weatherData[0].temp + String.fromCharCode(176) + 'F');
         $('#forecast').text(weatherData[0].forecast);
     });
+})
+
+$(document).on('click', '.fa-arrows-alt-h', function () {
+    if($(this).attr('data-panel') === 'Meals'){
+        console.log(fbMeals);
+            if(fbMeals.length > 0){
+                console.log('executed')
+                getSearchResults(fbMeals, $('#favMeals'));
+            }
+    }
 })
