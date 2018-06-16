@@ -1126,6 +1126,22 @@ if ($(this).attr('data-selected') === 'false') {
     console.log(unfavorited);
 } 
 
+    var fbFavMeal = favorited;
+
+    console.log(fbFavMeal);
+
+    //store items in temp in JSON
+    temp = {
+        User: currentUid,
+        name: recipeArr[index].name,
+        image: recipeArr[index].image,
+        url: recipeArr[index].url,
+        date: moment().format('L')
+    }
+
+    //send items to firebase
+    database.ref(currentUid + "/meals").push(temp);
+
 
 })
 

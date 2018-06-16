@@ -98,7 +98,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             console.log(snapshot.val());
             fbActivities.push(snapshot.val());
         });
-
+        //grabs favorite meals
         ref.child(currentUid).child('meals').orderByChild('User').equalTo(currentUid).on('value', function (snapshot) {
             console.log(snapshot.val());
             fbMeals.push(snapshot.val());
