@@ -468,7 +468,7 @@ function pedometerModal(dateArr) {
             .css('padding', '10px');
 
 
-        var table = $('<table>').addClass('table is-fullwidth corners-rounded');
+        var table = $('<table>').addClass('table is-fullwidth corners-rounded has-background-white');
         var thead = $('<thead>');
         var tbody = $('<tbody>')
         var row1 = $('<tr>');
@@ -608,10 +608,17 @@ function getSearchResults(arr) {
             
         var row1 = document.createElement('tr');
         var row2 = document.createElement('tr');
+        var thLevel = document.createElement('div');
+            thLevel.classList.add('level')
 
         var th = document.createElement('th');
-        var resultTitle = document.createTextNode(recipeArr[j].name);
-        th.appendChild(resultTitle);
+        var resultTitle = document.createElement('span');
+            resultTitle.setAttribute('style', 'width: 140px');
+            resultTitle.setAttribute('style', 'height: 50px');
+            resultTitle.setAttribute('style', 'word-break: break-word');
+            resultTitle.classList.add('level-left');
+            resultTitle.innerText = recipeArr[j].name;
+        thLevel.append(resultTitle);
 
         var td = document.createElement('td');
         var img = document.createElement('img');
@@ -626,13 +633,18 @@ function getSearchResults(arr) {
             link.setAttribute('style', 'display:none');
         tbody.append(link);
 
-        var heart = document.createElement('button');
+            
+        var heart = document.createElement('span');
             heart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
-            heart.classList.add('button');
             heart.classList.add('level-center');
             heart.classList.add('has-background-grey-lighter');
             heart.classList.add('heart');
             heart.setAttribute('data-selected', false);
+            heart.setAttribute('data-index', j);
+            heart.classList.add('level-right');
+            thLevel.append(heart);
+
+            th.append(thLevel);
             
 
            th.appendChild(heart);
@@ -772,7 +784,7 @@ function calorieModal() {
         var date = dateArr[i];
         var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         var item = $('<div>').addClass('level-item calories-level-item corners-rounded has-background-grey-lighter');
-        var table = $('<table>').addClass('table is-fullwidth corners-rounded');
+        var table = $('<table>').addClass('table is-fullwidth corners-rounded has-background-white');
         var thead = $('<thead>');
         var tbody = $('<tbody>');
         var row1 = $('<tr>');
@@ -1091,7 +1103,8 @@ $(document).on('click', '.clickRecipe', function (){
     window.open($(this).find('a').attr('href'));
 });
 
-
+var favorited;
+var unfavorited;
 $(document).on('click', '.heart', function() {
     console.log($(this).attr('data-selected'));
     
@@ -1099,14 +1112,17 @@ $(document).on('click', '.heart', function() {
 if ($(this).attr('data-selected') === 'false') {
     $(this).attr('data-selected', 'true');
     $(this).empty();
-    $(this).html('<i class="fas fa-heart"></i>');
-
+    $(this).html('<i class="fas fa-heart has-text-danger"></i>');
+    var index = $(this).attr('data-index');
+    favorited = recipeArr[index];
+    console.log(favorited);
 } else {
     $(this).attr('data-selected','false');
     $(this).empty();
-    $(this).html('<i class="far fa-heart"></i>'
-
-    )
+    $(this).html('<i class="far fa-heart has-text-danger"></i>');
+    var index = $(this).attr('data-index');
+    unfavorited = recipeArr[index];
+    console.log(unfavorited);
 } 
 
 
