@@ -57,12 +57,11 @@ getDates(moment().format('d'));
 function appendActivities(arr) {
     //create a table???
     var $goals = $('#goals');
-    $goals.empty();
+    
     ///database call to user to grab any data for today placeholders are used for now
     //fbActivities
     console.log(arr);
     arr.forEach(function (activity) {
-
         if (activity.date === moment().format('L')) {
             var item = document.createElement('div');
             var label = document.createElement('label');

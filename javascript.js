@@ -94,9 +94,16 @@ firebase.auth().onAuthStateChanged(function (user) {
         var ref = database.ref();
         //grabs user activity
         ref.child(currentUid).child("activty").orderByChild("User").equalTo(currentUid).on("value", function (snapshot) {
-            
-            fbActivities.push(snapshot.val());
-            console.log(fbActivities)
+            console.log(snapshot.val());
+            //fbActivities.push(snapshot.val());
+
+            var activitiesEntry = Object.entries(snapshot.val());
+            console.log(activitiesEntry);
+            activitiesEntry.forEach(function (entry) {
+                fbActivities.push(entry[1]);
+            });
+            $('#goals').empty();
+            appendActivities(fbActivities);
         });
         
 
