@@ -199,6 +199,7 @@ $("#logout").on("click", function (event) {
 
 var recipeArr = [];
 
+
 $(document).on("click","#searchMeals",function(){
 
     recipeSearchValue =  $("input:text").val();

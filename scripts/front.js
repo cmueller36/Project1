@@ -633,12 +633,22 @@ function getSearchResults(arr) {
             link.setAttribute('style', 'display:none');
         tbody.append(link);
 
-        var emptyHeart = document.createElement('span');
-            emptyHeart.innerHTML = "<i class='far fa-heart has-text-danger'></i>";
-            emptyHeart.classList.add('level-right');
-            thLevel.append(emptyHeart);
+            
+        var heart = document.createElement('span');
+            heart.innerHTML = "<i class = 'far fa-heart has-text-danger'></i>";
+            heart.classList.add('level-center');
+            heart.classList.add('has-background-grey-lighter');
+            heart.classList.add('heart');
+            heart.setAttribute('data-selected', false);
+            heart.setAttribute('data-index', j);
+            heart.classList.add('level-right');
+            thLevel.append(heart);
 
             th.append(thLevel);
+            
+
+           th.appendChild(heart);
+            
 
         row1.append(th);
         row2.append(td);
@@ -1092,3 +1102,29 @@ $(document).on('click', '.clickRecipe', function (){
     console.log('clicked');
     window.open($(this).find('a').attr('href'));
 });
+
+var favorited;
+var unfavorited;
+$(document).on('click', '.heart', function() {
+    console.log($(this).attr('data-selected'));
+    
+
+if ($(this).attr('data-selected') === 'false') {
+    $(this).attr('data-selected', 'true');
+    $(this).empty();
+    $(this).html('<i class="fas fa-heart has-text-danger"></i>');
+    var index = $(this).attr('data-index');
+    favorited = recipeArr[index];
+    console.log(favorited);
+} else {
+    $(this).attr('data-selected','false');
+    $(this).empty();
+    $(this).html('<i class="far fa-heart has-text-danger"></i>');
+    var index = $(this).attr('data-index');
+    unfavorited = recipeArr[index];
+    console.log(unfavorited);
+} 
+
+
+})
+
