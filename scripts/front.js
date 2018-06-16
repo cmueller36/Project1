@@ -542,6 +542,7 @@ function addMeals() {
     var search = document.createElement('input');
     search.setAttribute('type', 'text');
     search.setAttribute('placeholder', 'Search Recipes');
+    search.setAttribute('id', 'searchInput');
     search.classList.add('input');
     search.classList.add('is-primary');
 
@@ -589,7 +590,7 @@ function getSearchResults(arr) {
         if (j % 4 === 0) {
             var level = document.createElement('div');
             level.classList.add('level');
-            $('#results').append(level);
+            $('#results').prepend(level);
         }
 
         var favMeals = document.createElement('div');
@@ -889,7 +890,7 @@ function addPedometer() {
 
 
 //add username
-$('#username').text(`Hello, ${userNameNav}`);
+// $('#username').text(`Hello, ${userNameNav}`);
 //appends Panels to the dashboard
 var toAppend = [];
 
@@ -1124,6 +1125,22 @@ if ($(this).attr('data-selected') === 'false') {
     unfavorited = recipeArr[index];
     console.log(unfavorited);
 } 
+
+    var fbFavMeal = favorited;
+
+    console.log(fbFavMeal);
+
+    //store items in temp in JSON
+    temp = {
+        User: currentUid,
+        name: recipeArr[index].name,
+        image: recipeArr[index].image,
+        url: recipeArr[index].url,
+        date: moment().format('L')
+    }
+
+    //send items to firebase
+    database.ref(currentUid + "/meals").push(temp);
 
 
 })
